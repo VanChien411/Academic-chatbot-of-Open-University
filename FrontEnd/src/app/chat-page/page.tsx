@@ -27,15 +27,20 @@ function ChatPage() {
           xs={0} sm={0} md={6} lg={7} xl={8} xxl={7}
           className="position-relative bg-warning  container-fluid text-center center  ">
             <div>sfsf</div>
-          <MainChat></MainChat>
+            <div style={{height: "80%" , width:"100%" ,overflowX:"hidden"}} className='position-absolute bottom-10'>
+               <MainChat></MainChat> 
+         
+            </div>
+
+       
           <div style={{width:'100%'}} className=" position-absolute bottom-0 mb-5 px-5 d-flex justify-content-center" >
             <div style={{width:'100%'}} className="  text-center center ">
             <Search getValueS={handleSearch} ></Search>
-            
+              
             </div>
           
           </div>
-          
+
           </Col>
         </Row>
         
