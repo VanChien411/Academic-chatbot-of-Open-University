@@ -1,4 +1,8 @@
 .wSidebar {
     width: 50px; /* Thiết lập kích thước cố định */
-
+  background-color: #f5f2f2;
   }
+  .custom-link {
+    color: inherit;
+    text-decoration: none;
+}
