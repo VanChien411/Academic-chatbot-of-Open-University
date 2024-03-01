@@ -9,8 +9,8 @@ function SideBar() {
  return(
   <>
    <div
-            style={{ width: "350px", height: "100%" }}
-            className={` d-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block bg-danger p-0 position-relative `}
+            style={{ width: "350px", height: "100%" }} 
+            className={' d-none  d-md-block d-lg-block d-xl-block d-xxl-block bg-danger p-0 position-relative '}
           >
             <Button style={{width:'85%',marginLeft:'50px'}} className="position-absolute top-2 m-3 ">New task</Button>
             <div style={{ overflowY: "scroll", height: "calc(100% - 200px)" }} className="text-center">

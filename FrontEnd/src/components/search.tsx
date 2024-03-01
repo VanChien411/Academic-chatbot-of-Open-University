@@ -1,22 +1,37 @@
 'use client'
+import { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import SplitButton from 'react-bootstrap/SplitButton';
 
 
-function Search(){
+interface SearchProps {
+  getValueS?: (value: string) => void;
+}
+
+function  Search({ getValueS }: SearchProps){
+  const [valueS, setValueS]= useState<string>()
+
+  const getValue=()=>{
+    valueS&&getValueS?getValueS(valueS):""
+    
+    handleCloseSearch
+  }
+  const handleCloseSearch=()=>{
+    setValueS("")
+  }
+
     return(
         <>
-        <div>sfef</div>
        
       <InputGroup className="mb-3 center" >
-        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' />
+        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' value={valueS} onChange={(e)=>{setValueS(e.target.value) }} />
         <SplitButton
           variant="dark"
           title="Search"
           id="segmented-button-dropdown-2"
-          
+          onClick={getValue}
         >
           
           <Dropdown.Item  >Action</Dropdown.Item>

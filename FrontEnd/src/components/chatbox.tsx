@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col"
 import {Image} from "react-bootstrap"
 interface messenger{
     owner: IUser
-    messenger:String
+    messenger:string
 }
 
 function Chatbox(prop: messenger){
@@ -15,15 +15,16 @@ function Chatbox(prop: messenger){
             <Row>
             {/* img */}
             <div style={{width:"30px"}}>
-            <Image src= {prop.owner.img?prop.owner.img:"#"}> </Image>
+            <Image src={prop.owner.img || "https://th.bing.com/th/id/OIP.MxwWv4AAMqOlkqjNzjPk3QHaEo?w=301&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"} />
+
             </div>
-            <Col>
-            <header className="font-weight-bold">
+            <Col className="bg-body-secondary">
+            <div  className="font-weight-bold">
                 {prop.owner.username}
-            </header>
-            <body>
+            </div>
+            <div>
                 {prop.messenger}
-            </body>
+            </div>
             </Col>
 
             </Row>

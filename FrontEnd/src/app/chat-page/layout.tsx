@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import SideBar from "@/components/sidebar";
-import MainChat from "@/components/main-chat";
-import Search from "@/components/search";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,21 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
        
-      <Row style={{ height: "100%" }} className=" ">
-        <SideBar></SideBar>
-          <Col className="position-relative bg-warning  container-fluid text-center center">
-            <div>sfsf</div>
-          <MainChat></MainChat>
-          <div style={{width:'100%'}} className=" position-absolute bottom-0 mb-5 px-5 d-flex justify-content-center" >
-            <div style={{width:'80%'}} className="  text-center center ">
-            <Search></Search>
-            </div>
-          
-          </div>
-          
-          </Col>
-        </Row>
-        
+    
         
         {children}
       </body>
