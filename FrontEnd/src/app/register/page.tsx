@@ -51,7 +51,7 @@ function Login(){
       <Row className='my-3 w-80 center text-center' >
         <div className=''>
         Bạn đã có tài khoản? {' '}
-        <Link style={{textDecoration:'none'}} href={'#'}>Đăng nhập ngay</Link>
+        <Link style={{textDecoration:'none'}} href={'/login'}>Đăng nhập ngay</Link>
         </div>
   
 </Row>
