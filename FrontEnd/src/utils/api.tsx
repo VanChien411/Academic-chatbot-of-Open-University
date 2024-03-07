@@ -11,19 +11,31 @@ export const fetcher = async (url: string) => {
 };
 // Lưu dữ liệu vào local storage
 export const saveDataToLocal = (key: string, data: any) => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    // Do something with localStorage here
+    
+} else {
+    // Handle case when localStorage is not available
+    localStorage.setItem(key, JSON.stringify(data));
+}
   
-  localStorage.setItem(key, JSON.stringify(data));
 };
 
 // Lấy dữ liệu từ local storage
 export const getDataFromLocal = (key: string) => {
-  const data = localStorage.getItem(key);
-  try {
-    return data ? JSON.parse(data) : null;
-  } catch (error) {
-    console.error('Error parsing JSON data from local storage:', error);
-    return null;
-  }
+  if (typeof window !== 'undefined' && window.localStorage) {
+    // Do something with localStorage here
+} else {
+    // Handle case when localStorage is not available
+    const data = localStorage.getItem(key);
+    try {
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.error('Error parsing JSON data from local storage:', error);
+      return null;
+    }
+}
+ 
 };
 
 
