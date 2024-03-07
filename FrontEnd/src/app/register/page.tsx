@@ -23,8 +23,9 @@ function Login() {
   };
 
   const handleRegister = async () => {
-    if (userName != "" || password != "" || rePassword != "") {
+    if (userName == "" || password == "" || rePassword == "") {
       setDataAlert("Cần nhập đầy đủ thông tin"), setShowAlert(true);
+      console.log('u',userName,'p',password,'re',rePassword)
     } else {
       const userData = { username: userName, password: password };
 
