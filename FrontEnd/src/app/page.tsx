@@ -1,9 +1,19 @@
 // import Image from "next/image";
 // import styles from "./page.module.css";
+"use client"
 import Link from 'next/link'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect } from 'react';
+import * as api from "@/utils/api";
+import { useRouter } from "next/navigation";
+
 
 export default function Home() {
+  const router = useRouter()
+  useEffect(()=>{
+    const user = api.getDataFromLocal("user");
+        !user ? router.push("/login") : "";
+  })
   return (
    <div>
     <Link href={"/chat-page"}>chuyen den chat bot</Link>
