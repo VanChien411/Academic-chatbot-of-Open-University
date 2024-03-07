@@ -13,10 +13,10 @@ export const fetcher = async (url: string) => {
 export const saveDataToLocal = (key: string, data: any) => {
   if (typeof window !== 'undefined' && window.localStorage) {
     // Do something with localStorage here
-    
+    localStorage.setItem(key, JSON.stringify(data));
 } else {
     // Handle case when localStorage is not available
-    localStorage.setItem(key, JSON.stringify(data));
+
 }
   
 };
@@ -25,8 +25,6 @@ export const saveDataToLocal = (key: string, data: any) => {
 export const getDataFromLocal = (key: string) => {
   if (typeof window !== 'undefined' && window.localStorage) {
     // Do something with localStorage here
-} else {
-    // Handle case when localStorage is not available
     const data = localStorage.getItem(key);
     try {
       return data ? JSON.parse(data) : null;
@@ -34,6 +32,9 @@ export const getDataFromLocal = (key: string) => {
       console.error('Error parsing JSON data from local storage:', error);
       return null;
     }
+} else {
+    // Handle case when localStorage is not available
+  
 }
  
 };
