@@ -15,20 +15,24 @@ import { copyFileSync } from "fs";
 import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
 
-
-function ChatPage() {
+function ChatPage(prop: any) {
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [statusSearch, setStatusSearch] = useState(true);
   const router = useRouter();
   const [showSideBar, setShowSideBar] = useState(false);
-  const chageIdSession = async () => {};
+  const chageIdSession = async () => {
+    // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
+    // await new Promise((resolve) => setTimeout(resolve, 100)); // Thời gian chờ có thể thay đổi
+    // const session_id = api.getDataFromLocal("session_id");
+    // console.log(session_id);
+    // setRefresh((prevRefresh) => !prevRefresh);
+    // console.log(refresh);
+  };
   const [isColHidden, setIsColHidden] = useState(false);
 
   useEffect(() => {
-    const user = api.getDataFromLocal('user')
-    !user ? router.push("/login") : "";
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
@@ -39,16 +43,14 @@ function ChatPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-   
   }, []);
 
   useEffect(() => {
     console.log("cha");
-
+    console.log(prop.params.session_id);
     const getAllMessageSession = async () => {
       try {
-        console.log("messages ");
-        const session_id = api.getDataFromLocal("session_id");
+        const session_id = prop.params.session_id;
         const user = api.getDataFromLocal("user");
         !user ? router.push("/login") : "";
 
@@ -62,7 +64,7 @@ function ChatPage() {
       }
     };
     console.log("messages 2");
-    // getAllMessageSession();
+    getAllMessageSession();
   }, [refresh]);
 
   const getDate = () => {
@@ -82,6 +84,19 @@ function ChatPage() {
     return formattedDate;
   };
 
+  function convertNewlinesToBreaks(inputString: string) {
+    return inputString
+      .split("\n")
+      .map((line, index, array) => {
+        if (index === array.length - 1) {
+          return line;
+        } else {
+          return line + "<br />";
+        }
+      })
+      .join("");
+  }
+
   // const [valueSearch, setValueS] = useState("")
   // const handleSearch = useCallback((value: string) => {
   //   setValueS(value);
@@ -90,7 +105,7 @@ function ChatPage() {
     setStatusSearch(false);
     try {
       // Lấy session_id từ local storage
-      const session_id = api.getDataFromLocal("session_id");
+      const session_id = prop.params.session_id;
       const qe_time = getDate();
 
       // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
@@ -109,15 +124,17 @@ function ChatPage() {
 
       // Kiểm tra kiểu dữ liệu của giá trị trả về
       if (typeof response === "string") {
+        const answer = convertNewlinesToBreaks(response); // Sử dụng const để khai báo biến answer
         // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
         const message: model1.Message = {
           question: value,
-          answer: response,
+          answer: answer,
           answer_time: getDate(),
           session_id: session_id,
           question_time: qe_time,
         };
 
+        console.log("answer", answer);
         // Thêm message mới vào danh sách messages
         setMessages([...messages, message]);
 
@@ -142,7 +159,7 @@ function ChatPage() {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-        <SideBar changeSession={chageIdSession}></SideBar>  
+          <SideBar changeSession={chageIdSession}></SideBar>
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
@@ -203,7 +220,7 @@ function ChatPage() {
                 }}
                 className="position-absolute bottom-10 "
               >
-                <MainChat messages={messages}></MainChat> 
+                <MainChat messages={messages}></MainChat>
               </div>
 
               <div
@@ -215,10 +232,10 @@ function ChatPage() {
                   className="  text-center center "
                 >
                   <div style={{ width: "50px" }}></div>
-                  {/* <Search
+                  <Search
                     status={statusSearch}
                     getValueS={handleSearch}
-                  ></Search> */}
+                  ></Search>
                 </div>
               </div>
             </Col>
