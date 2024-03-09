@@ -15,7 +15,7 @@ export default function Home() {
     !user ? router.push("/login") : "";
   });
   return (
-    <div style={{ width: "100%" ,display: 'grid', placeItems: 'center'}} className=" ">
+    <div style={{ width: "100%" ,display: 'grid', placeItems: 'center',textAlign:'center',alignItems:'center'}} className=" ">
       <div style={{width:'500px',height:'50%'}}>
         <div>
           <Link
@@ -31,7 +31,7 @@ export default function Home() {
           <img src="images\bodyOU.png" width="400px" height='250px'></img>
 
         </div>
-        <div className="btn btn-primary my-3">Bắt đầu trải nghiệm</div>
+        <div className="btn btn-primary my-3" onClick={()=>router.push('/chat-page')}>Bắt đầu trải nghiệm</div>
         <Row >
           <Col>
             <small>Lập trình</small>

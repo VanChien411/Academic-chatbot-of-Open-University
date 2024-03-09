@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import CustomAlert from '@/components/alert'
 import Alert from 'react-bootstrap/Alert';
 import { error } from 'console';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 function Login(){
  
@@ -21,12 +21,13 @@ function Login(){
     const router = useRouter()
     const [showAlert, setShowAlert] = useState(true);
     const [dataAlert, setDataAlert] = useState<string>('');
-
+    const [isLoading, setIsLoading] = useState(false);
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
    
     const handleLogin = async () => {
+      setIsLoading(true)
       console.log("l");
       if (!userName || !password) {
           console.error("Vui lòng nhập tên người dùng và mật khẩu.");
@@ -66,6 +67,7 @@ function Login(){
         
 
       }
+      setIsLoading(false)
   };
   
     
@@ -87,8 +89,9 @@ function Login(){
         <Form.Label>Mật khẩu</Form.Label>
         <Form.Control type="password" placeholder="Password"  onChange={(e)=>setPassword(e.target.value)}/>
       </Form.Group>
-      <Button   className="mb-3 w-100" onClick={handleLogin} >
-       Đăng nhập
+      <Button   className="mb-3 w-100" disabled={isLoading} onClick={handleLogin} >
+      
+       {isLoading? <Spinner animation="border" variant="light" />:' Đăng nhập'}
       </Button>
       <Row>
         <Col className='text-primary'>

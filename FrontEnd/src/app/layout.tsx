@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en"  style={{height :'100%'}} >
-      <body style={{height :'100%',textAlign:'center',alignItems:'center'}} className={inter.className}>{children}</body>
+      <body style={{height :'100%'}} className={inter.className}>{children}</body>
     </html>
   );
 }

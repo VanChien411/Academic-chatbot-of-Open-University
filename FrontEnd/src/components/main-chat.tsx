@@ -103,18 +103,7 @@ function MainChat({ messages }: messages) {
               >
                 <div style={{ width: "500px" }}>
                   <div>
-                    <Link
-                      href={"/chat-page"}
-                      style={{
-                        textDecoration: "none",
-                        fontSize: "30px",
-                        color: "black",
-                      }}
-                    >
-                      <b>Hỗ trợ học vụ OU</b>
-                    </Link>
-                    <br></br>
-                    <small>Chatbot tư vấn hỗ trợ sinh viên về học vụ</small>
+                   
                   </div>
                   <div className="my-4">
                     <img

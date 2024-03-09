@@ -9,7 +9,7 @@ import { useState } from "react";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import CustomAlert from "@/components/alert";
-
+import Spinner from "react-bootstrap/Spinner";
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +17,19 @@ function Login() {
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(true);
   const [dataAlert, setDataAlert] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
 
   const handleRegister = async () => {
+   
     if (userName == "" || password == "" || rePassword == "") {
       setDataAlert("Cần nhập đầy đủ thông tin"), setShowAlert(true);
       console.log('u',userName,'p',password,'re',rePassword)
     } else {
+      setIsLoading(true)
       const userData = { username: userName, password: password };
 
       if (password === rePassword) {
@@ -42,6 +45,7 @@ function Login() {
         // Thực hiện các hành động khác nếu cần
       }
     }
+    setIsLoading(false)
   };
 
   return (
@@ -122,8 +126,8 @@ function Login() {
                   </FormText>
                 )}
               </Form.Group>
-              <Button className="mb-3 w-100" onClick={handleRegister}>
-                Đăng ký
+              <Button className="mb-3 w-100"  disabled={isLoading} onClick={handleRegister}>
+              {isLoading? <Spinner animation="border" variant="light" />:' Đăng ký'}
               </Button>
               <Row>
                 <Col className="text-primary">

@@ -10,7 +10,7 @@ import IUser from "@/models/user";
 import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
-
+import Spinner from "react-bootstrap/Spinner";
 // Định nghĩa kiểu dữ liệu cho các sự kiện
 interface MyEvents {
   valueChange?: [(newValue: string) => void];
@@ -21,10 +21,12 @@ function SideBar({ changeSession }: MyEvents) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
   useEffect(() => {
     if (!isMounted) {
+      setIsLoading(true)
       setIsMounted(true);
     const fetchData = async (user_id: number) => {
       const arrSession = await api.getAllSessionUser(user_id);
@@ -57,6 +59,7 @@ function SideBar({ changeSession }: MyEvents) {
     changeSession();
     // Theo dõi thay đổi của refresh
   }
+  setIsLoading(false)
   }, [isMounted]);
 
   const getDate = () => {
@@ -98,14 +101,20 @@ function SideBar({ changeSession }: MyEvents) {
   };
 
   const updateSession = async (session: model1.Session) => {
+    setIsLoading(true)
     try {
       const s = await api.updateSession(session);
       console.log("put", session);
+      setIsLoading(false)
       return s;
+     
     } catch (error) {
       console.error("Error:", error);
+      setIsLoading(false)
       return []; // Trả về một mảng trống nếu có lỗi xảy ra
     }
+   
+
   };
 
   const handleSelectSession = async (session: model1.Session) => {
@@ -142,7 +151,16 @@ function SideBar({ changeSession }: MyEvents) {
           className=""
         >
           <div style={{ height: "70px" }} className="space"></div>
-          <div style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
+          <div  style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
+            {isLoading?(
+              <div>
+                  <Spinner animation="grow" variant="primary" />
+                  <Spinner animation="grow" variant="danger" />
+                  <Spinner animation="grow" variant="warning" />
+                  <Spinner animation="grow" variant="info" />
+                  </div>
+            ):''}
+      
             {sessions?.map((session: model1.Session, index: number) => {
               {
                 if (index == 0) {
