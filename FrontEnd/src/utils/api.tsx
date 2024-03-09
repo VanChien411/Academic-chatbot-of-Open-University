@@ -1,9 +1,10 @@
 // apiUtils.ts
 
-import { API_BASE_URL } from "@/env/env";
+import { API_BASE_URL,SERVER_HEROKU } from "@/env/env";
 import useSWR, { mutate } from "swr";
 import * as model1 from "@/models/all";
-
+import { client } from "@gradio/client";
+import axios from 'axios';
 
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -311,7 +312,7 @@ export const updateMessage = async (message: model1.Message) => {
 export const postModelChatbot = async (question:string) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/messages/apiModel`,
+      `${SERVER_HEROKU}/predict`,
       {
         method: "POST",
         headers: {

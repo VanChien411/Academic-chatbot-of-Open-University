@@ -25,14 +25,16 @@ function ChatPage() {
   const [showSideBar, setShowSideBar] = useState(false);
   const chageIdSession = async () => {};
   const [isColHidden, setIsColHidden] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     const user = api.getDataFromLocal('user')
     !user ? router.push("/login") : "";
+
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
-
+    setIsMounted(true);
     window.addEventListener("resize", handleResize);
     handleResize(); // Xác định trạng thái ban đầu
 
@@ -142,7 +144,8 @@ function ChatPage() {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-        <SideBar changeSession={chageIdSession}></SideBar>  
+        {!isMounted ? <SideBar changeSession={chageIdSession}></SideBar> :""} 
+        
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">

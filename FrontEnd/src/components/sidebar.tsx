@@ -20,9 +20,12 @@ interface MyEvents {
 function SideBar({ changeSession }: MyEvents) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
   useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
     const fetchData = async (user_id: number) => {
       const arrSession = await api.getAllSessionUser(user_id);
       setSessions(arrSession);
@@ -36,12 +39,12 @@ function SideBar({ changeSession }: MyEvents) {
         }
         
 
-      } else {
-        // try {
-        //   const session = await createSession(); // Tạo phiên mới
-        // } catch (error) {
-        //   console.error("Error creating session:", error);
-        // }
+      } else if(arrSession){
+        try {
+          const session = await createSession(); // Tạo phiên mới
+        } catch (error) {
+          console.error("Error creating session:", error);
+        }
       }
 
      
@@ -53,7 +56,8 @@ function SideBar({ changeSession }: MyEvents) {
     }
     changeSession();
     // Theo dõi thay đổi của refresh
-  }, [refresh]);
+  }
+  }, [isMounted]);
 
   const getDate = () => {
     const date = new Date();

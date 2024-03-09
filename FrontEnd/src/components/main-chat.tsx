@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRef } from "react";
-
+import { Col, Row } from "react-bootstrap";
+import Link from "next/link";
 // Interface MainChatProp
 interface MainChatProp {
   user?: IUser;
@@ -34,22 +35,23 @@ function MainChat({ messages }: messages) {
     if (userLocal) {
       const sections = getAllSessionUser(userLocal["user_id"]);
     }
-   
   }, []);
 
   const endRef = useRef(null);
 
   // Hàm để cuộn scroll đến cuối thẻ
   const scrollToBottom = () => {
-    const element = document.getElementById('endCroll');
-    console.log(element)
+    const element = document.getElementById("endCroll");
+    console.log(element);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
     }
   };
-  
-  
-  
+
   // Tạo đối tượng dataMainChat có kiểu MainChatProp và gán giá trị cho các thuộc tính của nó
   const dataMainChat: MainChatProp = {
     user: userL,
@@ -58,7 +60,7 @@ function MainChat({ messages }: messages) {
       username: "Bot",
       password: "134",
       status: true,
-      img: "https://th.bing.com/th/id/OIP.fQAsK6RlR4fCvlyyq-8Y0wHaE8?w=249&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      img: "/images/bot.jpg",
     },
     user_messenger: ["1sefesfges", "2efwefef"],
     bot_messenger: ["bot1sdgesgsg", "bot2dsgeshehs"],
@@ -77,18 +79,76 @@ function MainChat({ messages }: messages) {
                   messenger={message.question}
                   mesengerProp={message}
                 />
-                <Chatbox owner={dataMainChat.bot} bot={true} messenger={message.answer} 
+                <Chatbox
+                  owner={dataMainChat.bot}
+                  bot={true}
+                  messenger={message.answer}
                   mesengerProp={message}
-
-                 />
-                
+                />
               </>
             );
           })}
+          {console.log("message", messages)}
+          {messages.length === 0 && (
+            <div
+              style={{
+                height: "100%",
+                textAlign: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{ width: "100%", display: "grid", placeItems: "center" }}
+                className=" "
+              >
+                <div style={{ width: "500px" }}>
+                  <div>
+                    <Link
+                      href={"/chat-page"}
+                      style={{
+                        textDecoration: "none",
+                        fontSize: "30px",
+                        color: "black",
+                      }}
+                    >
+                      <b>Hỗ trợ học vụ OU</b>
+                    </Link>
+                    <br></br>
+                    <small>Chatbot tư vấn hỗ trợ sinh viên về học vụ</small>
+                  </div>
+                  <div className="my-4">
+                    <img
+                      src="../images/bodyOU.png"
+                      width="400px"
+                      height="250px"
+                      alt="Body Image"
+                    ></img>
+                  </div>
+                  <div className="btn btn-primary my-3">
+                    Tạo chat mới để bắt đầu trải nghiệm
+                  </div>
+                  <Row>
+                    <Col>
+                      <small>Lập trình</small>
+                      <br></br>
+                      <strong>Lê Văn Chiến</strong>
+                      <br></br>
+                      <strong>Bùi Tiến Phát</strong>
+                    </Col>
+                    <Col>
+                      <small>Giáo viên</small>
+                      <br></br>
+                      <strong>Dương Hữu Thành</strong>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </div>
+          )}
           {scrollToBottom()}
         </>
       )}
-      <span id='endCroll'></span>
+      <span id="endCroll"></span>
     </>
   );
 }
