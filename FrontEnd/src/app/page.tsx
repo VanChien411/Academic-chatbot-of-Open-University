@@ -16,7 +16,7 @@ export default function Home() {
   });
   return (
     <div style={{ width: "100%" ,display: 'grid', placeItems: 'center',textAlign:'center',alignItems:'center'}} className=" ">
-      <div style={{width:'500px',height:'50%'}}>
+      <div style={{width:'400px',height:'50%'}}>
         <div>
           <Link
             href={"/chat-page"}

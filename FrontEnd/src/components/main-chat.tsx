@@ -118,7 +118,7 @@ function MainChat({ messages }: messages) {
                 style={{ width: "100%", display: "grid", placeItems: "center" }}
                 className=" "
               >
-                <div style={{ width: "500px" }}>
+                <div style={{ width: "400px" }}>
                   <div>
                    
                   </div>
