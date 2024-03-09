@@ -6,6 +6,7 @@ import * as api from "@/utils/api";
 import { useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 import Link from "next/link";
+import Spinner from "react-bootstrap/Spinner";
 // Interface MainChatProp
 interface MainChatProp {
   user?: IUser;
@@ -20,9 +21,11 @@ interface messages {
 function MainChat({ messages }: messages) {
   const [message, setMessage] = useState<model1.Message[]>([]);
   const [userL, setUserL] = useState<IUser>();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const userLocal = api.getDataFromLocal("user");
     setUserL(userLocal);
+
     const getAllSessionUser = async (user_id: number) => {
       try {
         const sessions = await api.getAllSessionUser(user_id);
@@ -33,8 +36,12 @@ function MainChat({ messages }: messages) {
       }
     };
     if (userLocal) {
+      setIsLoading(true)
       const sections = getAllSessionUser(userLocal["user_id"]);
+      setIsLoading(false)
+
     }
+    scrollToBottom
   }, []);
 
   const endRef = useRef(null);
@@ -68,9 +75,18 @@ function MainChat({ messages }: messages) {
 
   // Sử dụng dataMainChat để truyền vào props của Chatbox
   return (
-    <>
+    <div >
       {dataMainChat.user && (
-        <>
+        <>{isLoading? (<div className="btn btn-primary">
+           <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading...
+        </div>):''}
           {messages?.map((message: model1.Message, index: number) => {
             return (
               <>
@@ -85,10 +101,11 @@ function MainChat({ messages }: messages) {
                   messenger={message.answer}
                   mesengerProp={message}
                 />
+
               </>
             );
           })}
-          {console.log("message", messages)}
+  
           {messages.length === 0 && (
             <div
               style={{
@@ -138,7 +155,9 @@ function MainChat({ messages }: messages) {
         </>
       )}
       <span id="endCroll"></span>
-    </>
+
+    </div>
+    
   );
 }
 

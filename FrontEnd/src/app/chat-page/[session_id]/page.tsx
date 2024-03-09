@@ -14,6 +14,7 @@ import * as api from "@/utils/api";
 import { copyFileSync } from "fs";
 import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
+import Spinner from "react-bootstrap/Spinner";
 
 function ChatPage(prop: any) {
   const [open, setOpen] = useState(true);
@@ -101,6 +102,22 @@ function ChatPage(prop: any) {
   // const handleSearch = useCallback((value: string) => {
   //   setValueS(value);
   // }, [valueSearch]); // Thêm valueSearch vào dependencies
+
+  // Hàm để cuộn scroll đến cuối thẻ
+  const scrollToBottom = () => {
+    console.log('toBottom','sfef');
+
+    const element = document.getElementById("endCroll");
+    console.log('toBottom',element);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  };
+
   const handleSearch = async (value: string) => {
     setStatusSearch(false);
     try {
@@ -111,7 +128,15 @@ function ChatPage(prop: any) {
       // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
       const message1: model1.Message = {
         question: value,
-        answer: "Loading ...",
+        answer: `
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />Loading ...
+        `,
         answer_time: getDate(),
         session_id: session_id,
         question_time: qe_time,
@@ -135,10 +160,12 @@ function ChatPage(prop: any) {
         };
 
         console.log("answer", answer);
-        // Thêm message mới vào danh sách messages
-        setMessages([...messages, message]);
+       
 
-        await api.createMessage(message);
+        const data = await api.createMessage(message);
+        message.qa_id = data.qa_id
+         // Thêm message mới vào danh sách messages
+         setMessages([...messages, message]);
         console.log("search", value);
       } else {
         // Nếu giá trị không phải kiểu string, xử lý theo trường hợp tương ứng
@@ -220,13 +247,22 @@ function ChatPage(prop: any) {
                 }}
                 className="position-absolute bottom-10 "
               >
+
                 <MainChat messages={messages}></MainChat>
+
+              </div>
+              <div className="btn btn-primary position-absolute  bottom-5 end-0" onClick={()=>scrollToBottom()}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-square" viewBox="0 0 16 16">
+  <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0z"/>
+  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+</svg>
               </div>
 
               <div
                 style={{ width: "100%" }}
                 className=" position-absolute bottom-0 mb-5 px-5 d-flex justify-content-center"
               >
+                
                 <div
                   style={{ width: "100%" }}
                   className="  text-center center "

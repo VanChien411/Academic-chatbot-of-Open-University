@@ -14,6 +14,15 @@ interface SearchProps {
 function  Search({ getValueS ,status}: SearchProps){
   const [valueS, setValueS]= useState<string>()
 
+  const handleKeyPress = (event:any) => {
+    
+    if (event.key === 'Enter') {
+      // Người dùng đã nhập Enter
+      console.log('Enter đã được ấn');
+      getValue()
+      // Thực hiện các hành động cần thiết khi người dùng nhập Enter
+    }
+  };
   const getValue=()=>{
     valueS&&getValueS?getValueS(valueS):""
     
@@ -30,7 +39,7 @@ function  Search({ getValueS ,status}: SearchProps){
 
     {status ? (
       <InputGroup className="mb-3 center">
-        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' value={valueS} onChange={(e) => { setValueS(e.target.value) }} />
+        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm'  onKeyDown={(e)=>handleKeyPress(e)} value={valueS} onChange={(e) => { setValueS(e.target.value) }} />
         <SplitButton
           variant="dark"
           title="Search"
@@ -46,12 +55,13 @@ function  Search({ getValueS ,status}: SearchProps){
       </InputGroup>
     ) : (
       <InputGroup className="mb-3 center">
-      <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' value={valueS} onChange={(e) => { setValueS(e.target.value) }} />
+      <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' value={valueS}  onChange={(e) => { setValueS(e.target.value) , console.log(e.target.value)}} />
       <SplitButton
         disabled
         variant="dark"
         title="Search"
         id="segmented-button-dropdown-2"
+        
         onClick={getValue}
       >
         <Dropdown.Item>Action</Dropdown.Item>
