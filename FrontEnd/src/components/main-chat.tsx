@@ -106,7 +106,7 @@ function MainChat({ messages }: messages) {
             );
           })}
   
-          {messages.length === 0 && (
+          {(messages == undefined || messages.length === 0) && (
             <div
               style={{
                 height: "100%",

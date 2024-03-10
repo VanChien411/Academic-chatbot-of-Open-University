@@ -333,3 +333,28 @@ export const postModelChatbot = async (question:string) => {
     console.error("Error:", error as Error);
   }
 };
+
+export const postModelGPT = async (question:string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/gpt`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(question),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+   const data = response.json()
+    console.log('chatbot', data)
+    return data;
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};

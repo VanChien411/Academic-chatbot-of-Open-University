@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Collapse from "react-bootstrap/Collapse";
-import SideBar from "@/components/sidebar";
+import SideBarNoSession from "@/components/sidebarNoSession";
 import MainChat from "@/components/main-chat";
 import Search from "@/components/search";
 import Row from "react-bootstrap/Row";
@@ -16,7 +16,7 @@ import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
 
-function ChatPage(prop: any) {
+function ChatSupportGpt(prop: any) {
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
   const [refresh, setRefresh] = useState(true);
@@ -47,8 +47,7 @@ function ChatPage(prop: any) {
   }, []);
 
   useEffect(() => {
-    console.log("cha");
-    console.log(prop.params.session_id);
+  
     const getAllMessageSession = async () => {
       try {
         const session_id = prop.params.session_id;
@@ -119,6 +118,7 @@ function ChatPage(prop: any) {
   };
 
   const handleSearch = async (value: string) => {
+    console.log('searchgpt')
     setStatusSearch(false);
     try {
       // Lấy session_id từ local storage
@@ -141,11 +141,20 @@ function ChatPage(prop: any) {
         session_id: session_id,
         question_time: qe_time,
       };
-
+      
       // Thêm message mới vào danh sách messages
-      setMessages([...messages, message1]);
+      setMessages(prevMessages => {
+        if (prevMessages === undefined) {
+          return [message1];
+        } else {
+          return [...prevMessages, message1];
+        }
+      });
       // Gửi yêu cầu đến API và đợi kết quả trả về
-      const response = await api.postModelChatbot(value);
+   
+
+      
+      const response = await api.postModelGPT(value);
 
       // Kiểm tra kiểu dữ liệu của giá trị trả về
       if (typeof response === "string") {
@@ -162,10 +171,13 @@ function ChatPage(prop: any) {
         console.log("answer", answer);
        
 
-        const data = await api.createMessage(message);
-        message.qa_id = data.qa_id
+        // const data = await api.createMessage(message);
+        // message.qa_id = data.qa_id
+
          // Thêm message mới vào danh sách messages
-         setMessages([...messages, message]);
+         messages ==undefined ? (setMessages([message]) ):(setMessages([...messages, message]))  
+          
+    
         console.log("search", value);
       } else {
         // Nếu giá trị không phải kiểu string, xử lý theo trường hợp tương ứng
@@ -186,14 +198,14 @@ function ChatPage(prop: any) {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          <SideBar changeSession={chageIdSession}></SideBar>
+           <SideBarNoSession ></SideBarNoSession> 
         </span>
 
-        <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
+         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
           <Row>
           <div
             style={{ fontSize: "25px", overflow: "hidden" }}
-            className=" text-center center bg-warning  w-100  "
+            className=" text-center center bg-dark text-white  w-100  "
           >
             {isColHidden ? (
               <span
@@ -224,7 +236,7 @@ function ChatPage(prop: any) {
               ""
             )}
             <b className={`${showSideBar && isColHidden ? "d-none" : ""}`}>
-              Chào mừng bạn đến với chatbot OU
+              Chatbot OU tìm kiếm với GPT
             </b>
           </div>
           </Row>
@@ -251,7 +263,7 @@ function ChatPage(prop: any) {
                 className="position-absolute bottom-10 "
               >
 
-                <MainChat messages={messages}></MainChat>
+                 <MainChat messages={messages}></MainChat> 
 
               </div>
               <div className="btn btn-primary position-absolute  bottom-5 end-0" onClick={()=>scrollToBottom()}>
@@ -279,10 +291,10 @@ function ChatPage(prop: any) {
               </div>
             </Col>
           </Row>
-        </Col>
+        </Col> 
       </Row>
     </>
   );
 }
 
-export default ChatPage;
+export default ChatSupportGpt;

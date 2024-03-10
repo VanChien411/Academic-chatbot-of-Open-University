@@ -17,50 +17,48 @@ interface MyEvents {
   [key: string]: any; // Index signature cho kiểu string
   changeSession: () => void;
 }
-function SideBar({ changeSession }: MyEvents) {
+function SideBarNoSession() {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
-  useEffect(() => {
-    if (!isMounted) {
-      setIsLoading(true)
-      setIsMounted(true);
-    const fetchData = async (user_id: number) => {
-      const arrSession = await api.getAllSessionUser(user_id);
-      setSessions(arrSession);
-      console.log("arrS", arrSession);
-      if (arrSession.length !== 0) {
-        const currentPath = window.location.pathname;
-        console.log("địa chỉ", arrSession); // In ra địa chỉ hiện tại, không phải chuỗi 'currentPath'
-        if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
-          console.log("routersidebar");
-          router.push(`/chat-page/${arrSession[0]["session_id"]}`); // Loại bỏ tiền tố chat-page/
-        }
-        
+  //   useEffect(() => {
+  //     if (!isMounted) {
+  //       setIsLoading(true)
+  //       setIsMounted(true);
+  //     const fetchData = async (user_id: number) => {
+  //       const arrSession = await api.getAllSessionUser(user_id);
+  //       setSessions(arrSession);
+  //       console.log("arrS", arrSession);
+  //       if (arrSession.length !== 0) {
+  //         const currentPath = window.location.pathname;
+  //         console.log("địa chỉ", arrSession); // In ra địa chỉ hiện tại, không phải chuỗi 'currentPath'
+  //         if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
+  //           console.log("routersidebar");
+  //           router.push(`/chat-page/${arrSession[0]["session_id"]}`); // Loại bỏ tiền tố chat-page/
+  //         }
 
-      } else if(arrSession){
-        try {
-          const session = await createSession(); // Tạo phiên mới
-        } catch (error) {
-          console.error("Error creating session:", error);
-        }
-      }
+  //       } else if(arrSession){
+  //         try {
+  //           const session = await createSession(); // Tạo phiên mới
+  //         } catch (error) {
+  //           console.error("Error creating session:", error);
+  //         }
+  //       }
 
-     
-    };
+  //     };
 
-    const user = api.getDataFromLocal("user");
-    if (user) {
-      fetchData(user["user_id"]);
-    }
-    changeSession();
-    // Theo dõi thay đổi của refresh
-  }
-  setIsLoading(false)
-  }, [isMounted]);
+  //     const user = api.getDataFromLocal("user");
+  //     if (user) {
+  //       fetchData(user["user_id"]);
+  //     }
+  //     // changeSession();
+  //     // Theo dõi thay đổi của refresh
+  //   }
+  //   setIsLoading(false)
+  //   }, [isMounted]);
 
   const getDate = () => {
     const date = new Date();
@@ -101,20 +99,17 @@ function SideBar({ changeSession }: MyEvents) {
   };
 
   const updateSession = async (session: model1.Session) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const s = await api.updateSession(session);
       console.log("put", session);
-      setIsLoading(false)
+      setIsLoading(false);
       return s;
-     
     } catch (error) {
       console.error("Error:", error);
-      setIsLoading(false)
+      setIsLoading(false);
       return []; // Trả về một mảng trống nếu có lỗi xảy ra
     }
-   
-
   };
 
   const handleSelectSession = async (session: model1.Session) => {
@@ -122,7 +117,7 @@ function SideBar({ changeSession }: MyEvents) {
     try {
       const s = await updateSession(session); // Chờ cho updateSession hoàn thành
       // Chỉ chuyển hướng khi không có lỗi xảy ra
-      console.log('updateS', s)
+      console.log("updateS", s);
       s ? router.push(`/chat-page/${session.session_id}`) : "";
     } catch (error) {
       console.error("Error updating session:", error);
@@ -136,10 +131,10 @@ function SideBar({ changeSession }: MyEvents) {
       >
         <div
           style={{ width: "85%", marginLeft: "50px" }}
-          className="position-absolute btn btn-primary top-2 m-3 "
-          onClick={createSession}
+          className="position-absolute btn btn-dark top-2 m-3 "
+          onClick={() => router.push("/chat-page")}
         >
-          New chat
+          Về trang chủ
         </div>
 
         <div
@@ -151,41 +146,19 @@ function SideBar({ changeSession }: MyEvents) {
           className=""
         >
           <div style={{ height: "70px" }} className="space"></div>
-          <div  style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
-            {isLoading?(
+          <div style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
+            {isLoading ? (
               <div>
-                  <Spinner animation="grow" variant="primary" />
-                  <Spinner animation="grow" variant="danger" />
-                  <Spinner animation="grow" variant="warning" />
-                  <Spinner animation="grow" variant="info" />
-                  </div>
-            ):''}
-      
-            {sessions?.map((session: model1.Session, index: number) => {
-              {
-                if (index == 0) {
-                  return (
-                    <NewSession
-                      key={session.session_id}
-                      status={true}
-                      name={session.name}
-                      session={session}
-                      getSession={handleSelectSession}
-                    />
-                  );
-                } else {
-                  return (
-                    <NewSession
-                      key={session.session_id}
-                      status={false}
-                      name={session.name}
-                      session={session}
-                      getSession={handleSelectSession}
-                    />
-                  );
-                }
-              }
-            })}
+                <Spinner animation="grow" variant="primary" />
+                <Spinner animation="grow" variant="danger" />
+                <Spinner animation="grow" variant="warning" />
+                <Spinner animation="grow" variant="info" />
+              </div>
+            ) : (
+              ""
+            )}
+
+
 
             {/* <NewSession status={true} name="sefef"></NewSession>
           <NewSession status={true} name="sefef"></NewSession>
@@ -201,23 +174,20 @@ function SideBar({ changeSession }: MyEvents) {
           style={{ height: "200px", width: "100%" }}
           className=" position-absolute bg-white bottom-0 "
         >
-          <Button className="w-100 border-0 text-start px-5 " variant="light" >
-         
-            <img width='40px'  src="../images\support.png"></img>
+          <Button className="w-100 border-0 text-start px-5 " variant="light">
+            <img width="40px" src="../images\support.png"></img>
 
-            
-            <b className="mx-1" > &nbsp;Hỗ trợ SV</b>
-            </Button>
-            <br></br>
-            
+            <b className="mx-1"> &nbsp;Hỗ trợ SV</b>
+          </Button>
+          <br></br>
+
           <Button variant="dark" onClick={()=>router.push('/chat-support-gpt')} className="w-100 border-0 text-start px-5">
-           
-            <img width='40px' src="../images\chatgpticon.png"></img>
-            
+            <img width="40px" src="../images\chatgpticon.png"></img>
+
             <b className="mx-2">Chat Gpt</b>
-            </Button>
-         
-          <div  className="position-absolute bottom-0 w-100">
+          </Button>
+
+          <div className="position-absolute bottom-0 w-100">
             <Login user={api.getDataFromLocal("user")}></Login>
           </div>
         </div>
@@ -226,4 +196,4 @@ function SideBar({ changeSession }: MyEvents) {
   );
 }
 
-export default SideBar;
+export default SideBarNoSession;
