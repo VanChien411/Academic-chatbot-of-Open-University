@@ -11,13 +11,17 @@ import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
+import MessengerChat from "@/components/messenger-chat";
+
+
 // Định nghĩa kiểu dữ liệu cho các sự kiện
 interface MyEvents {
   valueChange?: [(newValue: string) => void];
   [key: string]: any; // Index signature cho kiểu string
   changeSession: () => void;
+  showEmloyeeMessager: ()=> void;
 }
-function SideBar({ changeSession }: MyEvents) {
+function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
@@ -201,7 +205,7 @@ function SideBar({ changeSession }: MyEvents) {
           style={{ height: "200px", width: "100%" }}
           className=" position-absolute bg-white bottom-0 "
         >
-          <Button className="w-100 border-0 text-start px-5 " variant="light">
+          <Button className="w-100 border-0 text-start px-5 " variant="light" onClick={showEmloyeeMessager}>
             <img width="40px" src="../images\support.png"></img>
 
             <b className="mx-1"> &nbsp;Hỗ trợ SV</b>

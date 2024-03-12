@@ -358,3 +358,70 @@ export const postModelGPT = async (question:string) => {
     console.error("Error:", error as Error);
   }
 };
+
+
+export const createMessageEmloyee = async (message: model1.ChatWithEmloyee) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/chatEmloyees`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+
+export const getChatEmloyeesUser = async (user_id: number) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/chatEmloyees/user/${user_id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllUser =async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/users`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+

@@ -2,11 +2,14 @@ import model1 from "@/models/all";
 import { Row, Col, Button } from "react-bootstrap";
 import { useState, useCallback, useEffect } from "react";
 import Search from "@/components/search";
-
+import * as api from "@/utils/api";
+import { Trykker } from "next/font/google";
+import * as url from "@/env/env"
 interface messenger {
   username: string;
   chat_employee?: model1.ChatWithEmloyee[]; // Corrected spelling here
   handleClose: () => void;
+  onSendData?:(user_id:number) =>void
   user_id: number;
   friend_id: number;
 }
@@ -21,15 +24,42 @@ function MessengerChat(prop: messenger) {
     sendMessage(value);
   };
 
+
+
   const [receivedMessages, setReceivedMessages] = useState<any[]>([]);
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
+  const getChatEmloyeesUser = async(user_id:number)=>{
+    try {
+      const c = await api.getChatEmloyeesUser(user_id)
+      .then(data => {
+        // Data is the resolved value of the Promise, which is an array of objects
+        console.log(data); // This will log the array of objects
+        setListMessage(prevM => [...data]);
+      })
+     
+    } catch (error) {
+      console.error("error",error)
+    }
+  }
+  useEffect(()=>{
+    scrollToBottom()
+  },[listMessage])
   useEffect(() => {
-    const user_id = prop.user_id; // Thay prop.params.id bằng cách lấy user_id từ props của bạn
-    user_id == 0 ? setEmloyee((pre) => true) : "";
 
-    const newSocket = new WebSocket(`ws://localhost:8765`);
+    const user_id = prop.user_id; // Thay prop.params.id bằng cách lấy user_id từ props của bạn
+    
+    if(user_id == 0){
+      setEmloyee((prev) => true);  console.log('0sfe',user_id);
+      getChatEmloyeesUser(prop.friend_id);
+
+    }
+    else{
+      getChatEmloyeesUser(user_id);
+    }
+   
+    const newSocket = new WebSocket(`${url.SERVER_WEBSOCKET}`);
     newSocket.onopen = () => {
       console.log("Connected to WebSocket server");
       sendMessageSocket(newSocket)
@@ -56,7 +86,9 @@ function MessengerChat(prop: messenger) {
               status: true,
               datetime: getDate(),
             };
-
+            // prop.user_id != 0 ?
+            // createMessageEmloyee(item)
+            // :''
       // setReceivedMessages(prevMessages => [...prevMessages, message]);
       setListMessage((prevMessages) => [...prevMessages, item]);
     };
@@ -68,6 +100,19 @@ function MessengerChat(prop: messenger) {
     // Không cần return một hàm từ useEffect
   }, [prop.user_id]);
 
+  const handleClose = () => {
+    console.log("handleClose is called");
+    prop.handleClose(); // Đảm bảo rằng hàm handleClose được gọi khi cần thiết
+  };
+  const createMessageEmloyee = async (message:model1.ChatWithEmloyee) => {
+    try {
+      await api.createMessageEmloyee(message)
+    } catch (error) {
+      console.error("Error:", error);
+
+      return []; // Trả về một mảng trống nếu có lỗi xảy ra
+    }
+  };
   const sendMessage = (message: string) => {
     console.log("socket", socket);
     console.log("message", message.trim());
@@ -85,7 +130,11 @@ function MessengerChat(prop: messenger) {
         status: true,
         datetime: getDate(),
       };
-
+      
+      prop.user_id != 0 ?
+      createMessageEmloyee(item) :
+      (item.user_id = prop.friend_id, createMessageEmloyee(item));
+  
       setListMessage((prevMessages) => [...prevMessages, item]);
       const jsonData = JSON.stringify(data);
       socket.send(jsonData);
@@ -118,6 +167,16 @@ function MessengerChat(prop: messenger) {
     console.log("sqưef");
 
   };
+  function scrollToBottom() {
+    const element = document.getElementById('endMessageEmployee');
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+}
 
   const getDate = () => {
     const date = new Date();
@@ -139,12 +198,12 @@ function MessengerChat(prop: messenger) {
   return (
     <>
       <div
-        style={{ width: "300px", height: "400px", borderColor: "black" }}
-        className="bg-white mx-2 border-2 position-relative"
+        style={{ width: "300px", height: "400px", borderColor: "black", backgroundColor:"#E0E0E0" }}
+        className="rounded-2 mx-2 border-2 position-relative"
       >
         <Row
           style={{ height: "50px", marginLeft: "0px" }}
-          className="d-flex w-100 center align-items-center  bg-primary "
+          className="d-flex w-100 rounded-2 center align-items-center  bg-primary "
         >
           <Col
             style={{ paddingLeft: "15px" }}
@@ -153,7 +212,17 @@ function MessengerChat(prop: messenger) {
             {prop.username}sg
           </Col>
           <div
-            onClick={() => prop.handleClose}
+            onClick={() => {
+              if (prop.onSendData) {
+                if(prop.user_id == 0)
+                prop.onSendData(prop.friend_id);
+
+                else
+                prop.onSendData(prop.user_id);
+                
+              }
+              handleClose();
+            }}
             style={{ width: "50px", height: "50px" }}
             className="p-0 d-flex center align-items-center rounded-0  btn btn-danger"
           >
@@ -175,50 +244,62 @@ function MessengerChat(prop: messenger) {
               <>
                 {emloyee ? (
                   item.emloyee ? (
+                    <div style={{ textAlign: "right" }}>
                     <div
                       style={{
+  
                         maxWidth: "230px",
                         wordWrap: "break-word",
                         backgroundColor: "#99CCFF",
-                        float: "right",
+                        marginLeft: "auto",
+                        display: "inline-block", marginRight: "0px"
                       }}
-                      className="d-inline-block rounded-2 px-2"
+                      className="  rounded-2 px-2 "
                     >
-                      {item.messenger}sefsdsdgvsgsvvdvdvzvzvzvzdvzdvdsfsgegs
+                      {item.messenger}
+                      
+                    </div>
                     </div>
                   ) : (
                     <div
                       style={{ maxWidth: "230px", wordWrap: "break-word" }}
                       className="bg-white d-inline-block rounded-2 px-2 my-2"
                     >
-                      {item.messenger}sefsdsdgvsgsvvdvdvzvzvzvzdvzdvdsfsgegs
+                      {item.messenger}
                     </div>
                   )
                 ) : !item.emloyee ? (
+                  <div style={{ textAlign: "right" }}>
                   <div
                     style={{
+
                       maxWidth: "230px",
                       wordWrap: "break-word",
                       backgroundColor: "#99CCFF",
-                      float: "right",
+                      marginLeft: "auto",
+                      display: "inline-block", marginRight: "0px"
                     }}
-                    className="d-inline-block rounded-2 px-2"
+                    className="  rounded-2 px-2 "
                   >
-                    {item.messenger}sefsdsdgvsgsvvdvdvzvzvzvzdvzdvdsfsgegs
+                    {item.messenger}
+                    
+                  </div>
                   </div>
                 ) : (
                   <div
                     style={{ maxWidth: "230px", wordWrap: "break-word" }}
                     className="bg-white d-inline-block rounded-2 px-2 my-2"
                   >
-                    {item.messenger}sefsdsdgvsgsvvdvdvzvzvzvzdvzdvdsfsgegs
+                    {item.messenger}
                   </div>
                 )}
+                <br></br>
               </>
             );
           })}
+          <div id='endMessageEmployee'></div>
         </div>
-
+          <Button onClick={scrollToBottom}>sefef</Button>
         {/* body */}
         <div className="position-absolute bottom-0 mx-2">
           <Search status={statusSearch} getValueS={handleSearch}></Search>

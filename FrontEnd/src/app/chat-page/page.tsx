@@ -134,7 +134,9 @@ function ChatPage() {
     }
     setStatusSearch(true);
   };
-
+  const handleMessage = () =>{
+    
+  }
   return (
     <>
       <Row style={{ height: "100%" }} className=" ">
@@ -144,7 +146,7 @@ function ChatPage() {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-        {!isMounted ? <SideBar changeSession={chageIdSession}></SideBar> :""} 
+        {!isMounted ? <SideBar showEmloyeeMessager={handleMessage} changeSession={chageIdSession}></SideBar> :""} 
         
         </span>
 

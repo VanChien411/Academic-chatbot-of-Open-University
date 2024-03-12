@@ -15,6 +15,7 @@ import { copyFileSync } from "fs";
 import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
+import MessengerChat from "@/components/messenger-chat";
 
 function ChatSupportGpt(prop: any) {
   const [open, setOpen] = useState(true);
@@ -23,6 +24,9 @@ function ChatSupportGpt(prop: any) {
   const [statusSearch, setStatusSearch] = useState(true);
   const router = useRouter();
   const [showSideBar, setShowSideBar] = useState(false);
+  const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
+  const [user, setUser] = useState<any>();
+
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
     // await new Promise((resolve) => setTimeout(resolve, 100)); // Thời gian chờ có thể thay đổi
@@ -53,7 +57,7 @@ function ChatSupportGpt(prop: any) {
         const session_id = prop.params.session_id;
         const user = api.getDataFromLocal("user");
         !user ? router.push("/login") : "";
-
+        setUser(user)
         const sessions = await api.getAllMessageSession(session_id);
         setMessages(sessions);
         console.log("messages ", sessions);
@@ -66,6 +70,14 @@ function ChatSupportGpt(prop: any) {
     console.log("messages 2");
     getAllMessageSession();
   }, [refresh]);
+
+  const handleCloseMessage =()=>{
+    console.log("close m")
+      setIsShowChatEmloyee(false)
+  }
+  const handleMessage =()=>{
+      setIsShowChatEmloyee(true)
+  }
 
   const getDate = () => {
     const date = new Date();
@@ -198,7 +210,7 @@ function ChatSupportGpt(prop: any) {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-           <SideBarNoSession ></SideBarNoSession> 
+           <SideBarNoSession showEmloyeeMessager={handleMessage} ></SideBarNoSession> 
         </span>
 
          <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
@@ -293,6 +305,13 @@ function ChatSupportGpt(prop: any) {
           </Row>
         </Col> 
       </Row>
+      <div className={`position-absolute bottom-0 end-0 z-3 ${isShowChatEmloyee?"":"d-none"} ` } >
+        {user?(
+      <MessengerChat friend_id={0} user_id={user.user_id} handleClose={handleCloseMessage} username={user.username} key={user.user_id}></MessengerChat>
+
+        ):''}
+
+      </div>
     </>
   );
 }
