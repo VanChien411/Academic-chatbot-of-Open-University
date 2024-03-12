@@ -17,13 +17,15 @@
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18",
     "swr": "^2.2.5",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@gradio/client": "^0.12.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/websocket": "^1.0.10",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.1.0",
     "typescript": "^5"

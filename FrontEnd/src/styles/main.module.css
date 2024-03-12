@@ -1,9 +1,12 @@
 .wSidebar {
     width: 50px; /* Thiết lập kích thước cố định */
-  background-color: #89f8f4;
+  background-color: #dbe4e3;
   }
   .custom-link {
     color: inherit;
     text-decoration: none;
 }
+/* Màu xám đậm: #333333 hoặc #666666
+Màu xám trung bình: #999999 hoặc #CCCCCC
+Màu xám nhạt: #E0E0E0 hoặc #F2F2F2 */
 

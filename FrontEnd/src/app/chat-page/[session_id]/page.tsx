@@ -181,7 +181,7 @@ function ChatPage(prop: any) {
     <>
       <Row style={{ height: "100%" }} className=" w-100 px-0">
         <span
-          style={{ width: "350px", height: "100%" }}
+          style={{ width: "335px", height: "100%" }}
           className={` ${
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}

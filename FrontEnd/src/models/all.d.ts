@@ -32,3 +32,14 @@ export interface Role {
     name: string;
     link: string;
   }
+
+  export interface ChatWithEmloyee{
+    id?: number;
+    messenger: string;
+    emloyee:boolean;
+    status:boolean;
+    datetime:string;
+    user_id: number;
+  }
+
+  declare module 'websocket';
