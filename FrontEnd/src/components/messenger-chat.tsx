@@ -44,7 +44,10 @@ function MessengerChat(prop: messenger) {
     }
   }
   useEffect(()=>{
-    scrollToBottom()
+    setTimeout(() => {
+      scrollToBottom();
+      console.log("call scroll");
+    }, 100); // Gọi sau khi render
   },[listMessage])
   useEffect(() => {
 
@@ -244,62 +247,65 @@ function MessengerChat(prop: messenger) {
               <>
                 {emloyee ? (
                   item.emloyee ? (
-                    <div style={{ textAlign: "right" }}>
+                    
                     <div
                       style={{
   
+                        width: "200px",
                         maxWidth: "230px",
                         wordWrap: "break-word",
                         backgroundColor: "#99CCFF",
-                        marginLeft: "auto",
-                        display: "inline-block", marginRight: "0px"
+                        float:"right"
+                         
                       }}
                       className="  rounded-2 px-2 "
                     >
                       {item.messenger}
                       
                     </div>
-                    </div>
+                  
                   ) : (
                     <div
-                      style={{ maxWidth: "230px", wordWrap: "break-word" }}
+                    style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
                       className="bg-white d-inline-block rounded-2 px-2 my-2"
                     >
                       {item.messenger}
                     </div>
                   )
                 ) : !item.emloyee ? (
-                  <div style={{ textAlign: "right" }}>
                   <div
-                    style={{
+                      style={{
+  
+                        width: "200px",
+                        maxWidth: "230px",
 
-                      maxWidth: "230px",
-                      wordWrap: "break-word",
-                      backgroundColor: "#99CCFF",
-                      marginLeft: "auto",
-                      display: "inline-block", marginRight: "0px"
-                    }}
-                    className="  rounded-2 px-2 "
-                  >
-                    {item.messenger}
-                    
-                  </div>
-                  </div>
+                        wordWrap: "break-word",
+                        backgroundColor: "#99CCFF",
+                        float:"right"
+                         
+                      }}
+                      className="  rounded-2 px-2 "
+                    >
+                      {item.messenger}
+                      
+                    </div>
                 ) : (
                   <div
-                    style={{ maxWidth: "230px", wordWrap: "break-word" }}
+                    style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
+
                     className="bg-white d-inline-block rounded-2 px-2 my-2"
                   >
                     {item.messenger}
                   </div>
                 )}
-                <br></br>
+             
               </>
             );
           })}
-          <div id='endMessageEmployee'></div>
+         
+          <div id='endMessageEmployee'  className="w-100 float-end"></div>
         </div>
-          <Button onClick={scrollToBottom}>sefef</Button>
+         
         {/* body */}
         <div className="position-absolute bottom-0 mx-2">
           <Search status={statusSearch} getValueS={handleSearch}></Search>
