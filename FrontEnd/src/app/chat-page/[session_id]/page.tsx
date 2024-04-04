@@ -203,7 +203,7 @@ function ChatPage(prop: any) {
           <Row>
           <div
             style={{ fontSize: "25px", overflow: "hidden" }}
-            className=" text-center center bg-warning  w-100  "
+            className=" text-center center bg-black text-bg-dark  w-100  "
           >
             {isColHidden ? (
               <span

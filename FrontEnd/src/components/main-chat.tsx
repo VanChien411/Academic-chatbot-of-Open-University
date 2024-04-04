@@ -112,6 +112,7 @@ function MainChat({ messages }: messages) {
                 height: "100%",
                 textAlign: "center",
                 alignItems: "center",
+                marginTop:'43px'
               }}
             >
               <div

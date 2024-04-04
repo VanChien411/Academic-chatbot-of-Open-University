@@ -11,7 +11,7 @@ interface NewSession {
 function NewSession({ status, name, getSession, session }: NewSession) {
     return (
         <>
-            <div onClick={() => getSession(session)} style={{ width: "100%" }} className={`${status ? "btn btn-primary" : "btn btn-outline-primary"} my-1`}>{name}</div>
+            <div onClick={() => getSession(session)} style={{ width: "100%", textAlign:"left" }} className={`${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>{name}</div>
         </>
     );
 }

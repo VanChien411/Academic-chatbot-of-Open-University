@@ -133,17 +133,17 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   return (
     <>
       <div
-        style={{ width: "100%", height: "100%", backgroundColor: "#faecb2" }}
-        className={"  p-0 position-relative "}
+        style={{ width: "100%", height: "100%",  }}
+        className={"  p-0 position-relative bg-dark "}
       >
         <div
-          style={{ width: "85%", marginLeft: "50px" }}
-          className="position-absolute btn btn-primary top-2 m-3 "
+          style={{ width: "85%", marginLeft: "60px" , height:'45px',margin:'auto'}}
+          className="position-absolute btn btn-outline-light top-2 m-3 "
           onClick={createSession}
         >
-          New chat
+          <b>New chat</b>
         </div>
-
+   
         <div
           style={{
             overflowY: "scroll",
@@ -164,7 +164,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
             ) : (
               ""
             )}
-
+             <div className="m-3"></div>
             {sessions?.map((session: model1.Session, index: number) => {
               {
                 if (index == 0) {
@@ -190,6 +190,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
                 }
               }
             })}
+          
 
             {/* <NewSession status={true} name="sefef"></NewSession>
           <NewSession status={true} name="sefef"></NewSession>
@@ -203,27 +204,42 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
 
         <div
           style={{ height: "200px", width: "100%" }}
-          className=" position-absolute bg-white bottom-0 "
+          className=" position-absolute bottom-0 bg-black"
         >
-          <Button className="w-100 border-0 text-start px-5 " variant="light" onClick={showEmloyeeMessager}>
+          <hr></hr>
+          <div style={{color:'white'}} className="w-100 btn btn-outline-dark  border-0 text-start px-5 " 
+          // variant="light"
+           onClick={showEmloyeeMessager}>
+            
             <img width="40px" src="../images\support.png"></img>
 
             <b className="mx-1"> &nbsp;Hỗ trợ SV</b>
-          </Button>
+          </div>
           <br></br>
 
-          <Button
-            variant="dark"
+          <div
+            // variant="dark"
             onClick={() => router.push("/chat-support-gpt")}
-            className="w-100 border-0 text-start px-5"
+            className="w-100 border-0 btn btn-outline-dark  text-start px-5"
+            style={{color:'white'}}
           >
             <img width="40px" src="../images\chatgpticon.png"></img>
 
             <b className="mx-2">Chat Gpt</b>
-          </Button>
+          </div>
 
           <div className="position-absolute bottom-0 w-100">
-            <Login user={api.getDataFromLocal("user")}></Login>
+          <Button
+            // variant="primary"
+            onClick={() => router.push("/login")}
+            className="w-100 border-0 text-start px-5"
+          >
+            <img width="35px" src="../images\logout.png"></img>
+
+            <b className="mx-2">Đăng xuất</b>
+          </Button>
+
+            {/* <Login user={api.getDataFromLocal("user")}></Login> */}
           </div>
         </div>
       </div>

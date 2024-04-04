@@ -212,7 +212,7 @@ function MessengerChat(prop: messenger) {
             style={{ paddingLeft: "15px" }}
             className="d-flex justify-items-center "
           >
-            {prop.username}sg
+            {prop.username}
           </Col>
           <div
             onClick={() => {

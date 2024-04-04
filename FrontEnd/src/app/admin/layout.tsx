@@ -9,6 +9,10 @@ import MessengerChat from "@/components/messenger-chat";
 import Messenger from "@/components/messenger_admin";
 import IUser from "@/models/user";
 import { useState } from "react";
+import AddFileChatBot from "@/components/add-file-chatbot";
+import Nav from 'react-bootstrap/Nav';
+
+import Tab from 'react-bootstrap/Tab';
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -59,6 +63,8 @@ export default function RootLayout({
             style={{ height: "100%" }}
             className="center bg-white w-100 container  p-0 "
           >
+            <Tab.Container id="left-tabs-example" defaultActiveKey="list-user">
+
             <Row
               style={{
                 paddingLeft: "11px",
@@ -70,21 +76,35 @@ export default function RootLayout({
               <div style={{ marginTop: "50px" }}></div>
               <div
                 style={{ width: "250px " }}
-                className="col-3 bg-info h-100 p-0 text-start "
+                className="col-3 bg-light h-100 p-0 text-start "
               >
                 <SideBarAdmin></SideBarAdmin>
               </div>
               <Col style={{ width: "100%" }} className="p-0 ">
                 <div
                   style={{ height: "600px", overflowY: "auto" }}
-                  className=" w-100 m-5 bg-black "
+                  className=" w-100 m-5  "
                 >
+                  {/* điểm chuyển trang */}
+                  {/* <Messenger onSendData={handleDataFromChild}></Messenger> */}
+                  {/* <AddFileChatBot></AddFileChatBot> */}
+                  <Tab.Content>
+            <Tab.Pane eventKey="home">First tab content</Tab.Pane>
+            <Tab.Pane eventKey="list-user">
                   <Messenger onSendData={handleDataFromChild}></Messenger>
-                  
+              
+            </Tab.Pane>
+            <Tab.Pane eventKey="add-file-chatbot">
+                  <AddFileChatBot></AddFileChatBot>
+              
+            </Tab.Pane>
+          </Tab.Content>
                   {children}
                 </div>
               </Col>
             </Row>
+            </Tab.Container>
+
           </div>
           <div className="position-absolute bottom-0 end-0 d-flex">
             {listMessageUser?.map((user: IUser, index: number) => {

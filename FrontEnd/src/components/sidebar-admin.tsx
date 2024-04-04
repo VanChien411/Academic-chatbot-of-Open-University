@@ -1,27 +1,44 @@
-import { useRouter } from 'next/navigation';
-import { Button, Col, Row } from "react-bootstrap"
+import { useRouter } from "next/navigation";
+import { Button, Col, Row } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
 
-function SideBarAdmin(){
-    const router = useRouter();
-    // Lấy đường dẫn hiện tại từ useRouter
+import Tab from "react-bootstrap/Tab";
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
 
+function SideBarAdmin() {
+  const router = useRouter();
+  // Lấy đường dẫn hiện tại từ useRouter
 
-    return(
-        <>
-         
-         <Button style={{height:'50px'}} className="w-100 text-start">
-                <b>Trang chu</b>
-                    </Button>
-                    <Button variant="outline-primary" style={{height:'50px'}} className="w-100 text-start border-0">
-                       b1 segsrg
-                    </Button>
-                    <Button variant="outline-primary" style={{height:'50px'}}  className="w-100 text-start border-0">
-                        b1 segsrg
-                    </Button>
-             
-                    
-   
-        </>
-    )
+  console.log(window);
+
+  return (
+    <>
+      <Navbar bg="primary" data-bs-theme="dark" expand="lg" className="bg-body-tertiary mb-3">
+        <Container>
+          <Navbar.Brand href="/chat-page">Về trang user</Navbar.Brand>
+        </Container>
+      </Navbar>
+     
+      <Row>
+        <Col sm={0}>
+          <Nav
+            variant="pills"
+            className="flex-column"
+          
+          >
+            <Nav.Item className="mb-1" >
+              <Nav.Link eventKey="list-user" >Danh sách người dùng</Nav.Link>
+            </Nav.Item>
+            <Nav.Item className="mb-1">
+              <Nav.Link eventKey="add-file-chatbot">
+                Thêm dữ liệu vào bot
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Col>
+      </Row>
+    </>
+  );
 }
-export default SideBarAdmin
+export default SideBarAdmin;
