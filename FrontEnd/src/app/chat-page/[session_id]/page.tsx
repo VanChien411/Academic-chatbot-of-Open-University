@@ -46,29 +46,46 @@ function ChatPage(prop: any) {
 
 
   
+  // const get_user_info = async () => {
+  //   try {
+      
+  //     // const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+  //     if(userLocal)
+  //       {
+  //         setUser(userLocal)
+  //         console.log("1")
+  //       }
+  //       else{
+  //         dispatch(fetchUser());
+  //          // Đợi cho dữ liệu người dùng được cập nhật trong Redux store
+  //         await new Promise(resolve => setTimeout(resolve, 10000)); // Thời gian chờ tùy thuộc vào thời gian lấy dữ liệu từ server
+
+  //         if(userLocal)
+  //           { setUser(userLocal)
+  //             console.log("2")}
+           
+  //         else
+  //        { router.push('/login')
+  //         console.log("3")}
+  //       }
+    
+  //   } catch (error) {
+  //     console.log('Error:', error);
+  //     // Xử lý lỗi nếu cần
+  //   }
+  // }
+
   const get_user_info = async () => {
     try {
-      
-      // const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-      if(userLocal)
-        {
-          setUser(userLocal)
-          console.log("1")
-        }
-        else{
-          dispatch(fetchUser());
-           // Đợi cho dữ liệu người dùng được cập nhật trong Redux store
-          await new Promise(resolve => setTimeout(resolve, 2000)); // Thời gian chờ tùy thuộc vào thời gian lấy dữ liệu từ server
-
-          if(userLocal)
-            { setUser(userLocal)
-              console.log("2")}
-           
-          else
-         { router.push('/login')
-          console.log("3")}
-        }
-    
+      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      console.log(user); // In ra để kiểm tra dữ liệu user
+      // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
+      if(!user){
+        router.push('/login')
+      }else
+      {
+        setUser(user)
+      }
     } catch (error) {
       console.log('Error:', error);
       // Xử lý lỗi nếu cần

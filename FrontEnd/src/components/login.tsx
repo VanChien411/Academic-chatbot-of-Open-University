@@ -36,8 +36,8 @@ function Login({user}:loginProp){
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1" active>
-            Action
+          <Dropdown.Item href="https://ou.edu.vn/" active>
+            Web Đại học mở
           </Dropdown.Item>
           <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
           <Dropdown.Item href="/login">Đăng xuất</Dropdown.Item>
