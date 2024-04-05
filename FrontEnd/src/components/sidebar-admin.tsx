@@ -10,7 +10,7 @@ function SideBarAdmin() {
   const router = useRouter();
   // Lấy đường dẫn hiện tại từ useRouter
 
-  console.log(window);
+
 
   return (
     <>

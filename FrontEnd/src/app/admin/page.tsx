@@ -1,10 +1,9 @@
 
 
-function AdminPage(){
-    return (
+const PageAdmin = () =>{
+    return(
         <>
-       
         </>
     )
 }
-export default AdminPage
+export default PageAdmin
