@@ -37,17 +37,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   const error = useAppSelector((state) => state.user.error);
 
 
-  const get_user_info = async () => {
-    try {
-      const user = await api.get_user_info2(); // Corrected to call the function
-   
-      return user
-     
-    } catch (error) {
-      console.log('Error:', error);
-      // Handle error if necessary
-    }
-  }
+  
   
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
@@ -97,7 +87,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     }
   }
   
-     get_user_info();
+     const user =  get_user_info();
      
  
       changeSession();
@@ -131,7 +121,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     img: "https://th.bing.com/th/id/OIP.Iy0tmJanZeN5ceMP5uToLQAAAA?&w=160&h=240&c=7&dpr=1.3&pid=ImgDet",
   };
   const createSession = async () => {
-    const userLocal:any = get_user_info();
+    const userLocal =api.getDataFromLocal('user');
 
     const newDate = getDate();
     const session: model1.Session = {

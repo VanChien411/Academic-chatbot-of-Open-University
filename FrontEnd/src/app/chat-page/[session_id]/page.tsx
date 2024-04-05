@@ -16,7 +16,11 @@ import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
 import MessengerChat from "@/components/messenger-chat";
+import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
 
+import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
+import { fetchUser } from '@/reducer/userSlice';
+import { setLazyProp } from "next/dist/server/api-utils";
 
 function ChatPage(prop: any) {
   const [open, setOpen] = useState(true);
@@ -27,6 +31,8 @@ function ChatPage(prop: any) {
   const [showSideBar, setShowSideBar] = useState(false);
   const [user, setUser] = useState<any>();
   const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
+  const dispatch = useAppDispatch();
+  const userLocal = useAppSelector((state) => state.user.user);
 
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
@@ -42,13 +48,27 @@ function ChatPage(prop: any) {
   
   const get_user_info = async () => {
     try {
-      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-      console.log(user); // In ra để kiểm tra dữ liệu user
-      // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
-      if(!user){
-        router.push('/login')
-      }
-      setUser(user)
+      
+      // const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      if(userLocal)
+        {
+          setUser(userLocal)
+          console.log("1")
+        }
+        else{
+          dispatch(fetchUser());
+           // Đợi cho dữ liệu người dùng được cập nhật trong Redux store
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Thời gian chờ tùy thuộc vào thời gian lấy dữ liệu từ server
+
+          if(userLocal)
+            { setUser(userLocal)
+              console.log("2")}
+           
+          else
+         { router.push('/login')
+          console.log("3")}
+        }
+    
     } catch (error) {
       console.log('Error:', error);
       // Xử lý lỗi nếu cần

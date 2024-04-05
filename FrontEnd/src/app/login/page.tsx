@@ -78,8 +78,8 @@ function Login() {
         dispatch(fetchUser());
         router.push("/chat-page");
 
-        const arrSession = await api.getAllSessionUser(user.user_id);
-        api.saveDataToLocal("session_id", arrSession[0]["session_id"]);
+        // const arrSession = await api.getAllSessionUser(user.user_id);
+        // api.saveDataToLocal("session_id", arrSession[0]["session_id"]);
       } else {
         setDataAlert(r.error.message);
         setShowAlert(true);
