@@ -23,9 +23,20 @@ function MainChat({ messages }: messages) {
   const [userL, setUserL] = useState<IUser>();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    const userLocal = api.getDataFromLocal("user");
-    setUserL(userLocal);
-
+    
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Corrected to call the function
+      setUserL(user);
+      return user
+     
+    } catch (error) {
+      console.log('Error:', error);
+      // Handle error if necessary
+    }
+  }
+    
+  get_user_info()
     const getAllSessionUser = async (user_id: number) => {
       try {
         const sessions = await api.getAllSessionUser(user_id);
@@ -35,15 +46,21 @@ function MainChat({ messages }: messages) {
         return []; // Trả về một mảng trống nếu có lỗi xảy ra
       }
     };
-    if (userLocal) {
-      setIsLoading(true)
-      const sections = getAllSessionUser(userLocal["user_id"]);
-      setIsLoading(false)
+    // if (userLocal) {
+    //   setIsLoading(true)
+    //   const sections = getAllSessionUser(userLocal["user_id"]);
+    //   setIsLoading(false)
 
-    }
+    // }
     scrollToBottom
   }, []);
 
+  useEffect(()=>{
+    setTimeout(() => {
+      scrollToBottom();
+     
+    }, 100); // Gọi sau khi render
+  },[messages])
   const endRef = useRef(null);
 
   // Hàm để cuộn scroll đến cuối thẻ
@@ -75,6 +92,7 @@ function MainChat({ messages }: messages) {
 
   // Sử dụng dataMainChat để truyền vào props của Chatbox
   return (
+    <>
     <div >
       {dataMainChat.user && (
         <>{isLoading? (<div className="btn btn-primary">
@@ -155,10 +173,11 @@ function MainChat({ messages }: messages) {
           {scrollToBottom()}
         </>
       )}
-      <span id="endCroll"></span>
+      
 
     </div>
-    
+    <div id="endCroll"  className="w-100 float-end"></div>
+    </>
   );
 }
 

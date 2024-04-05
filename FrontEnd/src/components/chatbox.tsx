@@ -24,6 +24,8 @@ interface messenger {
 function Chatbox(prop: messenger, props: any) {
   const [stateStar, setStateStar] = useState(0);
   const [comment, setComment] = useState('');
+  const [isOnComment, setOnComment] = useState(false);
+  const [isOnStart, setOnStart] = useState(false);
 
   useEffect(()=>{
     console.log("id star", prop.mesengerProp )
@@ -37,6 +39,7 @@ function Chatbox(prop: messenger, props: any) {
       prop.mesengerProp.star = star
       const r = await api.updateMessage(prop.mesengerProp)
       console.log('mes',r)
+      setOnStart(false)
     } catch (error) {
       console.error(error)
     }
@@ -49,6 +52,7 @@ function Chatbox(prop: messenger, props: any) {
       prop.mesengerProp.comment= comment
       const r = await api.updateMessage(prop.mesengerProp)
       console.log('mes',r)
+      setOnComment(false)
     } catch (error) {
       console.error(error)
     }
@@ -67,7 +71,7 @@ function Chatbox(prop: messenger, props: any) {
   );
 
   const popoverComment = (
-    <Popover id="popover-comment">
+    <Popover id="popover-comment" >
       <Popover.Header as="h3">Đánh giá câu trả lời</Popover.Header>
       <Popover.Body>
       <Form>
@@ -147,10 +151,11 @@ function Chatbox(prop: messenger, props: any) {
                     key={1}
                     trigger="click"
                     placement="top"
+                    show ={isOnStart}
                     overlay={popover}
                   >
                     
-                        <button className={`btn ${stateStar != null && stateStar != 0 ? 'btn-warning':'btn-outline-warning'} border-0 p-0  `}  >
+                        <button onClick={()=>setOnStart(!isOnStart)} className={`btn ${stateStar != null && stateStar != 0 ? 'btn-warning':'btn-outline-warning'} border-0 p-0  `}  >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="25"
@@ -168,11 +173,12 @@ function Chatbox(prop: messenger, props: any) {
                   <OverlayTrigger
                     trigger="click"
                     placement="right"
+                    show = {isOnComment} 
                     overlay={popoverComment}
                     
                   >
                    
-                        <button className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3`}>
+                        <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="25"

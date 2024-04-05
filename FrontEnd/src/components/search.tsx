@@ -39,10 +39,10 @@ function  Search({ getValueS ,status}: SearchProps){
 
     {status ? (
       <InputGroup className="mb-3 center">
-        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm'  onKeyDown={(e)=>handleKeyPress(e)} value={valueS} onChange={(e) => { setValueS(e.target.value) }} />
+        <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung cần hỏi'  onKeyDown={(e)=>handleKeyPress(e)} value={valueS} onChange={(e) => { setValueS(e.target.value) }} />
         <SplitButton
           variant="dark"
-          title="Search"
+          title="Hỏi"
           id="segmented-button-dropdown-2"
           onClick={getValue}
         >
@@ -55,11 +55,11 @@ function  Search({ getValueS ,status}: SearchProps){
       </InputGroup>
     ) : (
       <InputGroup className="mb-3 center">
-      <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung tìm kiếm' value={valueS}  onChange={(e) => { setValueS(e.target.value) , console.log(e.target.value)}} />
+      <Form.Control aria-label="Text input with dropdown button" placeholder='Nhập nội dung cần hỏi' value={valueS}  onChange={(e) => { setValueS(e.target.value) , console.log(e.target.value)}} />
       <SplitButton
         disabled
         variant="dark"
-        title="Search"
+        title="Hỏi"
         id="segmented-button-dropdown-2"
         
         onClick={getValue}

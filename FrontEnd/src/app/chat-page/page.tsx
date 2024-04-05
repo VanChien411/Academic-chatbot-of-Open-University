@@ -14,6 +14,8 @@ import * as api from "@/utils/api";
 import { copyFileSync } from "fs";
 import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
+
 
 
 function ChatPage() {
@@ -27,10 +29,35 @@ function ChatPage() {
   const [isColHidden, setIsColHidden] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      console.log(user); // In ra để kiểm tra dữ liệu user
+      // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
+      if(!user){
+        router.push('/login')
+      }
+    } catch (error) {
+      console.log('Error:', error);
+      // Xử lý lỗi nếu cần
+    }
+  }
   useEffect(() => {
-    const user = api.getDataFromLocal('user')
-    !user ? router.push("/login") : "";
+    // const token = api.getDataFromLocal('token')
+    // let user:any;
+    // const get_user_info = async(token:string) =>{
+    //   try {
+    //    user =  await api.get_user_info(token)
+    //   } catch (error) {
+        
+    //   }
+    // }
+    // if(token){
+    //   get_user_info(token)
+    // }  
 
+   
+    get_user_info()
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };

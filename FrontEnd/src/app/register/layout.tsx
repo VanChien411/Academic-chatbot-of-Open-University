@@ -24,7 +24,7 @@ export default function RootLayout({
       style={{
         height: '100%',
         width: '100%',
-        backgroundImage: "url('images/background_login.jpg')",
+        backgroundImage: "url('/images/background_login.jpg')",
         backgroundSize: 'cover', // Đảm bảo hình nền được căng đầy
         backgroundRepeat: 'no-repeat', // Không lặp lại hình nền
         backgroundPosition: 'center' // Căn giữa hình nền

@@ -6,6 +6,7 @@ import * as model1 from "@/models/all";
 import { client } from "@gradio/client";
 import axios from 'axios';
 
+
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
   return res.json();
@@ -44,6 +45,7 @@ export const getDataFromLocal = (key: string) => {
 // Xóa dữ liệu từ local storage
 export const removeDataFromLocal = (key: string) => {
   localStorage.removeItem(key);
+ 
 };
 
 // // Ví dụ về cách sử dụng
@@ -157,6 +159,34 @@ export const get_user_info = async (token: any) => {
     console.error("Error:", error as Error);
   }
 };
+
+export const get_user_info2 = async () => {
+  try {
+    const token = getDataFromLocal('token');
+    if (!token) {
+      throw new Error("Token is missing");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/get_user_info`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user info");
+    }
+
+    const user = await response.json();
+    console.log("User info:", user);
+    return user;
+  } catch (error) {
+    console.error("Error:", error);
+    return ; // Trả về đối tượng rỗng nếu có lỗi
+  }
+};
+
 
 export const createSession = async (data: any) => {
   try {

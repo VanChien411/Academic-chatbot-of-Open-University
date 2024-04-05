@@ -1,53 +1,54 @@
-"use client"
-// Client Side (React)
-import React, { useState, useEffect } from 'react';
+'use client'
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
 
-const TestComponent = () => {
-    const [message, setMessage] = useState('');
-    const [receivedMessages, setReceivedMessages] = useState<string[]>([]);
-    const [user_id, setUser_id] = useState('');
+import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
+import { fetchUser } from '@/reducer/userSlice';
+import * as api from '@/utils/api'
+const Sidebar = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.user);
+  const loading = useAppSelector((state) => state.user.loading);
+  const error = useAppSelector((state) => state.user.error);
 
-    useEffect(() => {
-        const user_id = '123'; // Thay đổi user_id cho mỗi client
-        setUser_id(user_id);
-        
-        const socket = new WebSocket(`ws://localhost:8765?user_id=${user_id}`);
+  const handleFetchUser = () => {
+    dispatch(fetchUser());
 
-        socket.onopen = () => {
-            console.log('Connected to WebSocket server');
-        };
+    const get_user_info = async () => {
+      try {
+        const user = await api.get_user_info2(); // Corrected to call the function
+        console.log("User:", user);
+      } catch (error) {
+        console.log('Error:', error);
+        // Handle error if necessary
+      }
+    }
+    
+    get_user_info();
+ 
+  };
 
-        socket.onmessage = (event) => {
-            const message = event.data;
-            setReceivedMessages(prevMessages => [...prevMessages, message]);
-        };
+  useEffect(()=>{
+    
 
-        return () => {
-            socket.close();
-        };
-    }, []);
-
-    const sendMessage = () => {
-        const socket = new WebSocket(`ws://localhost:8765?user_id=${user_id}`);
-        socket.onopen = () => {
-            socket.send(message);
-        };
-    };
-
-    return (
+    console.log("redux",user?.password)
+  },[])
+  return (
+    <div className="sidebar">
+      <button onClick={handleFetchUser}>Fetch User</button>
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
         <div>
-            <h1>Client: {user_id}</h1>
-            <div>
-                <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-                <button onClick={sendMessage}>Send</button>
-            </div>
-            <div>
-                {receivedMessages.map((msg, index) => (
-                    <p key={index}>{msg}</p>
-                ))}
-            </div>
+          {/* Hiển thị thông tin user */}
+          {/* {/* <h1>User Name: {user?.name}</h1> */}
+          <p>Email: {user?.password}</p> 
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-export default TestComponent;
+export default Sidebar;

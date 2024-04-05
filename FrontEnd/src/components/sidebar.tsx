@@ -11,9 +11,12 @@ import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
+
 import MessengerChat from "@/components/messenger-chat";
+import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
 
-
+import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
+import { fetchUser } from '@/reducer/userSlice';
 // Định nghĩa kiểu dữ liệu cho các sự kiện
 interface MyEvents {
   valueChange?: [(newValue: string) => void];
@@ -26,9 +29,31 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+   
+  const dispatch = useAppDispatch();
+  // const user1 = useAppSelector((state) => state.user.user);
+  const loading = useAppSelector((state) => state.user.loading);
+  const error = useAppSelector((state) => state.user.error);
+
+
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Corrected to call the function
+   
+      return user
+     
+    } catch (error) {
+      console.log('Error:', error);
+      // Handle error if necessary
+    }
+  }
+  
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
   useEffect(() => {
+   
+  //  console.log("redux",user1)
     if (!isMounted) {
       setIsLoading(true);
       setIsMounted(true);
@@ -54,10 +79,27 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
         }
       };
 
-      const user = api.getDataFromLocal("user");
+      
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Corrected to call the function
       if (user) {
-        fetchData(user["user_id"]);
+        // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
+        if ("user_id" in user) {
+          fetchData(user["user_id"]); // Truy cập vào user_id
+        }
       }
+      return user
+     
+    } catch (error) {
+      console.log('Error:', error);
+      // Handle error if necessary
+    }
+  }
+  
+     get_user_info();
+     
+ 
       changeSession();
       // Theo dõi thay đổi của refresh
     }
@@ -89,7 +131,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     img: "https://th.bing.com/th/id/OIP.Iy0tmJanZeN5ceMP5uToLQAAAA?&w=160&h=240&c=7&dpr=1.3&pid=ImgDet",
   };
   const createSession = async () => {
-    const userLocal = api.getDataFromLocal("user");
+    const userLocal:any = get_user_info();
 
     const newDate = getDate();
     const session: model1.Session = {

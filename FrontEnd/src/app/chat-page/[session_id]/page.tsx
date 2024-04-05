@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
 import MessengerChat from "@/components/messenger-chat";
 
+
 function ChatPage(prop: any) {
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
@@ -37,7 +38,26 @@ function ChatPage(prop: any) {
   };
   const [isColHidden, setIsColHidden] = useState(false);
 
+
+  
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      console.log(user); // In ra để kiểm tra dữ liệu user
+      // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
+      if(!user){
+        router.push('/login')
+      }
+      setUser(user)
+    } catch (error) {
+      console.log('Error:', error);
+      // Xử lý lỗi nếu cần
+    }
+  }
+
   useEffect(() => {
+    // console.log("shareside", sharedData)
+
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
@@ -56,9 +76,7 @@ function ChatPage(prop: any) {
     const getAllMessageSession = async () => {
       try {
         const session_id = prop.params.session_id;
-        const user = api.getDataFromLocal("user");
-        !user ? router.push("/login") : "";
-        setUser(user)
+        get_user_info()
         const sessions = await api.getAllMessageSession(session_id);
         setMessages(sessions);
         console.log("messages ", sessions);
@@ -187,6 +205,7 @@ function ChatPage(prop: any) {
   const handleMessage =()=>{
       setIsShowChatEmloyee(true)
   }
+  
   return (
     <>
       <Row style={{ height: "100%" }} className=" w-100 px-0 position-relative">

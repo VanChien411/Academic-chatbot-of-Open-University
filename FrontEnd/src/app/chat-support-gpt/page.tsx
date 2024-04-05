@@ -27,6 +27,21 @@ function ChatSupportGpt(prop: any) {
   const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
   const [user, setUser] = useState<any>();
 
+  const get_user_info = async () => {
+    try {
+      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      console.log(user); // In ra để kiểm tra dữ liệu user
+      // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
+      if(!user){
+        router.push('/login')
+      }
+      setUser(user)
+    } catch (error) {
+      console.log('Error:', error);
+      // Xử lý lỗi nếu cần
+    }
+  }
+
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
     // await new Promise((resolve) => setTimeout(resolve, 100)); // Thời gian chờ có thể thay đổi
@@ -55,9 +70,7 @@ function ChatSupportGpt(prop: any) {
     const getAllMessageSession = async () => {
       try {
         const session_id = prop.params.session_id;
-        const user = api.getDataFromLocal("user");
-        !user ? router.push("/login") : "";
-        setUser(user)
+        get_user_info()
         const sessions = await api.getAllMessageSession(session_id);
         setMessages(sessions);
         console.log("messages ", sessions);

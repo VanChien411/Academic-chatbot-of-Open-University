@@ -11,6 +11,7 @@ import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
+
 // Định nghĩa kiểu dữ liệu cho các sự kiện
 interface MyEvents {
   valueChange?: [(newValue: string) => void];
@@ -23,7 +24,27 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<IUser>();
+
   // trong một file khác, ví dụ main-chat.tsx
+  useEffect(()=>{
+
+    const get_user_info = async () => {
+      try {
+        const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+        console.log(user); // In ra để kiểm tra dữ liệu user
+        // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
+        if(user){
+          setUser(user)
+        }
+       
+      } catch (error) {
+        console.log('Error:', error);
+        // Xử lý lỗi nếu cần
+      }
+    }
+    get_user_info()
+  },[])
   const router = useRouter();
   //   useEffect(() => {
   //     if (!isMounted) {
@@ -189,7 +210,7 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
           </Button>
 
           <div className="position-absolute bottom-0 w-100">
-            <Login user={api.getDataFromLocal("user")}></Login>
+            <Login user={user}></Login>
           </div>
         </div>
       </div>
