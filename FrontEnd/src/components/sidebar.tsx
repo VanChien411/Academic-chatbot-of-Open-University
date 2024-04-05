@@ -169,7 +169,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
         className={"  p-0 position-relative bg-dark "}
       >
         <div
-          style={{ width: "85%", marginLeft: "60px" , height:'45px',margin:'auto'}}
+          style={{ width: "91%", marginLeft: "40px" , height:'45px',margin:'auto', paddingLeft:'20px'}}
           className="position-absolute btn btn-outline-light top-2 m-3 "
           onClick={createSession}
         >
@@ -178,7 +178,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
    
         <div
           style={{
-            overflowY: "scroll",
+            overflowY: "auto",
             textAlign: "left",
             height: "calc(100% - 200px)",
           }}
