@@ -10,11 +10,12 @@ import Messenger from "@/components/messenger_admin";
 import IUser from "@/models/user";
 import { useState } from "react";
 import AddFileChatBot from "@/components/add-file-chatbot";
+import DataStatistics from "@/components/data-statistics";
 import Nav from 'react-bootstrap/Nav';
-
+import Navbar from 'react-bootstrap/Navbar';
 import Tab from 'react-bootstrap/Tab';
 const inter = Inter({ subsets: ["latin"] });
-
+import Container from 'react-bootstrap/Container';
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,20 +51,23 @@ export default function RootLayout({
     <html lang="en" style={{ height: "100%", width: "100%" }}>
       <body style={{ height: "100%" }} className={inter.className}>
         <div
-          className="bg-dark w-100 position-relative "
+          className="bg-light  w-100 position-relative "
           style={{ height: "100vh" }}
         >
           {/* head */}
-          <div
-            className="bg-danger position-absolute top-0 start-0 end-0"
-            style={{ height: "50px" }}
-          ></div>
+         
+             <Navbar bg="dark" data-bs-theme="dark" className="bg-body-tertiary position-absolute top-0 start-0 end-0 justify-content-center">
+      
+        <Navbar.Brand href="#" className="justify-content-center opacity-50">Trang quản lý của Admin</Navbar.Brand>
+     
+    </Navbar>
+          
           {/* body */}
           <div
-            style={{ height: "100%" }}
+            style={{ height: "100%", borderColor:'black' , boxShadow:" 2px 2px 4px rgba(0, 0, 0, 0.3)"}}
             className="center bg-white w-100 container  p-0 "
           >
-            <Tab.Container id="left-tabs-example" defaultActiveKey="list-user">
+            <Tab.Container id="left-tabs-example" defaultActiveKey="data-statistics">
 
             <Row
               style={{
@@ -71,16 +75,16 @@ export default function RootLayout({
                 width: "1235px",
                 height: "calc(100vh - 50px)",
               }}
-              className=" position-absolute "
+              className=" position-absolute  "
             >
               <div style={{ marginTop: "50px" }}></div>
               <div
-                style={{ width: "250px " }}
-                className="col-3 bg-light h-100 p-0 text-start "
+                style={{ width: "250px " , boxShadow:" 2px 2px 4px rgba(0, 0, 0, 0.1)"}}
+                className="col-3 bg-light h-100 p-0 text-start  "
               >
                 <SideBarAdmin></SideBarAdmin>
               </div>
-              <Col style={{ width: "100%" }} className="p-0 ">
+              <Col style={{ width: "100%" }} className="p-0 position-relative">
                 <div
                   style={{ height: "600px", overflowY: "auto" }}
                   className=" w-100 m-5  "
@@ -91,11 +95,16 @@ export default function RootLayout({
                   <Tab.Content>
             <Tab.Pane eventKey="home">First tab content</Tab.Pane>
             <Tab.Pane eventKey="list-user">
+             
                   <Messenger onSendData={handleDataFromChild}></Messenger>
               
             </Tab.Pane>
             <Tab.Pane eventKey="add-file-chatbot">
                   <AddFileChatBot></AddFileChatBot>
+              
+            </Tab.Pane>
+            <Tab.Pane eventKey="data-statistics">
+                  <DataStatistics></DataStatistics>
               
             </Tab.Pane>
           </Tab.Content>

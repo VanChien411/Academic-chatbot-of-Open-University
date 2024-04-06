@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
 import MessengerChat from "@/components/messenger-chat";
 import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
-
+import * as style1 from '@/styles/main.module.css';
 import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
 import { fetchUser } from '@/reducer/userSlice';
 import { setLazyProp } from "next/dist/server/api-utils";
@@ -314,7 +314,7 @@ function ChatPage(prop: any) {
                   overflowX: "hidden",
                   textAlign: "left",
                 }}
-                className="position-absolute bottom-10 "
+              className={`${(style1 as any).scrollbarHidden} position-absolute bottom-10 `}
               >
 
                 <MainChat messages={messages}></MainChat>

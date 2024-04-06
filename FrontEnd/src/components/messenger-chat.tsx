@@ -5,6 +5,7 @@ import Search from "@/components/search";
 import * as api from "@/utils/api";
 import { Trykker } from "next/font/google";
 import * as url from "@/env/env"
+import * as style1 from '@/styles/main.module.css'
 interface messenger {
   username: string;
   chat_employee?: model1.ChatWithEmloyee[]; // Corrected spelling here
@@ -227,9 +228,9 @@ function MessengerChat(prop: messenger) {
               handleClose();
             }}
             style={{ width: "50px", height: "50px" }}
-            className="p-0 d-flex center align-items-center rounded-0  btn btn-danger"
+            className="p-0 d-flex center align-items-center rounded-0  justify-content-center  btn btn-outline-danger border-0"
           >
-            <img className="img-fluid " src="/images/delete.png"></img>
+            <img className=" " width='30px' src="/images/delete.png"></img>
           </div>
         </Row>
         {/* body */}
@@ -237,11 +238,12 @@ function MessengerChat(prop: messenger) {
           style={{
             width: "100%",
             height: "280px",
-            overflowY: "auto",
+           
             backgroundColor: "#E0E0E0",
           }}
-          className="px-3"
+          className={` px-3`}
         >
+          <br></br>
           {listMessage?.map((item: model1.ChatWithEmloyee, index: number) => {
             return (
               <>
@@ -258,7 +260,7 @@ function MessengerChat(prop: messenger) {
                         float:"right"
                          
                       }}
-                      className="  rounded-2 px-2 "
+                      className="  rounded-2 px-2 py-1 "
                     >
                       {item.messenger}
                       
@@ -267,7 +269,7 @@ function MessengerChat(prop: messenger) {
                   ) : (
                     <div
                     style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
-                      className="bg-white d-inline-block rounded-2 px-2 my-2"
+                      className="bg-white d-inline-block rounded-2 px-2 my-2 py-1"
                     >
                       {item.messenger}
                     </div>
@@ -284,7 +286,7 @@ function MessengerChat(prop: messenger) {
                         float:"right"
                          
                       }}
-                      className="  rounded-2 px-2 "
+                      className="  rounded-2 px-2 py-1"
                     >
                       {item.messenger}
                       
@@ -293,7 +295,7 @@ function MessengerChat(prop: messenger) {
                   <div
                     style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
 
-                    className="bg-white d-inline-block rounded-2 px-2 my-2"
+                    className="bg-white d-inline-block rounded-2 py-1 px-2 my-2"
                   >
                     {item.messenger}
                   </div>

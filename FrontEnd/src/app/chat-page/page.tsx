@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, use } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -14,9 +14,11 @@ import * as api from "@/utils/api";
 import { copyFileSync } from "fs";
 import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
+import { useAppDispatch, useAppSelector } from "@/redux/store"; // Import hooks từ store.ts
+import IUser from "@/models/user";
+import Spinner from "react-bootstrap/Spinner";
 
-
+import Placeholder from "react-bootstrap/Placeholder";
 
 function ChatPage() {
   const [open, setOpen] = useState(true);
@@ -28,20 +30,22 @@ function ChatPage() {
   const chageIdSession = async () => {};
   const [isColHidden, setIsColHidden] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
+  const [user, setUser] = useState<IUser>();
   const get_user_info = async () => {
     try {
       const user = await api.get_user_info2(); // Chờ Promise được giải quyết
       console.log(user); // In ra để kiểm tra dữ liệu user
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
-      if(!user){
-        router.push('/login')
+      if (!user) {
+        router.push("/login");
+      } else {
+        setUser(user);
       }
     } catch (error) {
-      console.log('Error:', error);
+      console.log("Error:", error);
       // Xử lý lỗi nếu cần
     }
-  }
+  };
   useEffect(() => {
     // const token = api.getDataFromLocal('token')
     // let user:any;
@@ -49,15 +53,14 @@ function ChatPage() {
     //   try {
     //    user =  await api.get_user_info(token)
     //   } catch (error) {
-        
+
     //   }
     // }
     // if(token){
     //   get_user_info(token)
-    // }  
+    // }
 
-   
-    get_user_info()
+    get_user_info();
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
@@ -68,7 +71,6 @@ function ChatPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-   
   }, []);
 
   useEffect(() => {
@@ -161,9 +163,7 @@ function ChatPage() {
     }
     setStatusSearch(true);
   };
-  const handleMessage = () =>{
-    
-  }
+  const handleMessage = () => {};
   return (
     <>
       <Row style={{ height: "100%" }} className=" ">
@@ -173,8 +173,14 @@ function ChatPage() {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-        {!isMounted ? <SideBar showEmloyeeMessager={handleMessage} changeSession={chageIdSession}></SideBar> :""} 
-        
+          {!user ? (
+            <SideBar
+              showEmloyeeMessager={handleMessage}
+              changeSession={chageIdSession}
+            ></SideBar>
+          ) : (
+            ""
+          )}
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
@@ -226,7 +232,21 @@ function ChatPage() {
                 showSideBar && isColHidden ? "d-none" : ""
               } position-relative container-fluid text-center center  `}
             >
-              <div
+              <Button variant="primary" disabled className="mt-5">
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Đăng nhập ...
+              </Button>
+              <Placeholder xs={12} size="lg" />
+              <Placeholder xs={12} />
+              <Placeholder xs={12} size="sm" />
+              <Placeholder xs={12} size="xs" />
+              {/* <div
                 style={{
                   height: "70%",
                   width: "93%",
@@ -247,12 +267,9 @@ function ChatPage() {
                   className="  text-center center "
                 >
                   <div style={{ width: "50px" }}></div>
-                  {/* <Search
-                    status={statusSearch}
-                    getValueS={handleSearch}
-                  ></Search> */}
+                 
                 </div>
-              </div>
+              </div> */}
             </Col>
           </Row>
         </Col>

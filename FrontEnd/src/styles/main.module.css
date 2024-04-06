@@ -6,6 +6,20 @@
     color: inherit;
     text-decoration: none;
 }
+/**  STYLE 4 */
+.scrollbarHidden::-webkit-scrollbar {
+  overflow: auto;
+  width: 3px; /* Độ rộng của thanh cuộn */
+  height: 1px; /* Chiều cao của thanh cuộn */
+}
+.scrollbarHidden::-webkit-scrollbar-thumb {
+  background-color: #e8dfdf;
+  border: 2px solid #f5eded;
+}
+/* .scrollbarHidden{
+  background-color: aqua;
+} */
+
 /* Màu xám đậm: #333333 hoặc #666666
 Màu xám trung bình: #999999 hoặc #CCCCCC
 Màu xám nhạt: #E0E0E0 hoặc #F2F2F2 */

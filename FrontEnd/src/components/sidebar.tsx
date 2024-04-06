@@ -11,6 +11,7 @@ import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
+import * as style1 from '@/styles/main.module.css';
 
 import MessengerChat from "@/components/messenger-chat";
 import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
@@ -29,7 +30,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [userL, setUserL] = useState<IUser>()
    
   const dispatch = useAppDispatch();
   // const user1 = useAppSelector((state) => state.user.user);
@@ -38,63 +39,64 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
 
 
   
-  
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
+
   useEffect(() => {
-   
-  //  console.log("redux",user1)
-    if (!isMounted) {
-      setIsLoading(true);
-      setIsMounted(true);
-      const fetchData = async (user_id: number) => {
+    const fetchData = async (user_id: number) => {
         const arrSession = await api.getAllSessionUser(user_id);
         setSessions(arrSession);
         console.log("arrS", arrSession);
         if (arrSession.length !== 0) {
-          const currentPath = window.location.pathname;
-          console.log("địa chỉ", arrSession); // In ra địa chỉ hiện tại, không phải chuỗi 'currentPath'
-          if (
-            !currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)
-          ) {
-            console.log("routersidebar");
-            router.push(`/chat-page/${arrSession[0]["session_id"]}`); // Loại bỏ tiền tố chat-page/
-          }
+            const currentPath = window.location.pathname;
+            console.log("địa chỉ", arrSession);
+            if (
+                !currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)
+            ) {
+                console.log("routersidebar");
+                router.push(`/chat-page/${arrSession[0]["session_id"]}`);
+            }
         } else if (arrSession) {
-          try {
-            const session = await createSession(); // Tạo phiên mới
-          } catch (error) {
-            console.error("Error creating session:", error);
-          }
+            try {
+                const session = await createSession(); // Tạo phiên mới
+            } catch (error) {
+                console.error("Error creating session:", error);
+            }
         }
-      };
+    };
 
-      
-  const get_user_info = async () => {
-    try {
-      const user = await api.get_user_info2(); // Corrected to call the function
-      if (user) {
-        // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
-        if ("user_id" in user) {
-          fetchData(user["user_id"]); // Truy cập vào user_id
+    const fetchDataAndUpdateUser = async () => {
+        try {
+            const user = await get_user_info();
+            setUserL(user);
+            console.log('userrrrr', user);
+            if (user && "user_id" in user) {
+                fetchData(user["user_id"] as number);
+                console.log("loginsession");
+            }
+        } catch (error) {
+            console.log('Error:', error);
         }
-      }
-      return user
-     
+    };
+
+    fetchDataAndUpdateUser();
+}, []); // Thêm mảng dependencies rỗng để chỉ chạy useEffect một lần khi component mount
+
+async function get_user_info() {
+    try {
+        const user = await api.get_user_info2();
+        if (user) {
+            console.log('u',user);
+            setIsMounted(true);
+            return user;
+        }
+        return null;
     } catch (error) {
-      console.log('Error:', error);
-      // Handle error if necessary
+        console.log('Error:', error);
+        // Handle error if necessary
+        return null;
     }
-  }
-  
-     const user =  get_user_info();
-     
- 
-      changeSession();
-      // Theo dõi thay đổi của refresh
-    }
-    setIsLoading(false);
-  }, [isMounted]);
+}
 
   const getDate = () => {
     const date = new Date();
@@ -121,17 +123,34 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     img: "https://th.bing.com/th/id/OIP.Iy0tmJanZeN5ceMP5uToLQAAAA?&w=160&h=240&c=7&dpr=1.3&pid=ImgDet",
   };
   const createSession = async () => {
-    const userLocal =api.getDataFromLocal('user');
-
-    const newDate = getDate();
-    const session: model1.Session = {
-      name: `session ${newDate}`,
-      start_time: newDate,
-      end_time: newDate,
-      user_id: userLocal["user_id"],
-    };
-    const session_id = await api.createSession(session);
-    session_id ? router.push(`/chat-page/${session_id}`) : "";
+    try {
+      setIsLoading(true)
+      const user = await userL; // Corrected to call the function
+      if (user) {
+        setUserL(user)
+        // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
+        if ("user_id" in user) {
+          const newDate = getDate();
+          const session: model1.Session = {
+            name: `session ${newDate}`,
+            start_time: newDate,
+            end_time: newDate,
+            user_id: user["user_id"] as number,
+          };
+          const session_id = await api.createSession(session);
+          session_id ? router.push(`/chat-page/${session_id}`) : "";
+        }
+      }
+      return user
+     
+    } catch (error) {
+      console.log('Error:', error);
+      // Handle error if necessary
+    }
+   
+    setIsLoading(false)
+    
+ 
   };
 
   const updateSession = async (session: model1.Session) => {
@@ -178,11 +197,11 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
    
         <div
           style={{
-            overflowY: "auto",
+            overflow: 'auto',
             textAlign: "left",
             height: "calc(100% - 200px)",
           }}
-          className=""
+          className={`${(style1 as any).scrollbarHidden}`}
         >
           <div style={{ height: "70px" }} className="space"></div>
           <div style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>

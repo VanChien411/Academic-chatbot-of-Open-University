@@ -316,6 +316,30 @@ export const getAllMessageSession = async (session_id: number) => {
   }
 };
 
+
+export const getAllMessage = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/messages`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
 export const updateMessage = async (message: model1.Message) => {
   try {
     const response = await fetch(

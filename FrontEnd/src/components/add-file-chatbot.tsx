@@ -1,9 +1,5 @@
 "use client";
-import Table from "react-bootstrap/Table";
-import * as api from "@/utils/api";
-import { useEffect, useState } from "react";
-import Iuser from "@/models/user";
-import Form from 'react-bootstrap/Form';
+
 
 
 function AddFileChatBot(props:any) {
