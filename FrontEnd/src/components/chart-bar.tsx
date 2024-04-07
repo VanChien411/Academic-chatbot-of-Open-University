@@ -2,8 +2,9 @@ import Chart from "chart.js/auto";
 import { useEffect } from "react";
 
 
-function ChartBar(){
+function ChartBar(props:any){
     useEffect(() => {
+      const {data} = props
         const ctx: any = document.getElementById("chartBar");
         const existingChart = Chart.getChart(ctx); // Kiểm tra xem có biểu đồ nào đang được vẽ trên canvas không
     
@@ -22,7 +23,7 @@ function ChartBar(){
             datasets: [
               {
                 label: "Tất cả đánh giá/câu trả lời",
-                data: [901, 50, 100,70,34],
+                data: data ,
                 backgroundColor: [
                   'rgb(255, 99, 132)',
                   'rgb(75, 192, 192)',
@@ -35,7 +36,7 @@ function ChartBar(){
             ],
           },
         });
-      }, []);
+      }, [ props.data]);
     return(
         <>
          <canvas style={{ display: "block" }} id="chartBar"></canvas>

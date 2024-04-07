@@ -26,7 +26,12 @@ function Chatbox(prop: messenger, props: any) {
   const [comment, setComment] = useState('');
   const [isOnComment, setOnComment] = useState(false);
   const [isOnStart, setOnStart] = useState(false);
-
+  function handleOnHide():void {
+    setOnComment(false);
+    console.log('sef123')
+  
+  }
+  
   useEffect(()=>{
     console.log("id star", prop.mesengerProp )
     prop.mesengerProp.star?setStateStar(prop.mesengerProp.star):''
@@ -85,7 +90,7 @@ function Chatbox(prop: messenger, props: any) {
   );
 
   const popover = (
-    <Popover id="popover-basic">
+    <Popover id="popover-basic" >
       {/* <Popover.Header as="h3">Popover right</Popover.Header> */}
       <Popover.Body>
         {[1, 2, 3, 4, 5].map((number) =>
@@ -172,10 +177,12 @@ function Chatbox(prop: messenger, props: any) {
 
                   <OverlayTrigger
                     trigger="click"
+                  
                     placement="bottom-start"
                     show = {isOnComment} 
                     overlay={popoverComment}
-                    
+                    rootClose={true} // Khi người dùng nhấp chuột ra ngoài overlay, overlay sẽ tự động ẩn đi và gọi hàm handleOnHide
+                  //  onHide={handleOnHide}// Sử dụng rootClose để ẩn overlay khi người dùng nhấp chuột ra ngoài
                   >
                    
                         <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3 `}>
@@ -194,7 +201,7 @@ function Chatbox(prop: messenger, props: any) {
                      
                   </OverlayTrigger>
                 
-                  <button className={`btn ${comment?'btn-primary':'btn-white'} `} style={{overflowY:'scroll', width:'50%', height:'100%', borderColor:'blue'}} title={comment}>{comment}</button>
+                  <button onClick={()=>setOnComment(!isOnComment)} className={`btn ${comment?'btn-primary':'btn-white'} `} style={{overflowY:'scroll', width:'50%', height:'100%', borderColor:'blue'}} title={comment}>{comment}</button>
 
                 
                 </div>

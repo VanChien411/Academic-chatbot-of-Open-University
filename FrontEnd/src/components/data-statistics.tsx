@@ -12,68 +12,78 @@ function DataStatistics(props: any) {
   const [data2, setData2] = useState(Array.from({ length: 5 }, () => 0));
   const [data3, setData3] = useState(Array.from({ length: 5 }, () => 0));
 
-  const handleChartPie =(item:model1.Message, data:any, setData:any)=>
-    {
-      const data1 = [...data]
-      if (item.star && item.star > 0)
-        if (item.star > 3) {
-          data1[0] += 1;
-        } else if (item.star < 3) {
-          data1[1] += 1;
-        } else {
-          data1[2] += 1;
-        }
-
-        setData(data1)
-    }
-    const handleChartBar =(item:model1.Message, data:any, setData:any)=>
-      {
-        const data1 = [...data]
-        if (item.star == 1 && item.comment) {
-          data2[0] += 1;
-        } else if (item.star == 2 && item.comment) {
-          data2[1] += 1;
-        } else if (item.star == 3 && item.comment) {
-          data2[2] += 1;
-        } else if (item.star == 4 && item.comment) {
-          data2[3] += 1;
-        } else if (item.star == 5 && item.comment) {
-          data2[4] += 1;
-        }
-  
-          setData(data1)
+  const handleChartPie = (item: model1.Message, data: any, setData: any) => {
+    const newData = [...data]; // Tạo bản sao của dữ liệu hiện tại
+    if (item.star && item.star > 0) {
+      if (item.star > 3) {
+        newData[0] += 1;
+      } else if (item.star < 3) {
+        newData[1] += 1;
+      } else {
+        newData[2] += 1;
       }
-      const handleChartPolar =(item:model1.Message, data:any, setData:any)=>
-        {
-          const data1 = [...data]
-          if (item.star == 1) {
-            data3[0] += 1;
-          } else if (item.star == 2) {
-            data3[1] += 1;
-          } else if (item.star == 3) {
-            data3[2] += 1;
-          } else if (item.star == 4) {
-            data3[3] += 1;
-          } else if (item.star == 5) {
-            data3[4] += 1;
-          }
-    
-            setData(data1)
-        }
+    }
+    setData(newData); // Cập nhật state với dữ liệu mới
+  };
+  
+  const handleChartBar = (item: model1.Message, data: any, setData: any) => {
+    const newData = [...data]; // Tạo bản sao của dữ liệu hiện tại
+    if (item.star && item.comment) {
+      newData[item.star - 1] += 1; // Làm phương thức này ngắn gọn hơn
+    }
+    setData(newData); // Cập nhật state với dữ liệu mới
+  };
+  
+  const handleChartPolar = (item: model1.Message, data: any, setData: any) => {
+    const newData = [...data]; // Tạo bản sao của dữ liệu hiện tại
+    if (item.star) {
+      newData[item.star - 1] += 1; // Làm phương thức này ngắn gọn hơn
+    }
+    setData(newData); // Cập nhật state với dữ liệu mới
+  };
+  useEffect(() => {
+    console.log("Data updated:", data1, data2, data3);
+  }, [data1, data2, data3]);
+  
   useEffect(() => {
     console.log("ol");
     const getAllMessage = async () => {
       try {
         const allMessage: model1.Message[] = await api.getAllMessage();
         // console.log("allMessage", allMessage)
-        let data1: any;
-        allMessage.map((item: model1.Message, index: number) => {
-         
-          handleChartPie(item,data1,setData1)
-
+        const newData1 = [...data1];
+        const newData2 = [...data2];
+        const newData3 = [...data3];
         
-          
+        allMessage.forEach((item: model1.Message) => {
+          // Xử lý thay đổi cho newData1
+          if (item.star && item.star > 0) {
+            if (item.star > 3) {
+              newData1[0] += 1;
+            } else if (item.star < 3) {
+              newData1[1] += 1;
+            } else {
+              newData1[2] += 1;
+            }
+          }
+        
+          // Xử lý thay đổi cho newData2
+          if (item.star && item.comment) {
+            newData2[item.star - 1] += 1;
+          }
+        
+          // Xử lý thay đổi cho newData3
+          if (item.star) {
+            newData3[item.star - 1] += 1;
+          }
         });
+        
+        // Cập nhật state một lần duy nhất
+        setData1(newData1);
+        setData2(newData2);
+        setData3(newData3);
+
+        console.log(newData1)
         setAllMessage(allMessage);
       } catch (error) {}
     };
@@ -87,6 +97,7 @@ function DataStatistics(props: any) {
         `}
       </style>
       <div className="d-flex flex-nowrap">
+      
         <div
           className="order-1  "
           style={{
@@ -109,7 +120,7 @@ function DataStatistics(props: any) {
           >
             <div className="row justify-content-center ">
               <div style={{ width: "80%", height: "80%" }} className="">
-                <ChartPie></ChartPie>
+                <ChartPie data = {data1}></ChartPie>
               </div>
 
               <div className="text-center mt-3">Độ hài lòng</div>
@@ -128,7 +139,7 @@ function DataStatistics(props: any) {
           >
             <div className="row justify-content-center ">
               <div style={{ width: "100%", height: "100%" }} className="">
-                <ChartPolar></ChartPolar>
+                <ChartPolar data = {data2}></ChartPolar>
               </div>
 
               {/* <div className="text-center mt-3" >Độ hài lòng</div> */}
@@ -152,12 +163,13 @@ function DataStatistics(props: any) {
               width: "100%",
               height: "100%",
               backgroundColor: "rgb(17,202,240)",
-              boxShadow: " 2px 2px 4px rgba(0, 0, 0, 0.5)",
+              
+              boxShadow: " 2px 2px 4px rgb(159,229,248))",
             }}
           >
             <div className="row justify-content-center ">
               <div style={{ width: "80%", height: "80%" }} className="pt-2">
-                <ChartBar></ChartBar>
+                <ChartBar data = {data3}></ChartBar>
               </div>
 
               <div className="text-center mt-3">Thống kê đánh giá</div>

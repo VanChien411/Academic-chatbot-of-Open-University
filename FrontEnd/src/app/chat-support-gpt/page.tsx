@@ -16,6 +16,7 @@ import "@/styles/main.module.css";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
 import MessengerChat from "@/components/messenger-chat";
+import * as style1 from '@/styles/main.module.css';
 
 function ChatSupportGpt(prop: any) {
   const [open, setOpen] = useState(true);
@@ -285,7 +286,8 @@ function ChatSupportGpt(prop: any) {
                   overflowX: "hidden",
                   textAlign: "left",
                 }}
-                className="position-absolute bottom-10 "
+               
+                className={`${(style1 as any).scrollbarHidden} position-absolute bottom-10 `}
               >
 
                  <MainChat messages={messages}></MainChat> 

@@ -2,8 +2,9 @@ import Chart from "chart.js/auto";
 import { useEffect } from "react";
 
 
-function ChartPolar(){
+function ChartPolar(props:any){
     useEffect(() => {
+      const {data} = props
         const ctx: any = document.getElementById("chartPolar");
         const existingChart = Chart.getChart(ctx); // Kiểm tra xem có biểu đồ nào đang được vẽ trên canvas không
     
@@ -22,7 +23,7 @@ function ChartPolar(){
             datasets: [
               {
                 label: "Comment / độ hài lòng",
-                data: [11, 16, 7, 3, 14],
+                data: data,
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(75, 192, 192)',
@@ -35,7 +36,7 @@ function ChartPolar(){
             ],
           },
         });
-      }, []);
+      }, [ props.data]);
     return(
         <>
          <canvas style={{ display: "block" }} id="chartPolar"></canvas>

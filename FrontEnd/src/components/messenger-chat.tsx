@@ -130,7 +130,7 @@ function MessengerChat(prop: messenger) {
   const sendMessage = (message: string) => {
     console.log("socket", socket);
     console.log("message", message.trim());
-
+    scrollToBottom()
     if (socket && socket.readyState === WebSocket.OPEN) {
 
       const data = {
@@ -158,7 +158,7 @@ function MessengerChat(prop: messenger) {
   };
 
   const sendMessageSocket = (Esocket: WebSocket) => {
-   
+    scrollToBottom()
     console.log("socket", Esocket);
  
     const message = ""
@@ -319,7 +319,16 @@ function MessengerChat(prop: messenger) {
           })}
           
           <div id='endMessageEmployee'  className="w-100 float-end"></div>
-          {isLoading?(<Spinner animation="grow" size="sm" />):''}
+          {isLoading?( <Button variant="primary" disabled className="float-end">
+        <Spinner
+          as="span"
+          animation="grow"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        />
+        Đang kết nối server...
+      </Button> ):''}
         </div>
          
         {/* body */}
