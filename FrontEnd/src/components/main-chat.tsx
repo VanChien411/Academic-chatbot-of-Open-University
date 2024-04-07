@@ -93,7 +93,7 @@ function MainChat({ messages }: messages) {
   // Sử dụng dataMainChat để truyền vào props của Chatbox
   return (
     <>
-    <div >
+    <div className="px-3 " style={{paddingTop:'10px'}}>
       {dataMainChat.user && (
         <>{isLoading? (<div className="btn btn-primary">
            <Spinner
@@ -141,10 +141,10 @@ function MainChat({ messages }: messages) {
                   <div>
                    
                   </div>
-                  <div className="my-4">
+                  <div className=" p-0 " style={{marginTop:'80px'}} >
                     <img
                       src="../images/bodyOU.png"
-                      width="400px"
+                      width="350px"
                       height="250px"
                       alt="Body Image"
                     ></img>

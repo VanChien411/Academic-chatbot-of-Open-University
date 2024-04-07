@@ -64,7 +64,7 @@ export default function RootLayout({
           
           {/* body */}
           <div
-            style={{ height: "100%", borderColor:'black' , boxShadow:" 2px 2px 4px rgba(0, 0, 0, 0.3)"}}
+            style={{ height: "100%", borderColor:'black' , boxShadow:" 2px 2px 2px 2px rgba(0, 0, 0, 0.3)"}}
             className="center bg-white w-100 container  p-0 "
           >
             <Tab.Container id="left-tabs-example" defaultActiveKey="data-statistics">

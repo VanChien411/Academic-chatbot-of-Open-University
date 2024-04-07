@@ -9,7 +9,7 @@
 /**  STYLE 4 */
 .scrollbarHidden::-webkit-scrollbar {
   overflow: auto;
-  width: 3px; /* Độ rộng của thanh cuộn */
+  width: 1px; /* Độ rộng của thanh cuộn */
   height: 1px; /* Chiều cao của thanh cuộn */
 }
 .scrollbarHidden::-webkit-scrollbar-thumb {

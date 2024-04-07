@@ -71,7 +71,7 @@ function Chatbox(prop: messenger, props: any) {
   );
 
   const popoverComment = (
-    <Popover id="popover-comment" >
+    <Popover id="popover-comment" className="w-100">
       <Popover.Header as="h3">Đánh giá câu trả lời</Popover.Header>
       <Popover.Body>
       <Form>
@@ -172,13 +172,13 @@ function Chatbox(prop: messenger, props: any) {
 
                   <OverlayTrigger
                     trigger="click"
-                    placement="right"
+                    placement="bottom-start"
                     show = {isOnComment} 
                     overlay={popoverComment}
                     
                   >
                    
-                        <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3`}>
+                        <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3 `}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="25"

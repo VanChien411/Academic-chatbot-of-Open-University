@@ -256,7 +256,7 @@ function ChatPage(prop: any) {
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
-          <Row>
+          <Row className=" ">
           <div
             style={{ fontSize: "25px", overflow: "hidden" }}
             className=" text-center center bg-black text-bg-dark  w-100  "
@@ -267,11 +267,15 @@ function ChatPage(prop: any) {
                   textAlign: "left",
                   marginLeft: "0",
                   marginRight: "10px",
+                  
+                  position:showSideBar?'inherit':'absolute',
+                  left:"19px",
+                  top:'5px'
                 }}
                 className=""
               >
                 <button
-                  className="btn btn-primary "
+                  className="btn text-white "
                   onClick={() => setShowSideBar(!showSideBar)}
                 >
                   <svg
@@ -289,9 +293,9 @@ function ChatPage(prop: any) {
             ) : (
               ""
             )}
-            <b className={`${showSideBar && isColHidden ? "d-none" : ""}`}>
-              Chào mừng bạn đến với chatbot OU
-            </b>
+            <div className={`${showSideBar && isColHidden ? "d-none" : ""} py-2`}>
+              Chatbot OU
+            </div>
           </div>
           </Row>
          
@@ -341,6 +345,7 @@ function ChatPage(prop: any) {
                     status={statusSearch}
                     getValueS={handleSearch}
                   ></Search>
+                  {/* <div>sfef</div> */}
                 </div>
               </div>
             </Col>

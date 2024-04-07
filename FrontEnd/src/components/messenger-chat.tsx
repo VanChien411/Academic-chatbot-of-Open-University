@@ -5,7 +5,7 @@ import Search from "@/components/search";
 import * as api from "@/utils/api";
 import { Trykker } from "next/font/google";
 import * as url from "@/env/env"
-import * as style1 from '@/styles/main.module.css'
+import Spinner from 'react-bootstrap/Spinner';
 interface messenger {
   username: string;
   chat_employee?: model1.ChatWithEmloyee[]; // Corrected spelling here
@@ -22,7 +22,11 @@ function MessengerChat(prop: messenger) {
   );
   const [emloyee, setEmloyee] = useState(false);
   const handleSearch = async (value: string) => {
+
+    scrollToBottom()
     sendMessage(value);
+
+
   };
 
 
@@ -31,6 +35,7 @@ function MessengerChat(prop: messenger) {
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
+  const [isLoading, setIsLoading] = useState(false)
   const getChatEmloyeesUser = async(user_id:number)=>{
     try {
       const c = await api.getChatEmloyeesUser(user_id)
@@ -49,11 +54,12 @@ function MessengerChat(prop: messenger) {
       scrollToBottom();
       console.log("call scroll");
     }, 100); // Gọi sau khi render
-  },[listMessage])
+  },[listMessage, isLoading])
   useEffect(() => {
-
+    scrollToBottom();
+    setIsLoading(true)
     const user_id = prop.user_id; // Thay prop.params.id bằng cách lấy user_id từ props của bạn
-    
+    console.log('user_id roket',user_id)
     if(user_id == 0){
       setEmloyee((prev) => true);  console.log('0sfe',user_id);
       getChatEmloyeesUser(prop.friend_id);
@@ -62,12 +68,15 @@ function MessengerChat(prop: messenger) {
     else{
       getChatEmloyeesUser(user_id);
     }
-   
+
     const newSocket = new WebSocket(`${url.SERVER_WEBSOCKET}`);
     newSocket.onopen = () => {
+      
       console.log("Connected to WebSocket server");
       sendMessageSocket(newSocket)
+     setIsLoading(false)
     };
+   
     newSocket.onmessage = (event) => {
       console.log(event);
       const message = JSON.parse(event.data);
@@ -96,6 +105,7 @@ function MessengerChat(prop: messenger) {
       // setReceivedMessages(prevMessages => [...prevMessages, message]);
       setListMessage((prevMessages) => [...prevMessages, item]);
     };
+    
       }
       
 
@@ -122,6 +132,7 @@ function MessengerChat(prop: messenger) {
     console.log("message", message.trim());
 
     if (socket && socket.readyState === WebSocket.OPEN) {
+
       const data = {
         user_id: prop.user_id.toString(),
         message: message,
@@ -147,6 +158,7 @@ function MessengerChat(prop: messenger) {
   };
 
   const sendMessageSocket = (Esocket: WebSocket) => {
+   
     console.log("socket", Esocket);
  
     const message = ""
@@ -169,6 +181,7 @@ function MessengerChat(prop: messenger) {
       console.log("sf1");
     }
     console.log("sqưef");
+   
 
   };
   function scrollToBottom() {
@@ -203,7 +216,7 @@ function MessengerChat(prop: messenger) {
     <>
       <div
         style={{ width: "300px", height: "400px", borderColor: "black", backgroundColor:"#E0E0E0" }}
-        className="rounded-2 mx-2 border-2 position-relative"
+        className="rounded-2 mx-2 border-2 position-relative shadow"
       >
         <Row
           style={{ height: "50px", marginLeft: "0px" }}
@@ -238,7 +251,7 @@ function MessengerChat(prop: messenger) {
           style={{
             width: "100%",
             height: "280px",
-           
+           overflowY:'auto',
             backgroundColor: "#E0E0E0",
           }}
           className={` px-3`}
@@ -304,8 +317,9 @@ function MessengerChat(prop: messenger) {
               </>
             );
           })}
-         
+          
           <div id='endMessageEmployee'  className="w-100 float-end"></div>
+          {isLoading?(<Spinner animation="grow" size="sm" />):''}
         </div>
          
         {/* body */}

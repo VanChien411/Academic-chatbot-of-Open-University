@@ -8,8 +8,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 interface SearchProps {
   getValueS?: (value: string) => void;
-  status:boolean
-}
+  status:boolean;
+};
 
 function  Search({ getValueS ,status}: SearchProps){
   const [valueS, setValueS]= useState<string>()
