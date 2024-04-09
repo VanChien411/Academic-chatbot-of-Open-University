@@ -6,6 +6,7 @@ import ChartBar from "./chart-bar";
 import ChartPolar from "./chart-polar";
 import * as api from "@/utils/api";
 import * as model1 from "@/models/all";
+
 function DataStatistics(props: any) {
   const [allMessage, setAllMessage] = useState<model1.Message[]>();
   const [data1, setData1] = useState(Array.from({ length: 3 }, () => 0));

@@ -11,92 +11,88 @@ import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import Spinner from "react-bootstrap/Spinner";
-import * as style1 from '@/styles/main.module.css';
+import * as style1 from "@/styles/main.module.css";
 
 import MessengerChat from "@/components/messenger-chat";
-import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
+import { useAppDispatch, useAppSelector } from "@/redux/store"; // Import hooks từ store.ts
 
-import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
-import { fetchUser } from '@/reducer/userSlice';
+import { fetchUserStart } from "@/reducer/userSlice"; // Import action từ userSlice.ts
+import { fetchUser } from "@/reducer/userSlice";
 // Định nghĩa kiểu dữ liệu cho các sự kiện
 interface MyEvents {
   valueChange?: [(newValue: string) => void];
   [key: string]: any; // Index signature cho kiểu string
   changeSession: () => void;
-  showEmloyeeMessager: ()=> void;
+  showEmloyeeMessager: () => void;
 }
 function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userL, setUserL] = useState<IUser>()
-   
+  const [userL, setUserL] = useState<IUser>();
+
   const dispatch = useAppDispatch();
   // const user1 = useAppSelector((state) => state.user.user);
   const loading = useAppSelector((state) => state.user.loading);
   const error = useAppSelector((state) => state.user.error);
 
-
-  
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async (user_id: number) => {
-        const arrSession = await api.getAllSessionUser(user_id);
-        setSessions(arrSession);
-        console.log("arrS", arrSession);
-        if (arrSession.length !== 0) {
-            const currentPath = window.location.pathname;
-            console.log("địa chỉ", arrSession);
-            if (
-                !currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)
-            ) {
-                console.log("routersidebar");
-                router.push(`/chat-page/${arrSession[0]["session_id"]}`);
-            }
-        } else if (arrSession) {
-            try {
-                const session = await createSession(); // Tạo phiên mới
-            } catch (error) {
-                console.error("Error creating session:", error);
-            }
+      const arrSession = await api.getAllSessionUser(user_id);
+      setSessions(arrSession);
+      console.log("arrS", arrSession);
+      if (arrSession.length !== 0) {
+        const currentPath = window.location.pathname;
+        console.log("địa chỉ", arrSession);
+        if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
+          console.log("routersidebar");
+          router.push(`/chat-page/${arrSession[0]["session_id"]}`);
         }
+      } else if (arrSession) {
+        try {
+          const session = await createSession(); // Tạo phiên mới
+        } catch (error) {
+          console.error("Error creating session:", error);
+        }
+      }
     };
 
     const fetchDataAndUpdateUser = async () => {
-        try {
-            const user = await get_user_info();
-            setUserL(user);
-            console.log('userrrrr', user);
-            if (user && "user_id" in user) {
-                fetchData(user["user_id"] as number);
-                console.log("loginsession");
-            }
-        } catch (error) {
-            console.log('Error:', error);
+      try {
+        const user = await get_user_info();
+        setUserL(user);
+        console.log("userrrrr", user);
+        if (user && "user_id" in user) {
+          fetchData(user["user_id"] as number);
+          console.log("loginsession");
         }
+      } catch (error) {
+        console.log("Error:", error);
+      }
     };
 
     fetchDataAndUpdateUser();
-}, []); // Thêm mảng dependencies rỗng để chỉ chạy useEffect một lần khi component mount
+  }, []); // Thêm mảng dependencies rỗng để chỉ chạy useEffect một lần khi component mount
 
-async function get_user_info() {
+  async function get_user_info() {
     try {
-        const user = await api.get_user_info2();
-        if (user) {
-            console.log('u',user);
-            setIsMounted(true);
-            return user;
-        }
-        return null;
+      const user = await api.get_user_info2();
+      if (user) {
+        console.log("u", user);
+        setIsMounted(true);
+        return user;
+      }
+      return null;
     } catch (error) {
-        console.log('Error:', error);
-        // Handle error if necessary
-        return null;
+      console.log("Error:", error);
+      // Handle error if necessary
+      return null;
     }
-}
+  }
 
   const getDate = () => {
     const date = new Date();
@@ -124,10 +120,10 @@ async function get_user_info() {
   };
   const createSession = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const user = await userL; // Corrected to call the function
       if (user) {
-        setUserL(user)
+        setUserL(user);
         // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
         if ("user_id" in user) {
           const newDate = getDate();
@@ -141,16 +137,13 @@ async function get_user_info() {
           session_id ? router.push(`/chat-page/${session_id}`) : "";
         }
       }
-      return user
-     
+      return user;
     } catch (error) {
-      console.log('Error:', error);
+      console.log("Error:", error);
       // Handle error if necessary
     }
-   
-    setIsLoading(false)
-    
- 
+
+    setIsLoading(false);
   };
 
   const updateSession = async (session: model1.Session) => {
@@ -168,7 +161,7 @@ async function get_user_info() {
   };
 
   const handleSelectSession = async (session: model1.Session) => {
-    setIsLoading(true)
+    setIsLoading(true);
     session.end_time = getDate();
     try {
       const s = await updateSession(session); // Chờ cho updateSession hoàn thành
@@ -178,26 +171,31 @@ async function get_user_info() {
     } catch (error) {
       console.error("Error updating session:", error);
     }
-    setIsLoading(false)
-
+    setIsLoading(false);
   };
   return (
     <>
       <div
-        style={{ width: "100%", height: "100%",  }}
+        style={{ width: "100%", height: "100%" }}
         className={"  p-0 position-relative bg-dark "}
       >
         <div
-          style={{ width: "91%", marginLeft: "40px" , height:'45px',margin:'auto', paddingLeft:'20px'}}
+          style={{
+            width: "91%",
+            marginLeft: "40px",
+            height: "45px",
+            margin: "auto",
+            paddingLeft: "20px",
+          }}
           className="position-absolute btn btn-outline-light top-2 m-3 "
           onClick={createSession}
         >
           <b>New chat</b>
         </div>
-   
+
         <div
           style={{
-            overflow: 'auto',
+            overflow: "auto",
             textAlign: "left",
             height: "calc(100% - 200px)",
           }}
@@ -215,7 +213,7 @@ async function get_user_info() {
             ) : (
               ""
             )}
-             <div className="m-3"></div>
+            <div className="m-3"></div>
             {sessions?.map((session: model1.Session, index: number) => {
               {
                 if (index == 0) {
@@ -241,7 +239,6 @@ async function get_user_info() {
                 }
               }
             })}
-          
 
             {/* <NewSession status={true} name="sefef"></NewSession>
           <NewSession status={true} name="sefef"></NewSession>
@@ -254,14 +251,26 @@ async function get_user_info() {
         </div>
 
         <div
-          style={{ height: "200px", width: "100%" }}
+          style={{ height: "250px", width: "100%" }}
           className=" position-absolute bottom-0 bg-black"
         >
           <hr></hr>
-          <div style={{color:'white'}} className="w-100 btn btn-outline-dark  border-0 text-start px-5 " 
-          // variant="light"
-           onClick={showEmloyeeMessager}>
-            
+          <div
+            // variant="dark"
+            onClick={() => router.push("/information-page")}
+            className="w-100 border-0 btn btn-outline-dark  text-start px-5"
+            style={{ color: "white" }}
+          >
+            <img width="40px" src="../images\document.png"></img>
+
+            <b className="mx-2">&nbsp;Tiện ích</b>
+          </div>
+          <div
+            style={{ color: "white" }}
+            className="w-100 btn btn-outline-dark  border-0 text-start px-5 "
+            // variant="light"
+            onClick={showEmloyeeMessager}
+          >
             <img width="40px" src="../images\support.png"></img>
 
             <b className="mx-1"> &nbsp;Hỗ trợ SV</b>
@@ -272,23 +281,23 @@ async function get_user_info() {
             // variant="dark"
             onClick={() => router.push("/chat-support-gpt")}
             className="w-100 border-0 btn btn-outline-dark  text-start px-5"
-            style={{color:'white'}}
+            style={{ color: "white" }}
           >
             <img width="40px" src="../images\chatgpticon.png"></img>
 
-            <b className="mx-2">Chat Gpt</b>
+            <b className="mx-2">&nbsp;Chat Gpt</b>
           </div>
 
           <div className="position-absolute bottom-0 w-100">
-          <Button
-            // variant="primary"
-            onClick={() => router.push("/login")}
-            className="w-100 border-0 text-start px-5"
-          >
-            <img width="35px" src="../images\logout.png"></img>
+            <Button
+              // variant="primary"
+              onClick={() => router.push("/login")}
+              className="w-100 border-0 text-start px-5"
+            >
+              <img width="35px" src="../images\logout.png"></img>
 
-            <b className="mx-2">Đăng xuất</b>
-          </Button>
+              <b className="mx-2">Đăng xuất</b>
+            </Button>
 
             {/* <Login user={api.getDataFromLocal("user")}></Login> */}
           </div>

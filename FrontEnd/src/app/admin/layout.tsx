@@ -16,6 +16,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Tab from 'react-bootstrap/Tab';
 const inter = Inter({ subsets: ["latin"] });
 import Container from 'react-bootstrap/Container';
+import * as style1 from '@/styles/main.module.css';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +26,8 @@ export default function RootLayout({
   const [listMessageUser, setListMessageUser] = useState<IUser[]>([]);
   const handleCloseMessage = () => {};
   const handleDataFromChild = (user: IUser) => {
-    setListMessageUser((prev) => [...prev, user]);
+    !listMessageUser.some(item => item.user_id === user.user_id)?
+    setListMessageUser((prev) => [...prev, user]):''
     // return(
     //   <>
     //   {user.user_id?(
@@ -87,7 +90,8 @@ export default function RootLayout({
               <Col style={{ width: "100%" }} className="p-0 position-relative">
                 <div
                   style={{ height: "600px", overflowY: "auto" }}
-                  className=" w-100 m-5  "
+                 
+                  className={`${(style1 as any).scrollbarHidden} w-100 m-5  `}
                 >
                   {/* điểm chuyển trang */}
                   {/* <Messenger onSendData={handleDataFromChild}></Messenger> */}

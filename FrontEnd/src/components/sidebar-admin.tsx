@@ -25,8 +25,9 @@ function SideBarAdmin() {
 
       <Row>
         <Col sm={0} >
+         
           <Nav variant="pills" className="flex-column" >
-            <Nav.Item className="mb-1">
+            <Nav.Item className="mb-1 py-1">
               <Nav.Link eventKey="list-user">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +43,7 @@ function SideBarAdmin() {
                 
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item className="mb-1">
+            <Nav.Item className="mb-1 py-1">
               <Nav.Link eventKey="add-file-chatbot">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +59,27 @@ function SideBarAdmin() {
                 &nbsp;Thêm dữ liệu vào bot
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item className="mb-1">
+            <Nav.Item className="mb-1 py-1">
+              <Nav.Link eventKey="data-statistics">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-bar-chart-line"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
+                </svg>
+                &nbsp; Thống kê dữ liệu
+              </Nav.Link>
+            </Nav.Item>
+            <div className="container">
+            <hr></hr>
+            <div className="opacity-50 text-primary"><b>THÔNG TIN</b></div>
+          </div>
+          
+          <Nav.Item className="mb-1 py-1">
               <Nav.Link eventKey="data-statistics">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,6 +95,7 @@ function SideBarAdmin() {
               </Nav.Link>
             </Nav.Item>
           </Nav>
+         
         </Col>
       </Row>
     </>

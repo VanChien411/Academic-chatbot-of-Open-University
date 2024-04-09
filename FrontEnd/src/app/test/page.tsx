@@ -1,54 +1,38 @@
 'use client'
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/redux/store'; // Import hooks từ store.ts
+import React, { ChangeEvent, useState } from 'react';
 
-import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
-import { fetchUser } from '@/reducer/userSlice';
-import * as api from '@/utils/api'
-const Sidebar = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
-  const loading = useAppSelector((state) => state.user.loading);
-  const error = useAppSelector((state) => state.user.error);
+const ImageUploader: React.FC = () => {
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
-  const handleFetchUser = () => {
-    dispatch(fetchUser());
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-    const get_user_info = async () => {
-      try {
-        const user = await api.get_user_info2(); // Corrected to call the function
-        console.log("User:", user);
-      } catch (error) {
-        console.log('Error:', error);
-        // Handle error if necessary
-      }
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      console.log(reader)
+      reader.readAsDataURL(file);
     }
-    
-    get_user_info();
- 
   };
 
-  useEffect(()=>{
-    
-
-    console.log("redux",user?.password)
-  },[])
   return (
-    <div className="sidebar">
-      <button onClick={handleFetchUser}>Fetch User</button>
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error: {error}</div>
-      ) : (
-        <div>
-          {/* Hiển thị thông tin user */}
-          {/* {/* <h1>User Name: {user?.name}</h1> */}
-          <p>Email: {user?.password}</p> 
-        </div>
+    <div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+      />
+      {image && (
+        <img
+          src={image as string}
+          alt="Preview Image"
+          style={{ maxWidth: '300px', maxHeight: '300px' }}
+        />
       )}
     </div>
   );
 };
 
-export default Sidebar;
+export default ImageUploader;

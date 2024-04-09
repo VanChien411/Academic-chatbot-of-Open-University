@@ -24,19 +24,19 @@ function Messenger(props: any) {
   return (
     <>
     
-    <h3 className="position-absolute top-0 opacity-75" style={{margin:'20px 0'}}>Danh sách các user</h3>
+    <h3 className="position-absolute top-0 " style={{margin:'20px 0'}}>Danh sách các user</h3>
    <br></br>
-      <Table striped hover >
-        <thead className="bg-primary " style={{    position:'sticky',
+      <Table  hover className="rounded-2  bg-light" style={{borderRadius:'200px'}} >
+        <thead className="bg-primary " style={{   position:'sticky',
   top:' 0'}}>
-          <tr>
-            <th className="bg-primary">#</th>
-            <th className="bg-primary">Tên Đăng Nhập</th>
-            <th className="bg-primary">Chat</th>
-            <th className="bg-primary">Username</th>
+          <tr >
+            <th className="bg-primary text-white">#</th>
+            <th className="bg-primary text-white">Tên Đăng Nhập</th>
+            <th className="bg-primary text-white">Chat</th>
+            <th className="bg-primary text-white">Username</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="opacity-75">
           {users?.map((item: Iuser, index: number) => {
             return (
               

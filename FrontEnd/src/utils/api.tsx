@@ -5,6 +5,7 @@ import useSWR, { mutate } from "swr";
 import * as model1 from "@/models/all";
 import { client } from "@gradio/client";
 import axios from 'axios';
+import IUser from "@/models/user";
 
 
 export const fetcher = async (url: string) => {
@@ -187,6 +188,45 @@ export const get_user_info2 = async () => {
   }
 };
 
+
+
+export const updateUser = async (data:IUser) => {
+  try {
+    const token = getDataFromLocal('token');
+    if (!token) {
+      throw new Error("Token is missing");
+    }
+    console.log('data', data)
+    const response = await fetch(`${API_BASE_URL}/users/${data.user_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user info");
+    }
+
+    const user = await response.json();
+    console.log("User info:", user);
+    return user;
+  } catch (error) {
+    console.error("Error:", error);
+    return ; // Trả về đối tượng rỗng nếu có lỗi
+  }
+};
+
+// UPDATE user 
+// SET username='john_doe edit', 
+//     password='password123', 
+//     full_name='John Doe', 
+//     email='john@example.com', 
+//     status=1, 
+//     img='https://th.bing.com/th/id/OIP.Iy0tmJanZeN5ceMP5uToLQAAAA?&w=160&h=240&c=7&dpr=1.3&pid=ImgDet', 
+//     role_id=1 
+// WHERE user_id=2;
 
 export const createSession = async (data: any) => {
   try {
