@@ -7,7 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-
+import { useRouter } from "next/navigation";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import StatisticsStudent from "@/components/statistics-student";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ import TradeProgram from "@/components/tradingProgram/page-trade-program";
 function PageInformation() {
     const [isHiddenSidebar, setIsHiddenSidebar] = useState(false)
     const [isSidebarInSmall, setIsInSmall] = useState(false)
-
+    const router = useRouter();
 
     useEffect(() => {
         // console.log("shareside", sharedData)
@@ -53,7 +53,8 @@ function PageInformation() {
                   <div style={{ width: "250px", zIndex:'1' }} className={`bg-light p-0 ${isSidebarInSmall?'position-absolute':''}  float-start `}>
                   <div
                     className="d-flex justify-content-center align-items-center  position-relative"
-                    style={{ height: "70px" }}
+                    style={{ height: "70px", fontSize:'30px' }}
+                    onClick={()=>router.push('/chat-page')}
                   >
                     Trang chu
                    {isSidebarInSmall &&(
@@ -134,7 +135,7 @@ function PageInformation() {
                   </svg>
                 </div>
                 </Navbar.Brand>
-                  <Navbar.Brand href="#"> Chatbot OU</Navbar.Brand>
+                  <Navbar.Brand onClick={()=>router.push('/chat-page')}> Chatbot OU</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                   <Nav
@@ -142,7 +143,7 @@ function PageInformation() {
                     style={{ maxHeight: "100px" }}
                     navbarScroll
                   >
-                    <Nav.Link href="#action1">Home</Nav.Link>
+                    {/* <Nav.Link href="#action1">Home</Nav.Link>
                     <Nav.Link href="#action2">Link</Nav.Link>
                     <NavDropdown title="Link" id="navbarScrollingDropdown">
                       <NavDropdown.Item href="#action3">
@@ -158,7 +159,7 @@ function PageInformation() {
                     </NavDropdown>
                     <Nav.Link href="#" disabled>
                       Link
-                    </Nav.Link>
+                    </Nav.Link> */}
                   </Nav>
                   <Form className="d-flex">
                     <Form.Control

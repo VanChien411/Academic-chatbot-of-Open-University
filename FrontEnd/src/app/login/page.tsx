@@ -49,7 +49,7 @@ function Login() {
 
   const handleLogin = async () => {
     setIsLoading(true);
-    console.log("l");
+    // console.log("l");
     if (!userName || !password) {
       console.error("Vui lòng nhập tên người dùng và mật khẩu.");
       setDataAlert("Vui lòng nhập tên người dùng và mật khẩu.");
@@ -59,15 +59,15 @@ function Login() {
     }
 
     const userData = { username: userName, password: password };
-    console.log(userData);
+    // console.log(userData);
 
     try {
       const r = await api.login(userData);
-      console.log("r", r);
-
+      // console.log("r", r);
+// 
       if (!r.error) {
         const user = await api.get_user_info(r["access_token"]);
-        console.log("user", user);
+        // console.log("user", user);
 
         // api.saveDataToLocal("user", user);
         // api.removeDataFromLocal('token');

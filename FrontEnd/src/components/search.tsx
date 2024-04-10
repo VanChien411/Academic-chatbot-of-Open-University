@@ -18,7 +18,7 @@ function  Search({ getValueS ,status}: SearchProps){
     
     if (event.key === 'Enter') {
       // Người dùng đã nhập Enter
-      console.log('Enter đã được ấn');
+      // console.log('Enter đã được ấn');
       getValue()
       // Thực hiện các hành động cần thiết khi người dùng nhập Enter
     }

@@ -27,7 +27,7 @@ function Login() {
    
     if (userName == "" || password == "" || rePassword == "") {
       setDataAlert("Cần nhập đầy đủ thông tin"), setShowAlert(true);
-      console.log('u',userName,'p',password,'re',rePassword)
+      // console.log('u',userName,'p',password,'re',rePassword)
     } else {
       setIsLoading(true)
       const userData = { username: userName, password: password };
@@ -38,7 +38,7 @@ function Login() {
         r.error
           ? (setDataAlert(r.error.message), setShowAlert(true))
           : (await r) && router.push("/login");
-        console.log("r", r);
+        // console.log("r", r);
       } else {
         setDataAlert("Mật khẩu cần trùng khớp"), setShowAlert(true);
         // Nếu mật khẩu và mật khẩu nhập lại không khớp nhau

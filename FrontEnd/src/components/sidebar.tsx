@@ -44,12 +44,12 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     const fetchData = async (user_id: number) => {
       const arrSession = await api.getAllSessionUser(user_id);
       setSessions(arrSession);
-      console.log("arrS", arrSession);
+      // console.log("arrS", arrSession);
       if (arrSession.length !== 0) {
         const currentPath = window.location.pathname;
-        console.log("địa chỉ", arrSession);
+        // console.log("địa chỉ", arrSession);
         if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
-          console.log("routersidebar");
+          // console.log("routersidebar");
           router.push(`/chat-page/${arrSession[0]["session_id"]}`);
         }
       } else if (arrSession) {
@@ -65,10 +65,10 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
       try {
         const user = await get_user_info();
         setUserL(user);
-        console.log("userrrrr", user);
+        // console.log("userrrrr", user);
         if (user && "user_id" in user) {
           fetchData(user["user_id"] as number);
-          console.log("loginsession");
+          // console.log("loginsession");
         }
       } catch (error) {
         console.log("Error:", error);
@@ -82,13 +82,13 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     try {
       const user = await api.get_user_info2();
       if (user) {
-        console.log("u", user);
+        // console.log("u", user);
         setIsMounted(true);
         return user;
       }
       return null;
     } catch (error) {
-      console.log("Error:", error);
+      // console.log("Error:", error);
       // Handle error if necessary
       return null;
     }
@@ -106,7 +106,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     // Định dạng thời gian cho MySQL
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
+    // console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
 
     return formattedDate;
   };
@@ -150,7 +150,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     setIsLoading(true);
     try {
       const s = await api.updateSession(session);
-      console.log("put", session);
+      // console.log("put", session);
       setIsLoading(false);
       return s;
     } catch (error) {
@@ -166,7 +166,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
     try {
       const s = await updateSession(session); // Chờ cho updateSession hoàn thành
       // Chỉ chuyển hướng khi không có lỗi xảy ra
-      console.log("updateS", s);
+      // console.log("updateS", s);
       s ? router.push(`/chat-page/${session.session_id}`) : "";
     } catch (error) {
       console.error("Error updating session:", error);

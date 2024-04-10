@@ -34,7 +34,7 @@ function ChatPage() {
   const get_user_info = async () => {
     try {
       const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-      console.log(user); // In ra để kiểm tra dữ liệu user
+      // console.log(user); // In ra để kiểm tra dữ liệu user
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
       if (!user) {
         router.push("/login");
@@ -74,25 +74,25 @@ function ChatPage() {
   }, []);
 
   useEffect(() => {
-    console.log("cha");
+    // console.log("cha");
 
     const getAllMessageSession = async () => {
       try {
-        console.log("messages ");
+        // console.log("messages ");
         const session_id = api.getDataFromLocal("session_id");
         const user = api.getDataFromLocal("user");
         !user ? router.push("/login") : "";
 
         const sessions = await api.getAllMessageSession(session_id);
         setMessages(sessions);
-        console.log("messages ", sessions);
+        // console.log("messages ", sessions);
       } catch (error) {
         console.error("Error:", error);
 
         return []; // Trả về một mảng trống nếu có lỗi xảy ra
       }
     };
-    console.log("messages 2");
+    // console.log("messages 2");
     // getAllMessageSession();
   }, [refresh]);
 
@@ -108,7 +108,7 @@ function ChatPage() {
     // Định dạng thời gian cho MySQL
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
+    // console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
 
     return formattedDate;
   };
@@ -153,7 +153,7 @@ function ChatPage() {
         setMessages([...messages, message]);
 
         await api.createMessage(message);
-        console.log("search", value);
+        // console.log("search", value);
       } else {
         // Nếu giá trị không phải kiểu string, xử lý theo trường hợp tương ứng
         console.error("Error: Response is not a string");

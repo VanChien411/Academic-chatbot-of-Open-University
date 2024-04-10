@@ -32,7 +32,7 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
     const get_user_info = async () => {
       try {
         const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-        console.log(user); // In ra để kiểm tra dữ liệu user
+        // console.log(user); // In ra để kiểm tra dữ liệu user
         // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
         if(user){
           setUser(user)
@@ -94,7 +94,7 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
     // Định dạng thời gian cho MySQL
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
+    // console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
 
     return formattedDate;
   };
@@ -124,7 +124,7 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
     setIsLoading(true);
     try {
       const s = await api.updateSession(session);
-      console.log("put", session);
+      // console.log("put", session);
       setIsLoading(false);
       return s;
     } catch (error) {
@@ -139,7 +139,7 @@ function SideBarNoSession( {showEmloyeeMessager}:MyEvents) {
     try {
       const s = await updateSession(session); // Chờ cho updateSession hoàn thành
       // Chỉ chuyển hướng khi không có lỗi xảy ra
-      console.log("updateS", s);
+      // console.log("updateS", s);
       s ? router.push(`/chat-page/${session.session_id}`) : "";
     } catch (error) {
       console.error("Error updating session:", error);

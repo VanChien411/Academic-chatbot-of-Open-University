@@ -78,7 +78,7 @@ function ChatPage(prop: any) {
   const get_user_info = async () => {
     try {
       const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-      console.log(user); // In ra để kiểm tra dữ liệu user
+      // console.log(user); // In ra để kiểm tra dữ liệu user
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
       if(!user){
         router.push('/login')
@@ -108,8 +108,8 @@ function ChatPage(prop: any) {
   }, []);
 
   useEffect(() => {
-    console.log("cha");
-    console.log(prop.params.session_id);
+    // console.log("cha");
+    // console.log(prop.params.session_id);
     const getAllMessageSession = async () => {
       try {
         const session_id = prop.params.session_id;
@@ -123,7 +123,7 @@ function ChatPage(prop: any) {
         return []; // Trả về một mảng trống nếu có lỗi xảy ra
       }
     };
-    console.log("messages 2");
+    // console.log("messages 2");
     getAllMessageSession();
   }, [refresh]);
 
@@ -139,7 +139,7 @@ function ChatPage(prop: any) {
     // Định dạng thời gian cho MySQL
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
+    // console.log(formattedDate); // In ra: "2024-03-02 22:12:39"
 
     return formattedDate;
   };
@@ -164,10 +164,10 @@ function ChatPage(prop: any) {
 
   // Hàm để cuộn scroll đến cuối thẻ
   const scrollToBottom = () => {
-    console.log('toBottom','sfef');
+    // console.log('toBottom','sfef');
 
     const element = document.getElementById("endCroll");
-    console.log('toBottom',element);
+    // console.log('toBottom',element);
     if (element) {
       element.scrollIntoView({
         behavior: "smooth",
@@ -218,14 +218,14 @@ function ChatPage(prop: any) {
           question_time: qe_time,
         };
 
-        console.log("answer", answer);
+        // console.log("answer", answer);
        
 
         const data = await api.createMessage(message);
         message.qa_id = data.qa_id
          // Thêm message mới vào danh sách messages
          setMessages([...messages, message]);
-        console.log("search", value);
+        // console.log("search", value);
       } else {
         // Nếu giá trị không phải kiểu string, xử lý theo trường hợp tương ứng
         console.error("Error: Response is not a string");
@@ -236,7 +236,7 @@ function ChatPage(prop: any) {
     setStatusSearch(true);
   };
   const handleCloseMessage =()=>{
-    console.log("close m")
+    // console.log("close m")
       setIsShowChatEmloyee(false)
   }
   const handleMessage =()=>{
