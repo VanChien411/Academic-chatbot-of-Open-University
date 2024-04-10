@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import randomColor from 'randomcolor';
 
 interface scoreForYear {
-  maNganh: string;
-  nganh: string;
-  diemChuan: number[];
+  id_career: string;
+  name: string;
+  score: number[];
 }
 interface ChartData {
   data: scoreForYear[]; // Kiểu dữ liệu của dữ liệu
@@ -43,8 +43,8 @@ function ChartScore(props: ChartData) {
         labels: labels,
         datasets: data.map(item => {
           return {
-              label: item.nganh,
-              data: item.diemChuan, // Đây là dữ liệu mẫu, bạn cần thay thế bằng dữ liệu thực từ item
+              label: item.name,
+              data: item.score, // Đây là dữ liệu mẫu, bạn cần thay thế bằng dữ liệu thực từ item
               fill: false,
               borderColor: generateRandomColor(),
               borderWidth: 4, // Độ dày của đường

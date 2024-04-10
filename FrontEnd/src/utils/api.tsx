@@ -519,3 +519,69 @@ export const getAllUser =async () => {
   }
 };
 
+
+export const createDataScore= async (message: model1.DataScore) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/data_scores`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+
+export const getScoreByYear =async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/objects_by_year`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getGPAScoreByYear =async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/objects_and_average_score_by_year`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    // year_data = {'year': year, 'objects': objects}
+    // year_data['average_score'] = average_scores.get(year, 0)
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};

@@ -7,8 +7,12 @@ import Score2022 from '@/components/score-2022'
 import Score2021 from '@/components/score-2021'
 
 import { useState } from 'react';
-import ChartsScore from './charts-score';
-function StatisticsStudent(){
+import CNTTProgram from './cntt-program';
+import QLCProgram from './qlc-program';
+import NNProgram from './nn-program';
+import QTKDProgram from './qtkd-program';
+
+function TradeProgram(){
     const [activeTab, setActiveTab] = useState('chart'); // Khoi tao tab ban dau la 'chart'
 
     const handleTabChange = (tabKey:any) => {
@@ -17,24 +21,25 @@ function StatisticsStudent(){
     
     return (<>
     <div className='p-3 shadow bg-white'>
-        <div className='m-3' style={{height:'30px'}}><strong>Tuyển sinh qua các năm </strong></div>
+        <div className='m-3' style={{height:'30px'}}><strong>Chương trình đào tạo của trường</strong></div>
         <Tab.Container id="left-tabs-example"  defaultActiveKey="chart">
         <Nav className='shadow bg-info text-white' justify variant="tabs" defaultActiveKey="chart" onSelect={handleTabChange}>
         <Nav.Item>
-          <Nav.Link eventKey="chart">Biểu đồ</Nav.Link>
+          <Nav.Link eventKey="chart">CNTT</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="score2023">Điểm 2023
+          <Nav.Link eventKey="QLC">QLC và KT
+       
+          </Nav.Link>
+         
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="NN">Ngoại Ngữ
            
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="score2022">Điểm 2022
-           
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="score2021">Điểm 2021
+          <Nav.Link eventKey="QTKD">QTKD
            
           </Nav.Link>
         </Nav.Item>
@@ -49,26 +54,26 @@ function StatisticsStudent(){
         <br></br>
         <TabPane eventKey="chart">
           {/* Nội dung cho tab Biểu đồ */}
-         <ChartsScore></ChartsScore>
+            <CNTTProgram></CNTTProgram>
         </TabPane>
-        <TabPane eventKey="score2023">
+        <TabPane eventKey="QLC">
           {/* Nội dung cho tab Option 2 */}
           <div>
-          <Score2023></Score2023>
+          <QLCProgram></QLCProgram>
             {/* Thêm nội dung cho Option 2 ở đây */}
           </div>
         </TabPane>
-        <TabPane eventKey="score2022">
+        <TabPane eventKey="NN">
           {/* Nội dung cho tab Option 2 */}
           <div>
-          <Score2022></Score2022>
+          <NNProgram></NNProgram>
             {/* Thêm nội dung cho Option 2 ở đây */}
           </div>
         </TabPane>
-        <TabPane eventKey="score2021">
+        <TabPane eventKey="QTKD">
           {/* Nội dung cho tab Option 2 */}
           <div>
-          <Score2021></Score2021>
+        <QTKDProgram></QTKDProgram>
             {/* Thêm nội dung cho Option 2 ở đây */}
           </div>
         </TabPane>
@@ -85,4 +90,4 @@ function StatisticsStudent(){
     </>)
 }
 
-export default StatisticsStudent
+export default TradeProgram

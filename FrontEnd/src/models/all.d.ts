@@ -42,4 +42,17 @@ export interface Role {
     user_id: number;
   }
 
+  export interface DataScore{
+    id_score? : number;
+    id_career : string;
+    score: number;
+    name: string;
+    id_faculty?: number;
+    year: number; 
+  }
+
+  export interface Faculty{
+    id_faculty?:number;
+    name: string;
+  }
   declare module 'websocket';
