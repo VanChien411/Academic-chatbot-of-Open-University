@@ -6,7 +6,12 @@ import * as score from "@/components/dataScore/dataScore";
 import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
 import ChartGPA from "./chart-GPA";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
+import Placeholder from "react-bootstrap/Placeholder";
+
+import InputGroup from "react-bootstrap/InputGroup";
+import React from "react";
+
 interface RowData {
   id_career: string;
   name: string;
@@ -25,19 +30,60 @@ interface checkYear {
   data: RowData[];
 }
 
+interface getSubVsAdGroup {
+  id_combination: string;
+  subjects: model1.AdmissionSubject[];
+}
+
+// Định nghĩa interface mới kế thừa từ interface ban đầu
+interface AdmissionSubjectHaveScore extends model1.AdmissionSubject {
+  // Thêm các thuộc tính mới
+  score: number;
+  // Và các thuộc tính khác bạn muốn thêm
+}
+
+interface dataScoreCombination extends model1.DataScore {
+  id_combination: string[];
+}
+
 function ChartsScore() {
   const [year, setYear] = useState<any>([]);
   const [subject, setSubject] = useState(Array.from({ length: 3 }, () => 0));
   const [scoreSubject, setScoreSubject] = useState<scoreForYear[]>([]);
-  const [gpaScore, setGpaScore] = useState([])
+  const [gpaScore, setGpaScore] = useState([]);
   const [selectedValue, setSelectedValue] = useState("0");
-
-  
-  const handleChange = (event:any) => {
+  const [selectedValue2, setSelectedValue2] = useState("0");
+  const [checkboxFullScore, setCheckboxFullScore] = useState(false);
+  const [AdmissionSubject, setArrAdmissionSubject] = useState<
+    AdmissionSubjectHaveScore[]
+  >([]);
+  const [
+    ArrSubjectCombinationVsAdmissionSubjectGroup,
+    setArrSubjectCombinationVsAdmissionSubjectGroup,
+  ] = useState<getSubVsAdGroup[]>([]);
+  const [dataScoreCombination, setDataScoreCombination] = useState<
+    dataScoreCombination[]
+  >([]);
+  const [yearAdmission, setYearAdmission] = useState<string>("0");
+  const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
     console.log("Selected value:", event.target.value);
     // Tại đây bạn có thể thực hiện các hành động khác với giá trị đã chọn
   };
+
+  // Hàm xử lý thay đổi score của mỗi phần tử
+  const handleScoreChangeAdmission = (index: number, event: any) => {
+    const newAdmissionSubjects = [...AdmissionSubject];
+    newAdmissionSubjects[index].score = event.target.value;
+    if (newAdmissionSubjects[index].score > 10) {
+      newAdmissionSubjects[index].score = 10;
+    } else if (newAdmissionSubjects[index].score < 0) {
+      newAdmissionSubjects[index].score = 0;
+    }
+    setArrAdmissionSubject(newAdmissionSubjects);
+    console.log("newAdmissionSubjects", newAdmissionSubjects);
+  };
+
   // const data2021: RowData[] = score.handleScore2021();
   // const data2022: RowData[] = score.handleScore2022();
   // const data2023: RowData[] = score.handleScore2023();
@@ -114,30 +160,38 @@ function ChartsScore() {
       });
     }
   };
-  const getGPAScoreByYear =async() =>{
-    const gpa = await api.getGPAScoreByYear()
-    const arrGpa:any = [ ]
+  const getGPAScoreByYear = async () => {
+    const gpa = await api.getGPAScoreByYear();
+    const arrGpa: any = [];
 
-    gpa.map(( item:any)=>{
-      arrGpa.push(item.average_score)
-    })
-    setGpaScore(arrGpa)
+    gpa.map((item: any) => {
+      arrGpa.push(item.average_score);
+    });
+    setGpaScore(arrGpa);
 
-    console.log('gpa', arrGpa)
-  }
+    console.log("gpa", arrGpa);
+  };
+
+  const get_data_score_and_combination_by_year = async (year: number) => {
+    const data = await api.get_data_score_and_combination_by_year(year);
+    setDataScoreCombination(data);
+    console.log("data", data);
+    return data;
+  };
+
   useEffect(() => {
     // const year = ["2023", "2022", "2021"];
 
     // setYear(year);
-
-   
-    getGPAScoreByYear()
+    getAllSubjectCombinationVsAdmissionSubjectGroup();
+    getAllAdmissionSubject();
+    getGPAScoreByYear();
     async function fetchData() {
       let arrInitCheck: checkYear[] = [];
-      let arrYear:any = [];
+      let arrYear: any = [];
       try {
         const tam: RowData[][] = await getScoreByYear();
-        console.log(tam)
+        console.log(tam);
         // Sau khi lấy được dữ liệu, bạn có thể xử lý nó theo cách bạn muốn ở đây
         tam.forEach((yearData: RowData[]) => {
           arrInitCheck.push({
@@ -145,12 +199,12 @@ function ChartsScore() {
             status: true,
             data: yearData,
           });
-          arrYear.push(yearData[0].year?.toString() as string)
+          arrYear.push(yearData[0].year?.toString() as string);
         });
 
         handleScore(tam);
         setCheckboxState(arrInitCheck);
-        setYear(arrYear)
+        setYear(arrYear);
         // console.log('2', [data2023,data2022,data2021])
 
         // console.log("tamuseE", tam);
@@ -253,6 +307,21 @@ function ChartsScore() {
     //   console.log(arr);
     setScoreSubject(arr);
   }
+
+  const getAllAdmissionSubject = async () => {
+    try {
+      const arr = await api.getAllAdmissionSubject();
+      setArrAdmissionSubject(arr);
+    } catch (error) {}
+  };
+
+  const getAllSubjectCombinationVsAdmissionSubjectGroup = async () => {
+    try {
+      const arr = await api.getAllSubjectCombinationVsAdmissionSubjectGroup();
+      console.log("group", arr);
+      setArrSubjectCombinationVsAdmissionSubjectGroup(arr);
+    } catch (error) {}
+  };
   return (
     <>
       <div
@@ -263,117 +332,124 @@ function ChartsScore() {
           <Col md={6}>
             <div className=" p-3" style={{ height: "300px" }}>
               <Card className="shadow">
-                <Card.Header>Tra cứu</Card.Header>
+                <Card.Header className="bg-primary text-white">
+                  <strong>Tra cứu</strong>
+                </Card.Header>
                 <Card.Body>
                   <Row className="d-flex align-items-center">
                     <Col xs={4}>
-                    Ngành học : 
+                      <strong>Ngành học </strong>
                     </Col>
                     <Col>
-                    <Form.Select aria-label="Default select example" onChange={(e)=>handleChange(e)}>
-                    <option value={0} >Chọn ngành học</option>
-   
-    {scoreSubject?.map((item, index)=>{
+                      <Form.Select
+                        aria-label="Default select example"
+                        value={selectedValue}
+                        onChange={(e) => handleChange(e)}
+                      >
+                        <option value={0}>Chọn ngành học </option>
 
-      return(
-        <>
-      <option value={item.id_career}  key={index}>{item.name}</option>
-{item.score}
-        </>
-      )
-    })}
-
-    </Form.Select>
+                        {scoreSubject?.map((item, index) => {
+                          return (
+                            <>
+                              <option value={item.id_career} key={index}>
+                                {item.name}
+                              </option>
+                              {item.score}
+                            </>
+                          );
+                        })}
+                      </Form.Select>
                     </Col>
-                    
-                  </Row >
+                  </Row>
                   <div>
-                    <br>
-
-                    </br>
+                    <br></br>
                     <div className="overflow-auto">
                       <Table variant="info">
                         <thead>
                           <tr>
-                            <th className="bg-primary">
-                              Năm
-                            </th>
-                            {checkboxState?.map((item, index)=>{
-                              return(
+                            <th className="bg-primary">Năm</th>
+                            {checkboxState?.map((item, index) => {
+                              return (
                                 <>
-                                 <td className="bg-primary" key={index}>
-                                {item.year}
-                            </td>
+                                  <td className="bg-primary" key={index}>
+                                    {item.year}
+                                  </td>
                                 </>
-                              )
+                              );
                             })}
-                           
-                          
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                          <th>
-                              Điểm
-                            </th>
-                            { checkboxState?.map((item, index)=>{
+                            <th>Điểm</th>
+                            {checkboxState?.map((item, index) => {
+                              const indexOfCareer = item.data.findIndex(
+                                (item) => item.id_career == selectedValue
+                              );
 
-                             const indexOfCareer =  item.data.findIndex((item)=> item.id_career == selectedValue)
-
-                             if(indexOfCareer != -1 )
-                              {
-                                return(
+                              if (indexOfCareer != -1) {
+                                return (
                                   <>
-                                     <td key={index}>  {item.data[indexOfCareer].score}</td>
+                                    <td key={index}>
+                                      {" "}
+                                      {item.data[indexOfCareer].score}
+                                    </td>
                                   </>
-                                )
-                              }
-                              else{
-                                return(
+                                );
+                              } else {
+                                return (
                                   <>
-                                     <td key={index}>  {0}</td>
+                                    <td key={index}> {0}</td>
                                   </>
-                                )
+                                );
                               }
-                             
-                             
-                             
                             })}
-                           
-
                           </tr>
                         </tbody>
                       </Table>
                     </div>
                   </div>
                   <div
-                    
                     className="btn btn-danger"
-                    // onClick={() => getScoreByYear()}
+                    onClick={() => setSelectedValue("0")}
                   >
-                    Trở lại 
+                    Trở lại
                   </div>
                 </Card.Body>
-               
               </Card>
             </div>
           </Col>
           <Col>
-          <div className=" p-3" style={{ height: "300px" }}>
+            <div className=" p-3" style={{ height: "300px" }}>
               <Card className="shadow">
-                <Card.Header>Điểm trung bình mỗi năm</Card.Header>
+                <Card.Header className="bg-primary text-white">
+                  {" "}
+                  <strong>Điểm trung bình mỗi năm</strong>
+                </Card.Header>
                 <Card.Body>
-                <div className="d-flex justify-content-center" style={{height:'200px', textAlign:'center'}}>
-                <ChartGPA data={gpaScore} labels={year}></ChartGPA>
-
-                </div>
+                  <div
+                    className="d-flex justify-content-center"
+                    style={{ height: "200px", textAlign: "center" }}
+                  >
+                    {gpaScore.length > 0 && year ? (
+                      <ChartGPA data={gpaScore} labels={year}></ChartGPA>
+                    ) : (
+                      <div>
+                        Tải dữ liệu ...
+                        <Placeholder animation="glow">
+                          <Placeholder xs={12} />
+                        </Placeholder>
+                      </div>
+                    )}
+                  </div>
                 </Card.Body>
                 {/* <Card.Footer></Card.Footer> */}
               </Card>
-            </div></Col>
+            </div>
+          </Col>
         </Row>
         <Row className="mt-5">
-          <div className="border" style={{ height: "900px" }}>
+          <div className="border" style={{ height: "700px" }}>
             <Card className="shadow">
               <Card.Header className="bg-info text-white">
                 <Row>
@@ -381,39 +457,416 @@ function ChartsScore() {
                     <b>Các môn qua từng năm</b>
                   </Col>
                   <Col className="d-flex">
-                 
-                    {checkboxState && (
-    checkboxState.map((item,index) => {
-        return (
-            <div
-                key={item.year} // Đảm bảo sử dụng key unique cho mỗi phần tử trong map
-                style={{ marginLeft: "30px" }}
-                className="btn btn-primary"
-            >
-                <input
-                    onChange={(e) => handleCheckboxChange(e)}
-                    className=""
-                    defaultChecked={item.status} // Sử dụng trạng thái từ mảng checkboxState
-                    type="checkbox"
-                    id={`checkbox${item.year}`} // Sử dụng year của mỗi item làm id để đảm bảo duy nhất
-                    name={item.year.toString()} // Sử dụng year của mỗi item làm tên
-                />
-                <label htmlFor={`checkbox${item.year}`}>&nbsp;{item.year}</label>
-            </div>
-        );
-    })
-)}
+                    {checkboxState &&
+                      checkboxState.map((item, index) => {
+                        return (
+                          <div
+                            key={item.year} // Đảm bảo sử dụng key unique cho mỗi phần tử trong map
+                            style={{ marginLeft: "30px" }}
+                            className="btn btn-primary"
+                          >
+                            <input
+                              onChange={(e) => handleCheckboxChange(e)}
+                              className=""
+                              defaultChecked={item.status} // Sử dụng trạng thái từ mảng checkboxState
+                              type="checkbox"
+                              id={`checkbox${item.year}`} // Sử dụng year của mỗi item làm id để đảm bảo duy nhất
+                              name={item.year.toString()} // Sử dụng year của mỗi item làm tên
+                            />
+                            <label htmlFor={`checkbox${item.year}`}>
+                              &nbsp;{item.year}
+                            </label>
+                          </div>
+                        );
+                      })}
                   </Col>
                 </Row>
               </Card.Header>
               <Card.Body>
-                <ChartScore data={scoreSubject} labels={year}></ChartScore>
+                {scoreSubject.length > 0 && year ? (
+                  <ChartScore data={scoreSubject} labels={year}></ChartScore>
+                ) : (
+                  <div>
+                    Tải dữ liệu ...
+                    <Placeholder animation="glow">
+                      <Placeholder xs={12} />
+                    </Placeholder>
+                  </div>
+                )}
               </Card.Body>
               <Card.Footer></Card.Footer>
             </Card>
           </div>
         </Row>
+        <Row>
+          <Card>
+            <Card.Header className="bg-primary text-white">
+              <div>Tính điểm tuyển sinh</div>
+            </Card.Header>
+
+            <Card.Body>
+              <br></br>
+              <Row>
+                {AdmissionSubject?.map((item, index) => {
+                  return (
+                    <Col xs={6} md={3} key={index}>
+                      <small style={{ marginLeft: "5px" }}>{item.name}</small>
+                      <input
+                        onChange={(e) => handleScoreChangeAdmission(index, e)}
+                        value={item.score}
+                        type="number"
+                        className="rounded-2 p-2 m-1 border-1 border-primary w-100"
+                        placeholder="Điểm"
+                        max={10}
+                      ></input>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Card.Body>
+          </Card>
+        </Row>
+
+        <div
+          className="btn btn-primary m-3"
+          onClick={() => getAllSubjectCombinationVsAdmissionSubjectGroup()}
+        >
+          Kiểm tra
+        </div>
+
+        <div className="bg-primary text-white p-3">
+          <strong className="m-3">Điểm của mỗi tổ hợp</strong>
+        </div>
+
+        <Row className="px-3" style={{ height: "230px", overflow: "auto" }}>
+          {ArrSubjectCombinationVsAdmissionSubjectGroup.map((item, index) => {
+            return (
+              <Col xs={4} md={2} className="px-3 " key={index}>
+                <hr className="border-primary"></hr>
+                <strong>{item.id_combination}</strong>
+                {item.subjects.map((item, index) => {
+                  return (
+                    <Row key={index}>
+                      <Col xs={7} style={{ paddingRight: "0" }}>
+                        <div>{item.name} </div>
+                      </Col>
+                      <Col xs={5} className="p-0">
+                        :{" "}
+                        {AdmissionSubject.find(
+                          (subject) => subject.id_subject === item.id_subject
+                        )?.score ?? 0}
+                      </Col>
+                    </Row>
+                  );
+                })}
+              </Col>
+            );
+          })}
+
+          {/* <Col>
+          <div><strong className="m-3">Các ngành đủ điều kiện</strong></div>
+                
+          </Col> */}
+        </Row>
+        <div className="bg-primary" style={{ height: "5px" }}></div>
+        <br />
+        <Row>
+          <Col>
+            <Row>
+              <Col className="d-flex justify-content-center">
+                <strong>Chọn năm học :</strong>
+              </Col>
+              <Col>
+                <Form.Select
+                  defaultValue={0}
+                  value={yearAdmission}
+                  onChange={(e) => {
+                    get_data_score_and_combination_by_year(
+                      parseInt(e.target.value)
+                    );
+                    setYearAdmission(e.target.value);
+                  }}
+                >
+                  <option value={0}>Chọn năm</option>
+                  {checkboxState?.map((item, index) => {
+                    return (
+                      <>
+                        <option key={index} value={item.year}>
+                          {item.year}
+                        </option>
+                      </>
+                    );
+                  })}
+                  {/* <option value="2022">2022</option> */}
+                </Form.Select>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-center align-items-center">
+                <Row className="form-check " style={{ marginLeft: "15px" }}>
+
+                  <input
+                    className="form-check-input " 
+                    type="checkbox"
+                    id="exampleCheckbox"
+                    value="exampleValue"
+                    checked={checkboxFullScore}
+                    onChange={(e)=>setCheckboxFullScore(e.target.checked)}
+                  />
+                  <Col><label className="form-check-label" htmlFor="exampleCheckbox">
+                    Các ngành đủ điểm
+                  </label></Col>
+                  
+                </Row>
+              </Col>
+              <Col>
+                <Form.Select
+                  onChange={(e) =>{setSelectedValue2(e.target.value),setCheckboxFullScore(false)} }
+                  value={selectedValue2}
+                >
+                  <option value="0">Tất cả ngành</option>
+                  {scoreSubject?.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id_career}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                  {/* <option value="2022">2022</option> */}
+                </Form.Select>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row
+          style={{ marginLeft: "10px", marginTop: "15px" }}
+          className="bg-primary p-1 text-white"
+        >
+          {" "}
+          <strong>Các ngành xét tuyển </strong>
+        </Row>
+        <Row className="" style={{ height: "280px", overflow: "auto" }}>
+          <Col className="m-2">
+            <Row className="m-3 border-primary border">
+              <Col xs={4} className="d-flex align-items-center">
+                <div>
+                  <strong>Tên ngành</strong>
+                </div>
+              </Col>
+              <Col
+                xs={2}
+                md={1}
+                className="bg-info m-0 p-0 d-flex justify-content-center align-items-center"
+              >
+                <strong>Điểm</strong>
+              </Col>
+              <Col>
+                <Row className="d-flex align-items-center justify-content-center">
+                  <strong>Điểm theo các tổ hợp</strong>
+                </Row>
+              </Col>
+            </Row>
+
+            {dataScoreCombination.map((item, index) => {
+              let arrCombination: { combination: string; score: number }[] = [];
+
+              item.id_combination.forEach((item2, index2) => {
+                let indexC =
+                  ArrSubjectCombinationVsAdmissionSubjectGroup.findIndex(
+                    (item3) => item3.id_combination == item2
+                  );
+                let totalScore = 0;
+                let count = 0;
+                if (indexC !== -1) {
+                  ArrSubjectCombinationVsAdmissionSubjectGroup[
+                    indexC
+                  ]?.subjects.forEach((subject) => {
+                    const admissionSubject = AdmissionSubject.find(
+                      (admissionSubject) =>
+                        admissionSubject.id_subject === subject.id_subject
+                    );
+                    if (admissionSubject) {
+                      totalScore += parseFloat(
+                        String(admissionSubject.score ?? 0)
+                      );
+                      count++;
+                    }
+                  });
+                }
+
+                //  const averageScore = count !== 0 ? totalScore / count : 0;
+                arrCombination.push({ combination: item2, score: totalScore });
+              });
+
+              // Kiểm tra selectedValue2 để quyết định xem có nên return hay không
+              if(checkboxFullScore ){
+                let fullScore = false;
+                arrCombination.map((itemC, index) => {
+                  if (itemC.score >= item.score) {
+                    fullScore = true;
+                }})
+                if(!fullScore) return;
+                return (
+                  <React.Fragment key={index}>
+                    <Row className="m-3 border-primary border" key={index}>
+                      <Col xs={4} className="d-flex align-items-center">
+                        <div>{item.name}</div>
+                      </Col>
+                      <Col
+                        xs={2}
+                        md={1}
+                        className="bg-info m-0 p-0 d-flex justify-content-center align-items-center"
+                      >
+                        <strong>{item.score}</strong>
+                      </Col>
+                      <Col>
+                        <Row>
+                          {arrCombination.map((itemC, index) => (
+                            <Col
+                              className="m-1 p-0 d-flex justify-content-center"
+                              xs={12}
+                              md={3}
+                              key={index}
+                            >
+                              <div
+                                className={`m-0 p-0 bg-${
+                                  itemC.score >= item.score
+                                    ? "success"
+                                    : "danger"
+                                }`}
+                                style={{ width: "100px" }}
+                              >
+                                <div
+                                  className="bg-white"
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "1px",
+                                    marginTop: "1px",
+                                    marginBottom: "1px",
+                                    paddingLeft: "5px",
+                                  }}
+                                >
+                                  {itemC.combination}: {itemC.score}
+                                </div>
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
+                );
+              }
+              
+              else if (selectedValue2 !== "0" && item.id_career === selectedValue2) {
+                return (
+                  <React.Fragment key={index}>
+                    <Row className="m-3 border-primary border" key={index}>
+                      <Col xs={4} className="d-flex align-items-center">
+                        <div>{item.name}</div>
+                      </Col>
+                      <Col
+                        xs={2}
+                        md={1}
+                        className="bg-info m-0 p-0 d-flex justify-content-center align-items-center"
+                      >
+                        <strong>{item.score}</strong>
+                      </Col>
+                      <Col>
+                        <Row>
+                          {arrCombination.map((itemC, index) => (
+                            <Col
+                              className="m-1 p-0 d-flex justify-content-center"
+                              xs={12}
+                              md={3}
+                              key={index}
+                            >
+                              <div
+                                className={`m-0 p-0 bg-${
+                                  itemC.score >= item.score
+                                    ? "success"
+                                    : "danger"
+                                }`}
+                                style={{ width: "100px" }}
+                              >
+                                <div
+                                  className="bg-white"
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "1px",
+                                    marginTop: "1px",
+                                    marginBottom: "1px",
+                                    paddingLeft: "5px",
+                                  }}
+                                >
+                                  {itemC.combination}: {itemC.score}
+                                </div>
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
+                );
+              } else if (selectedValue2 == "0") {
+                return (
+                  <React.Fragment key={index}>
+                    <Row className="m-3 border-primary border" key={index}>
+                      <Col xs={4} className="d-flex align-items-center">
+                        <div>{item.name}</div>
+                      </Col>
+                      <Col
+                        xs={2}
+                        md={1}
+                        className="bg-info m-0 p-0 d-flex justify-content-center align-items-center"
+                      >
+                        <strong>{item.score}</strong>
+                      </Col>
+                      <Col>
+                        <Row>
+                          {arrCombination.map((itemC, index) => (
+                            <Col
+                              className="m-1 p-0 d-flex justify-content-center"
+                              xs={12}
+                              md={3}
+                              key={index}
+                            >
+                              <div
+                                className={`m-0 p-0 bg-${
+                                  itemC.score >= item.score
+                                    ? "success"
+                                    : "danger"
+                                }`}
+                                style={{ width: "100px" }}
+                              >
+                                <div
+                                  className="bg-white"
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "1px",
+                                    marginTop: "1px",
+                                    marginBottom: "1px",
+                                    paddingLeft: "5px",
+                                  }}
+                                >
+                                  {itemC.combination}: {itemC.score}
+                                </div>
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
+                );
+              }
+            })}
+          </Col>
+        </Row>
+        <Row className="bg-primary" style={{ height: "5px" }}></Row>
         {/* Đặt nội dung của biểu đồ ở đây */}
+        <div style={{ height: "100px" }}></div>
       </div>
     </>
   );

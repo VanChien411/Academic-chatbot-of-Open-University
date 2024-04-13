@@ -80,7 +80,7 @@ export const login = async (userData: any) => {
     }
 
     const responseData = await response.json();
-    console.log("login", responseData);
+    // console.log("login", responseData);
     //Xoas token
     removeDataFromLocal("token");
     // Lưu token vào local storage
@@ -111,7 +111,7 @@ export const createUser = async (userData: any) => {
     }
 
     const user = await response.json();
-    console.log(user);
+    // console.log(user);
     return user;
   } catch (error) {
     console.error("Error:", error as Error);
@@ -133,7 +133,7 @@ export const get_token_info = async (token: any) => {
     }
 
     const user = await response.json();
-    console.log(response);
+    // console.log(response);
     return user;
   } catch (error) {
     console.error("Error:", error as Error);
@@ -154,7 +154,7 @@ export const get_user_info = async (token: any) => {
     }
 
     const user = await response.json();
-    console.log(response);
+    // console.log(response);
     return user;
   } catch (error) {
     console.error("Error:", error as Error);
@@ -180,7 +180,7 @@ export const get_user_info2 = async () => {
     }
 
     const user = await response.json();
-    console.log("User info:", user);
+    // console.log("User info:", user);
     return user;
   } catch (error) {
     console.error("Error:", error);
@@ -196,7 +196,7 @@ export const updateUser = async (data:IUser) => {
     if (!token) {
       throw new Error("Token is missing");
     }
-    console.log('data', data)
+    // console.log('data', data)
     const response = await fetch(`${API_BASE_URL}/users/${data.user_id}`, {
       method: "PUT",
       headers: {
@@ -210,7 +210,7 @@ export const updateUser = async (data:IUser) => {
     }
 
     const user = await response.json();
-    console.log("User info:", user);
+    // console.log("User info:", user);
     return user;
   } catch (error) {
     console.error("Error:", error);
@@ -373,7 +373,7 @@ export const getAllMessage = async () => {
       throw new Error("Failed to login");
     }
     //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
-    console.log(response.json)
+    // console.log(response.json)
     return response.json();
   } catch (error) {
     console.error("Error:", error as Error);
@@ -421,7 +421,7 @@ export const postModelChatbot = async (question:string) => {
     }
     //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
    const data = response.json()
-    console.log('chatbot', data)
+    // console.log('chatbot', data)
     return data;
   } catch (error) {
     console.error("Error:", error as Error);
@@ -446,7 +446,7 @@ export const postModelGPT = async (question:string) => {
     }
     //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
    const data = response.json()
-    console.log('chatbot', data)
+    // console.log('chatbot', data)
     return data;
   } catch (error) {
     console.error("Error:", error as Error);
@@ -541,6 +541,28 @@ export const createDataScore= async (message: model1.DataScore) => {
 };
 
 
+export const getAllDataScore =async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/data_scores`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
 export const getScoreByYear =async () => {
   try {
     const response = await fetch(
@@ -580,6 +602,224 @@ export const getGPAScoreByYear =async () => {
       throw new Error("Failed to login");
     }
     //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+
+export const createSubjectCombination = async (message: model1.SubjectCombination) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/subject_combinations`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const createAdmissionSubject = async (message: model1.AdmissionSubject) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admission_subjects`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllSubjectCombination = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/subject_combinations`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    // console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllAdmissionSubject = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/admission_subjects`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    // console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const createSubjectCombinationVsAdmissionSubject = async (message: model1.SubjectCombinationVsAdmissionSubject) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/subject_combination_vs_admission_subjects`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllSubjectCombinationVsAdmissionSubject = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/subject_combination_vs_admission_subjects`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    // console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllSubjectCombinationVsAdmissionSubjectGroup  = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/subject_combination_vs_admission_subjects_group`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    // console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllDataScoreVsSubjectCombination = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/data_score_vs_subject_combinations`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    // console.log(response.json)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const createDataScoreVsSubjectCombination = async (message: model1.DataScoreVsSubjectCombination) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/data_score_vs_subject_combinations`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to message");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const get_data_score_and_combination_by_year = async (year: number) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/data_score_and_combination_by_year?year=${year}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
     return response.json();
   } catch (error) {
     console.error("Error:", error as Error);

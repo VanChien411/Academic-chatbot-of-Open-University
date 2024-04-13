@@ -55,4 +55,32 @@ export interface Role {
     id_faculty?:number;
     name: string;
   }
+
+  
+  export interface SubjectCombination{
+    id?:number;
+    id_combination:string;
+    name?:string;
+  }
+
+  export interface AdmissionSubject {
+    id?: number;
+    id_subject: string;
+    name?: string;
+  }
+
+  export interface DataScoreVsSubjectCombination {
+    id?: number;
+    id_score: number;
+    id_combination?: string;
+    formula?: string;
+  }
+
+  export interface SubjectCombinationVsAdmissionSubject {
+    id?: number;
+    id_combination: string;
+    id_subject: string;
+  }
+  
+  
   declare module 'websocket';
