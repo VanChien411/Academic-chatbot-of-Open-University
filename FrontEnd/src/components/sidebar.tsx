@@ -40,47 +40,40 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async (user_id: number) => {
-      const arrSession = await api.getAllSessionUser(user_id);
-      setSessions(arrSession);
-      // console.log("arrS", arrSession);
-      if (arrSession.length !== 0) {
-        const currentPath = window.location.pathname;
-        // console.log("địa chỉ", arrSession);
-        if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
-          // console.log("routersidebar");
-          router.push(`/chat-page/${arrSession[0]["session_id"]}`);
-        }
-      } else if (arrSession) {
-        try {
-          const session = await createSession(); // Tạo phiên mới
-        } catch (error) {
-          console.error("Error creating session:", error);
-        }
-      }
-    };
 
+
+  
+  useEffect(() => {
+    console.log(1);
+  
     const fetchDataAndUpdateUser = async () => {
       try {
         const user = await get_user_info();
         setUserL(user);
-        // console.log("userrrrr", user);
         if (user && "user_id" in user) {
-          fetchData(user["user_id"] as number);
-          // console.log("loginsession");
+          const arrSession = await api.getAllSessionUser(user["user_id"] as number);
+          console.log('2', arrSession);
+          setSessions(arrSession);
+          if (arrSession.length !== 0) {
+            const currentPath = window.location.pathname;
+            if (!currentPath.includes(`chat-page/${arrSession[0]["session_id"]}`)) {
+              router.push(`/chat-page/${arrSession[0]["session_id"]}`);
+            }
+          } else {
+            // await createSession();
+          }
         }
       } catch (error) {
         console.log("Error:", error);
       }
     };
-
+  
     fetchDataAndUpdateUser();
-  }, []); // Thêm mảng dependencies rỗng để chỉ chạy useEffect một lần khi component mount
-
+  }, []);
   async function get_user_info() {
     try {
       const user = await api.get_user_info2();
+      setUserL(user);
       if (user) {
         // console.log("u", user);
         setIsMounted(true);
@@ -120,12 +113,25 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   };
   const createSession = async () => {
     try {
+      console.log(22324)
       setIsLoading(true);
-      const user = await userL; // Corrected to call the function
+      let user
+      if(userL)
+        {
+          user = userL
+        }
+        else{
+          user = await get_user_info(); // Corrected to call the function
+
+        }
+
+      console.log("userwerw33253526", user);
       if (user) {
         setUserL(user);
+        console.log("user1", user);
         // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
         if ("user_id" in user) {
+          console.log("user_id", user["user_id"]);
           const newDate = getDate();
           const session: model1.Session = {
             name: `session ${newDate}`,

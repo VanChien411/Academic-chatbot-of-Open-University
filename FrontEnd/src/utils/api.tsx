@@ -189,6 +189,37 @@ export const get_user_info2 = async () => {
 };
 
 
+export const get_idSession_by_user = async () => {
+  try {
+    const token = getDataFromLocal('token');
+    if (!token) {
+      throw new Error("Token is missing");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/users/getIDSession`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if(response.status === 401){
+
+      throw new Error("Failed login");
+    }
+    if (!response.ok) {
+      throw new Error("Failed to fetch user info");
+    }
+
+    const user = await response.json();
+    // console.log("User info:", user);
+    return user;
+  } catch (error) {
+    console.error("Error:", error);
+    return ; // Trả về đối tượng rỗng nếu có lỗi
+  }
+};
+
+
 
 export const updateUser = async (data:IUser) => {
   try {
@@ -825,3 +856,62 @@ export const get_data_score_and_combination_by_year = async (year: number) => {
     console.error("Error:", error as Error);
   }
 };
+
+export const update_data_score = async (id_score: number, score: model1.DataScore) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/data_scores/${id_score}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(score),
+    });
+console.log('score',score)
+    if (!response.ok) {
+      throw new Error("Failed to update data");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const createNewPage = async (page: model1.NewPage) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/pages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(page),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create page");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+
+export const getAllNewPage = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/pages`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};
+

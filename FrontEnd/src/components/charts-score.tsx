@@ -81,7 +81,7 @@ function ChartsScore() {
       newAdmissionSubjects[index].score = 0;
     }
     setArrAdmissionSubject(newAdmissionSubjects);
-    console.log("newAdmissionSubjects", newAdmissionSubjects);
+    // console.log("newAdmissionSubjects", newAdmissionSubjects);
   };
 
   // const data2021: RowData[] = score.handleScore2021();
@@ -175,7 +175,7 @@ function ChartsScore() {
   const get_data_score_and_combination_by_year = async (year: number) => {
     const data = await api.get_data_score_and_combination_by_year(year);
     setDataScoreCombination(data);
-    console.log("data", data);
+    // console.log("data", data);
     return data;
   };
 
@@ -539,7 +539,7 @@ function ChartsScore() {
         </div>
 
         <Row className="px-3" style={{ height: "230px", overflow: "auto" }}>
-          {ArrSubjectCombinationVsAdmissionSubjectGroup.map((item, index) => {
+          {ArrSubjectCombinationVsAdmissionSubjectGroup?.map((item, index) => {
             return (
               <Col xs={4} md={2} className="px-3 " key={index}>
                 <hr className="border-primary"></hr>
@@ -666,13 +666,14 @@ function ChartsScore() {
                 </Row>
               </Col>
             </Row>
-
+            {yearAdmission == '0' && (<div><div className="text-center p-3 m-3 text-white rounded-5" style={{backgroundColor:'green',wordWrap:'break-word' }}>Chọn năm học muốn xem kết quả</div></div>)}
             {dataScoreCombination.map((item, index) => {
+              // console.log('dataScoreCombination', item)
               let arrCombination: { combination: string; score: number }[] = [];
 
               item.id_combination.forEach((item2, index2) => {
                 let indexC =
-                  ArrSubjectCombinationVsAdmissionSubjectGroup.findIndex(
+                  ArrSubjectCombinationVsAdmissionSubjectGroup?.findIndex(
                     (item3) => item3.id_combination == item2
                   );
                 let totalScore = 0;
@@ -685,17 +686,39 @@ function ChartsScore() {
                       (admissionSubject) =>
                         admissionSubject.id_subject === subject.id_subject
                     );
+                   
                     if (admissionSubject) {
                       totalScore += parseFloat(
                         String(admissionSubject.score ?? 0)
                       );
+                      // console.log("multiplier",item.multiplier)
+                      if(item.multiplier && item.multiplier == subject.id_subject){
+                        totalScore += parseFloat(
+                          String(admissionSubject.score ?? 0)
+                        );
+                        count++;
+                       
+                      }
+                      else if(item.multiplier && item.multiplier == 'NgoaiNgu')
+                        {
+                         
+                          if(subject.id_subject.includes('Tieng'))
+                            {
+                              totalScore += parseFloat(
+                                String(admissionSubject.score ?? 0)
+                              );
+                            // console.log("subject",subject.id_subject)
+                            count++;
+
+                            }
+                        }
                       count++;
                     }
                   });
                 }
-
+                const avg = count !== 0 ? (totalScore * (count-1)) / count : 0;
                 //  const averageScore = count !== 0 ? totalScore / count : 0;
-                arrCombination.push({ combination: item2, score: totalScore });
+                arrCombination.push({ combination: item2, score: avg });
               });
 
               // Kiểm tra selectedValue2 để quyết định xem có nên return hay không
@@ -746,7 +769,7 @@ function ChartsScore() {
                                     paddingLeft: "5px",
                                   }}
                                 >
-                                  {itemC.combination}: {itemC.score}
+                                  {itemC.combination}|{itemC.score.toFixed(2)}
                                 </div>
                               </div>
                             </Col>
@@ -799,7 +822,7 @@ function ChartsScore() {
                                     paddingLeft: "5px",
                                   }}
                                 >
-                                  {itemC.combination}: {itemC.score}
+                                  {itemC.combination}| {itemC.score.toFixed(2)}
                                 </div>
                               </div>
                             </Col>
@@ -850,7 +873,7 @@ function ChartsScore() {
                                     paddingLeft: "5px",
                                   }}
                                 >
-                                  {itemC.combination}: {itemC.score}
+                                  {itemC.combination}|{itemC.score.toFixed(2)}
                                 </div>
                               </div>
                             </Col>

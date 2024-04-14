@@ -1,8 +1,14 @@
-import { Row, Col, TabContent, Card } from "react-bootstrap";
+import { Row, Col, TabContent, Card, Form } from "react-bootstrap";
 import * as api from "@/utils/api";
 import * as model1 from "@/models/all";
 import { useState } from "react";
 import * as dataScore from "@/components/dataScore/dataScore";
+
+interface scoreForYear {
+  id_career: string;
+  name: string;
+  score: number[];
+}
 interface getArrCombination {
   id_career: string;
   id_combination: string[];
@@ -23,6 +29,8 @@ function AddSubject() {
   const [valueSCADS, setValueSCADS] = useState("");
 const [valueDSSC, setValueDSSC] = useState("");
 const [valueDSDS, setValueDSDS] = useState<number>();
+const [selectedValue2, setSelectedValue2] = useState("0");
+const [scoreSubject, setScoreSubject] = useState<scoreForYear[]>([]);
   const [arrSubjectCombination, setArrSubjectCombination] = useState<
     model1.SubjectCombination[]
   >([]);
@@ -36,6 +44,8 @@ const [valueDSDS, setValueDSDS] = useState<number>();
     arrSubjectCombinationVsAdmissionSubject,
     setArrSubjectCombinationVsAdmissionSubject,
   ] = useState<model1.SubjectCombinationVsAdmissionSubject[]>([]);
+
+  const [arrDataScore, setArrDataScore] = useState<model1.DataScore[]>([]);
   async function createSubjectCombination(data: model1.SubjectCombination) {
     try {
       await api.createSubjectCombination(data);
@@ -71,10 +81,28 @@ const [valueDSDS, setValueDSDS] = useState<number>();
   async function getAllDataScore() {
     try {
       const arr = await api.getAllDataScore();
-      
+      setArrDataScore(arr);
     } catch (error) {
       
     }
+  }
+
+  const updateDataScore = async (id: number, data: model1.DataScore) => {
+    try {
+   
+      await api.update_data_score(id, data);
+   
+    } catch (error) {
+      
+    }
+    console.log(data)
+  }
+
+  const updateArrDataScore = async (arrDataScore: model1.DataScore[]) => {
+    arrDataScore.map((data) => {
+     
+      updateDataScore(data.id_score as number, data);
+    })
   }
   const handleCreteSC = (data: model1.SubjectCombination) => {
     createSubjectCombination(data);
@@ -414,6 +442,89 @@ const [valueDSDS, setValueDSDS] = useState<number>();
                 </div>
               </Card.Body>
             </Card>
+          </Col>
+        </Row>
+        <Row className="mt-4 ">
+          <Col>
+          <Card>
+              <Card.Header className="bg-primary text-white">
+              update dataScore( update điểm ngành cho năm)
+              </Card.Header>
+              <Card.Body>
+                {/* <div>
+                  Mã tổ hợp A00 :
+                  <input
+                    type="text"
+                    value={valueDSSC}
+                    onChange={(e) => setValueDSSC(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  Mã ngày theo năm :
+                  <input
+                    type="number"
+                    value={valueDSDS}
+                    onChange={(e) => setValueDSDS(parseInt(e.target.value) as number)}
+                  ></input>
+                </div> */}
+
+                <div
+                  className="btn btn-danger "
+                  hidden
+                  // onClick={() =>  addListDataScoreVsSubjectCombination()}
+                >
+                  create
+                </div>
+                <div
+                  className="btn btn-danger"
+                  onClick={() => getAllDataScore()}
+                >
+                  show
+                </div>
+                <div
+                  className="btn btn-success"
+                  onClick={() =>createDataScoreVsSubjectCombination({ id_combination: valueDSSC, id_score: valueDSDS as number })
+                   
+                  }
+                >
+                  add
+                </div>
+                <Form.Select
+                  onChange={(e) =>{setSelectedValue2(e.target.value)} }
+                  value={selectedValue2}
+                >
+                  <option value="0">Tất cả ngành</option>
+                  {scoreSubject?.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id_career}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                  {/* <option value="2022">2022</option> */}
+                </Form.Select>
+                <div className="btn btn-success" onClick={()=> { updateArrDataScore(arrDataScore)}}>Edit</div> Toan NgoaiNgu
+                <div style={{ height: "200px" }} className="overflow-auto">
+                  {arrDataScore?.map((item,index) => {
+                    return (
+                      <>
+                        <div key={item.id_score}> {item.name}  <input type="text"value={item.multiplier} onChange={(e) => {
+                      const newArr = [...arrDataScore]
+                      newArr[index].multiplier = e.target.value
+                      setArrDataScore(newArr)
+                    }}></input>
+                       
+                        </div>
+                      </>
+                      
+                    );
+                  })}
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+        
           </Col>
         </Row>
       </div>

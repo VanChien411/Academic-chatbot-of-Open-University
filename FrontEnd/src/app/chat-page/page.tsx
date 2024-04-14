@@ -31,19 +31,39 @@ function ChatPage() {
   const [isColHidden, setIsColHidden] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [user, setUser] = useState<IUser>();
+
+ 
   const get_user_info = async () => {
     try {
-      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+      const user:model1.Session[] = await api.get_idSession_by_user(); // Chờ Promise được giải quyết
       // console.log(user); // In ra để kiểm tra dữ liệu user
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
-      if (!user) {
-        router.push("/login");
+      if (user.length == 0) {
+          const user = await api.get_user_info2();
+          const newDate = getDate();
+          const session: model1.Session = {
+            name: `session ${newDate}`,
+            start_time: newDate,
+            end_time: newDate,
+            user_id: user["user_id"] as number,
+          };
+          const session_id = await api.createSession(session);
+          session_id ? router.push(`/chat-page/${session_id}`) : "";
+        
+    
       } else {
-        setUser(user);
+       
+        router.push(`/chat-page/${ user[0].session_id}`);
+        
       }
-    } catch (error) {
-      console.log("Error:", error);
-      // Xử lý lỗi nếu cần
+    } catch (error:any) {
+      if (error.message === "Failed login") {
+        // Kiểm tra xem đối tượng error có tồn tại và có thuộc tính 'response' không
+        router.push("/login"); // Điều hướng đến trang đăng nhập
+      } else {
+        console.error("Error fetching user session:", error);
+        // Xử lý lỗi khác nếu cần
+      }
     }
   };
   useEffect(() => {

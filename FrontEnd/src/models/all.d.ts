@@ -49,6 +49,7 @@ export interface Role {
     name: string;
     id_faculty?: number;
     year: number; 
+    multiplier?:string;
   }
 
   export interface Faculty{
@@ -82,5 +83,13 @@ export interface Role {
     id_subject: string;
   }
   
+  export interface NewPage {
+    id?: number;
+    user_id?: number;
+    name: string;
+    content: string;
+    create_time?: string; // datetime
+    update_time?: string; // datetime
+  }
   
   declare module 'websocket';
