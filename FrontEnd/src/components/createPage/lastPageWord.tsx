@@ -21,14 +21,14 @@ export default function LastPageWord() {
     <>
       <div className="p-3 bg-white" style={{ height: "91vh" }}>
         <Row>
-          <Col className="m-2">
+          <Col  className="m-2">
             <Form.Select aria-label="Default select example" value={indexPage} onChange={(e) => setIndexPage(parseInt(e.target.value))}>
               {arrNewPage.map((item, index) => (
                 <option key={index} value={index}>{item.name} - |{item.id}|</option>
               ))}
             </Form.Select>
           </Col>
-          <Col xs={2}><div onClick={()=>getAllNewPage()} className="m-2 btn btn-primary d-flex align-items-center justify-content-center">Tải lại</div></Col>
+          <Col xs={4} md={3}><div onClick={()=>getAllNewPage()} className="m-2 btn btn-primary d-flex align-items-center justify-content-center">Tải lại</div></Col>
         </Row>
         <Row className="m-2 overflow-auto" style={{ height: "80vh" }} >
           {arrNewPage[indexPage] && (
