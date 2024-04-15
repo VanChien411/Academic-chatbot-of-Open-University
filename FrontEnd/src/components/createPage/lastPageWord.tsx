@@ -54,15 +54,50 @@ export default function LastPageWord() {
                     <Col className="p-0 m-0 ">
                       <Pagination className="m-0 float-end "  >
                         <Pagination.Prev onClick={() => setIndexPage(prev => Math.max(prev - 1, 0))} />
-                        {arrNewPage.map((_, index) => (
-                          <Pagination.Item
-                            key={index}
-                            active={index === indexPage}
-                            onClick={() => setIndexPage(index)}
-                          >
-                            {index + 1}
-                          </Pagination.Item>
-                        ))}
+                        {indexPage < 3 ? (
+                          arrNewPage.slice(0, 5).map((_, index) => (
+                            <Pagination.Item
+                              key={index}
+                              active={index === indexPage}
+                              onClick={() => setIndexPage(index)}
+                            >
+                              {index + 1}
+                            </Pagination.Item>
+                          ))
+                        ) : (
+                          (indexPage < arrNewPage.length - 3 ? (
+                            <>
+                              <Pagination.Item onClick={() => setIndexPage(0)}>1</Pagination.Item>
+                              {[ indexPage - 1, indexPage, indexPage + 1].map(page => (
+                                <Pagination.Item
+                                  key={page}
+                                  active={page === indexPage}
+                                  onClick={() => setIndexPage(page)}
+                                >
+                                  {page + 1}
+                                </Pagination.Item>
+                              ))}
+                              <Pagination.Item onClick={() => setIndexPage(arrNewPage.length - 1)}>
+                                {arrNewPage.length}
+                              </Pagination.Item>
+                            </>
+                          ) : (
+                            <>
+                              <Pagination.Item onClick={() => setIndexPage(arrNewPage.length - 5)}>
+                                {arrNewPage.length - 4}
+                              </Pagination.Item>
+                              {[arrNewPage.length - 4, arrNewPage.length - 3, arrNewPage.length - 2, arrNewPage.length - 1].map(page => (
+                                <Pagination.Item
+                                  key={page}
+                                  active={page === indexPage}
+                                  onClick={() => setIndexPage(page)}
+                                >
+                                  {page + 1}
+                                </Pagination.Item>
+                              ))}
+                            </>
+                          ))
+                        )}
                         <Pagination.Next onClick={() => setIndexPage(prev => Math.min(prev + 1, arrNewPage.length - 1))} />
                       </Pagination>
                     </Col>
