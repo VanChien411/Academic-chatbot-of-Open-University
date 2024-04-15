@@ -22,6 +22,7 @@ import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ user
 import { fetchUser } from '@/reducer/userSlice';
 import { setLazyProp } from "next/dist/server/api-utils";
 
+
 function ChatPage(prop: any) {
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
@@ -202,13 +203,27 @@ function ChatPage(prop: any) {
       };
 
       // Thêm message mới vào danh sách messages
+      const history:any =[] 
+      // console.log('messages', messages)
+      const last3Messages = [...messages.slice(-3)]; // Lấy 3 gía trị cuối cùng của messages
+      // console.log('last3Messages', last3Messages)
+      last3Messages.forEach((message) => {
+        if(message.message_summary && message.answer)
+        history.push([message.message_summary, message.answer.toString()])
+      })
       setMessages([...messages, message1]);
+      const tamModel: model1.setValueModel = {
+        quote: value,
+        history: history
+      };
+      console.log('history', history)
       // Gửi yêu cầu đến API và đợi kết quả trả về
-      const response = await api.postModelChatbot(value);
+      const response = await api.postModelChatbot(tamModel);
 
       // Kiểm tra kiểu dữ liệu của giá trị trả về
-      if (typeof response === "string") {
-        const answer = convertNewlinesToBreaks(response); // Sử dụng const để khai báo biến answer
+      if ( response ) {
+        console.log("response model", response);
+        const answer = convertNewlinesToBreaks(response[1]); // Sử dụng const để khai báo biến answer
         // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
         const message: model1.Message = {
           question: value,
@@ -216,6 +231,7 @@ function ChatPage(prop: any) {
           answer_time: getDate(),
           session_id: session_id,
           question_time: qe_time,
+          message_summary:response[0],
         };
 
         // console.log("answer", answer);

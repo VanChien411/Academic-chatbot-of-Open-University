@@ -24,7 +24,14 @@ export default function LastPageWord() {
           <Col  className="m-2">
             <Form.Select aria-label="Default select example" value={indexPage} onChange={(e) => setIndexPage(parseInt(e.target.value))}>
               {arrNewPage.map((item, index) => (
-                <option key={index} value={index}>{item.name} - id |{item.id}|</option>
+                <option key={index} value={index}><Row><Col xs={8} md={5}>
+                  {item.name} 
+                </Col >
+              
+                <Col md={4} xs= {4}>
+                - id |{item.id}|
+                </Col>
+                </Row></option>
               ))}
             </Form.Select>
           </Col>

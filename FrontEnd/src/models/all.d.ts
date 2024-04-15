@@ -24,6 +24,7 @@ export interface Role {
     answer_time?: string;
     comment?: string ;
     star?:number;
+    message_summary?:string;
   }
   
   // Interface cho bảng information
@@ -92,4 +93,9 @@ export interface Role {
     update_time?: string; // datetime
   }
   
+  interface setValueModel{
+    quote:string
+    history:string[][]
+  }
+
   declare module 'websocket';

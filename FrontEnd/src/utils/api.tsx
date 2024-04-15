@@ -434,7 +434,7 @@ export const updateMessage = async (message: model1.Message) => {
   }
 };
 
-export const postModelChatbot = async (question:string) => {
+export const postModelChatbot = async (input: model1.setValueModel) => {
   try {
     const response = await fetch(
       `${SERVER_HEROKU}/predict`,
@@ -443,7 +443,7 @@ export const postModelChatbot = async (question:string) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(question),
+        body: JSON.stringify(input),
       }
     );
 
