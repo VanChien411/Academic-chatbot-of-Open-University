@@ -95,7 +95,7 @@ export interface Role {
   
   interface setValueModel{
     quote:string
-    history:string[][]
+    history:string[][] | ''
   }
 
   declare module 'websocket';

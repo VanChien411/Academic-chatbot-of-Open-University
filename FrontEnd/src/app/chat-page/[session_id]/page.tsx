@@ -203,7 +203,7 @@ function ChatPage(prop: any) {
       };
 
       // Thêm message mới vào danh sách messages
-      const history:any =[] 
+      let  history:any =[]
       // console.log('messages', messages)
       const last3Messages = [...messages.slice(-3)]; // Lấy 3 gía trị cuối cùng của messages
       // console.log('last3Messages', last3Messages)
@@ -218,10 +218,11 @@ function ChatPage(prop: any) {
             `
         ]);
       })
+     
       setMessages([...messages, message1]);
       const tamModel: model1.setValueModel = {
         quote: `${value}`,
-        history: history
+        history: history.length > 0?history:""
       };
       console.log('history', history)
       // Gửi yêu cầu đến API và đợi kết quả trả về
