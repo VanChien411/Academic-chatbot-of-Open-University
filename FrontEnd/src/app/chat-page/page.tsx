@@ -140,52 +140,7 @@ function ChatPage() {
   // const handleSearch = useCallback((value: string) => {
   //   setValueS(value);
   // }, [valueSearch]); // Thêm valueSearch vào dependencies
-  const handleSearch = async (value: string) => {
-    setStatusSearch(false);
-    try {
-      // Lấy session_id từ local storage
-      const session_id = api.getDataFromLocal("session_id");
-      const qe_time = getDate();
-
-      // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
-      const message1: model1.Message = {
-        question: value,
-        answer: "Loading ...",
-        answer_time: getDate(),
-        session_id: session_id,
-        question_time: qe_time,
-      };
-
-      // Thêm message mới vào danh sách messages
-      setMessages([...messages, message1]);
-      // Gửi yêu cầu đến API và đợi kết quả trả về
-      const response = await api.postModelChatbot(value);
-
-      // Kiểm tra kiểu dữ liệu của giá trị trả về
-      if (typeof response === "string") {
-        // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
-        const message: model1.Message = {
-          question: value,
-          answer: response,
-          answer_time: getDate(),
-          session_id: session_id,
-          question_time: qe_time,
-        };
-
-        // Thêm message mới vào danh sách messages
-        setMessages([...messages, message]);
-
-        await api.createMessage(message);
-        // console.log("search", value);
-      } else {
-        // Nếu giá trị không phải kiểu string, xử lý theo trường hợp tương ứng
-        console.error("Error: Response is not a string");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-    setStatusSearch(true);
-  };
+ 
   const handleMessage = () => {};
   return (
     <>

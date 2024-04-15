@@ -33,7 +33,7 @@ function Chatbox(prop: messenger, props: any) {
   }
   
   useEffect(()=>{
-    console.log("id star", prop.mesengerProp )
+   
     prop.mesengerProp.star?setStateStar(prop.mesengerProp.star):''
     prop.mesengerProp.comment?setComment(prop.mesengerProp.comment):''
   },[])

@@ -9,15 +9,20 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import { useRouter } from "next/navigation";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import StatisticsStudent from "@/components/statistics-student";
+// import StatisticsStudent from "@/components/statistics-student";
 import { useEffect, useState } from "react";
-import TradeProgram from "@/components/tradingProgram/page-trade-program";
+// import TradeProgram from "@/components/tradingProgram/page-trade-program";
 import AddSubject from "@/components/add-subject";
 // import CreatePageWord from "@/components/createPage/createPageWord";
-import LastPageWord from "@/components/createPage/lastPageWord";
+// import LastPageWord from "@/components/createPage/lastPageWord";
 
 import dynamic from "next/dynamic";
 const CreatePageWord = dynamic(() => import("@/components/createPage/createPageWord"), { ssr: false })
+
+const TradeProgram = dynamic(() => import('@/components/tradingProgram/page-trade-program'));
+const StatisticsStudent = dynamic(() => import('@/components/statistics-student'));
+
+const LastPageWord = dynamic(() => import('@/components/createPage/lastPageWord'));
 function PageInformation() {
   const [isHiddenSidebar, setIsHiddenSidebar] = useState(false);
   const [isSidebarInSmall, setIsInSmall] = useState(false);
@@ -259,7 +264,7 @@ function PageInformation() {
                   <Tab.Pane eventKey="trade-program">
                     <TradeProgram></TradeProgram>
                   </Tab.Pane>
-                  <Tab.Pane eventKey="data-statistics">
+                  <Tab.Pane  eventKey="data-statistics">
                     <StatisticsStudent></StatisticsStudent>
                   </Tab.Pane>
                   <Tab.Pane  eventKey="add-subject">
