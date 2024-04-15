@@ -915,3 +915,39 @@ export const getAllNewPage = async () => {
   }
 };
 
+export const getAllNewPageByUserID = async (user_id:number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/pages/user/${user_id}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};
+
+export const updateNewPage = async (NewPage: model1.NewPage) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/pages/${NewPage.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(NewPage),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update data");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
