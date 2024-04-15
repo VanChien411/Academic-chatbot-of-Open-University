@@ -209,11 +209,18 @@ function ChatPage(prop: any) {
       // console.log('last3Messages', last3Messages)
       last3Messages.forEach((message) => {
         if(message.message_summary && message.answer)
-        history.push([message.message_summary, message.answer.toString()])
+          history.push([
+            `
+            ${message.message_summary}
+            `,
+            `
+            ${message.answer}
+            `
+        ]);
       })
       setMessages([...messages, message1]);
       const tamModel: model1.setValueModel = {
-        quote: value,
+        quote: `${value}`,
         history: history
       };
       console.log('history', history)
@@ -226,12 +233,12 @@ function ChatPage(prop: any) {
         const answer = convertNewlinesToBreaks(response[1]); // Sử dụng const để khai báo biến answer
         // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
         const message: model1.Message = {
-          question: value,
-          answer: answer,
+          question: `${value}`,
+          answer: `${answer}`,
           answer_time: getDate(),
           session_id: session_id,
           question_time: qe_time,
-          message_summary:response[0],
+          message_summary:`${response[0]}`,
         };
 
         // console.log("answer", answer);
