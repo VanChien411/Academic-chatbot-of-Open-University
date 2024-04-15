@@ -14,7 +14,7 @@ function Score() {
     <>
       <div
         className={`${(style1 as any).scrollbarHidden} overflow-auto `}
-        style={{ height: "550px" }}
+        style={{ height: "520px" }}
       >
         <h3 className="text-center text-danger p-2">
           HĐTS TRƯỜNG ĐẠI HỌC MỞ THÀNH PHỐ HỒ CHÍ MINH THÔNG BÁO ĐIỂM CHUẨN

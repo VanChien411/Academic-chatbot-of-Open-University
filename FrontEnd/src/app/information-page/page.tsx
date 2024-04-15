@@ -55,7 +55,7 @@ function PageInformation() {
             id="left-tabs-example"
             defaultActiveKey="data-statistics"
           >
-            <Row className="h-100">
+            <Row className="" >
               {!isHiddenSidebar && (
                 <div
                   style={{ width: "250px", zIndex: "1" }}

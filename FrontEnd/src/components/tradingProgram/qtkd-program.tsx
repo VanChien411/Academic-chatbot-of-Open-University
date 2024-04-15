@@ -238,7 +238,7 @@ function QTKDProgram() {
       </style>
       <div
         className={`${(style1 as any).scrollbarHidden} overflow-auto `}
-        style={{ height: "550px" }}
+        style={{ height: "520px" }}
       >
         <div className="container">
 

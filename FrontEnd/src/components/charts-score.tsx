@@ -326,7 +326,7 @@ function ChartsScore() {
     <>
       <div
         className={`${(style1 as any).scrollbarHidden} overflow-auto bg-light `}
-        style={{ height: "550px" }}
+        style={{ height: "520px" }}
       >
         <Row>
           <Col md={6}>
