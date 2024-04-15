@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import type { Editor as TypeEditor } from '@ckeditor/ckeditor5-core'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { saveAs } from "file-saver";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Col, Row } from "react-bootstrap";
 import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
+import dynamic from 'next/dynamic';
+
 const WordPage: React.FC = () => {
   const wordInit = `<p><strong>Tiêu đề</strong></p><ol><li><p>Tiêu đề nhỏ</p><p>Nội dung .. <a href="vls.com">vls.com</a></p><p>Nội dung .. <a href="link.com">link.com</a></p></li><li><p>Tiêu đề nhỏ</p><p>Nội dung ..&nbsp;</p><p>Nội dung ..&nbsp;</p></li></ol><p><strong>Phần nội dung</strong></p><p>Nội dung 1…</p><p>Nội dung 2..</p><p><strong>Phần kết</strong></p><figure class="table"><table><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure>`;
   const [content, setContent] = useState<string>(wordInit);
   const [namePage, setNamePage] = useState<string>("Trang mẫu");
   const [show, setShow] = useState(false);
-
+  const [show1, setShow1] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true)
   const handleSaveWord = () => {
@@ -56,20 +59,18 @@ const WordPage: React.FC = () => {
 
       </h4>
       <div className="shadow overflow-auto"  style={{ height: "590px" }}>
-        <CKEditor
+        {!show1 && (
+          <CKEditor
           editor={ClassicEditor}
           data={content}
           onChange={(event, editor) => {
             const data = editor.getData();
             setContent(data);
-            console.log("word", data);
           }}
-          config={{
-            ...ClassicEditor.defaultConfig,
-            // toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
-            language: "vi",
-          }}
+       
         />
+        )}
+        
        
         {/* <button onClick={handleSaveWord}>Save as Word</button> */}
       </div>
@@ -93,3 +94,4 @@ const WordPage: React.FC = () => {
 };
 
 export default WordPage;
+

@@ -13,9 +13,11 @@ import StatisticsStudent from "@/components/statistics-student";
 import { useEffect, useState } from "react";
 import TradeProgram from "@/components/tradingProgram/page-trade-program";
 import AddSubject from "@/components/add-subject";
-import CreatePageWord from "@/components/createPage/createPageWord";
+// import CreatePageWord from "@/components/createPage/createPageWord";
 import LastPageWord from "@/components/createPage/lastPageWord";
 
+import dynamic from "next/dynamic";
+const CreatePageWord = dynamic(() => import("@/components/createPage/createPageWord"), { ssr: false })
 function PageInformation() {
   const [isHiddenSidebar, setIsHiddenSidebar] = useState(false);
   const [isSidebarInSmall, setIsInSmall] = useState(false);
@@ -139,7 +141,7 @@ function PageInformation() {
                     >
                       Thêm dữ liệu
                     </div>
-                    <Nav.Item aria-disabled={true} className=" py-1 btn btn-outline-primary border-0 text-start p-0">
+                    <Nav.Item className=" py-1 btn btn-outline-primary border-0 text-start p-0">
                       <Nav.Link eventKey="add-subject">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
