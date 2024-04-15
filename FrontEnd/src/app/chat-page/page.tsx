@@ -58,10 +58,13 @@ function ChatPage() {
       }
     } catch (error:any) {
       if (error.message === "Failed login") {
+        console.log("Failed login : ",error.message) ;
         // Kiểm tra xem đối tượng error có tồn tại và có thuộc tính 'response' không
         router.push("/login"); // Điều hướng đến trang đăng nhập
       } else {
         console.error("Error fetching user session:", error);
+        router.push("/login"); // Điều hướng đến trang đăng nhập
+
         // Xử lý lỗi khác nếu cần
       }
     }
