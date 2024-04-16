@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -21,20 +21,22 @@ import * as style1 from '@/styles/main.module.css';
 import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
 import { fetchUser } from '@/reducer/userSlice';
 import { setLazyProp } from "next/dist/server/api-utils";
-
+import { UserContext } from '@/app/chat-page/layout';
 
 function ChatPage(prop: any) {
+  const userToLayout = useContext(UserContext);
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [statusSearch, setStatusSearch] = useState(true);
   const router = useRouter();
   const [showSideBar, setShowSideBar] = useState(false);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>(userToLayout);
   const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
   const dispatch = useAppDispatch();
   const userLocal = useAppSelector((state) => state.user.user);
-
+ 
+  // console.log("user lay từ layout",user1);
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
     // await new Promise((resolve) => setTimeout(resolve, 100)); // Thời gian chờ có thể thay đổi
@@ -47,42 +49,17 @@ function ChatPage(prop: any) {
 
 
   
-  // const get_user_info = async () => {
-  //   try {
-      
-  //     // const user = await api.get_user_info2(); // Chờ Promise được giải quyết
-  //     if(userLocal)
-  //       {
-  //         setUser(userLocal)
-  //         console.log("1")
-  //       }
-  //       else{
-  //         dispatch(fetchUser());
-  //          // Đợi cho dữ liệu người dùng được cập nhật trong Redux store
-  //         await new Promise(resolve => setTimeout(resolve, 10000)); // Thời gian chờ tùy thuộc vào thời gian lấy dữ liệu từ server
-
-  //         if(userLocal)
-  //           { setUser(userLocal)
-  //             console.log("2")}
-           
-  //         else
-  //        { router.push('/login')
-  //         console.log("3")}
-  //       }
-    
-  //   } catch (error) {
-  //     console.log('Error:', error);
-  //     // Xử lý lỗi nếu cần
-  //   }
-  // }
 
   const get_user_info = async () => {
     try {
-      const user = await api.get_user_info2(); // Chờ Promise được giải quyết
+   
+    
       // console.log(user); // In ra để kiểm tra dữ liệu user
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
       if(!user){
-        router.push('/login')
+        const user1 = await api.get_user_info2(); // Chờ Promise được giải quyết
+        if(!user1)
+          router.push('/login')
       }else
       {
         setUser(user)
@@ -109,7 +86,10 @@ function ChatPage(prop: any) {
   }, []);
 
   useEffect(() => {
-    // console.log("cha");
+    // Sử dụng hook useContext để lấy giá trị từ context
+ 
+
+   
     // console.log(prop.params.session_id);
     const getAllMessageSession = async () => {
       try {
@@ -276,7 +256,7 @@ function ChatPage(prop: any) {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          <SideBar changeSession={chageIdSession} showEmloyeeMessager={handleMessage}></SideBar>
+          <SideBar user={user} changeSession={chageIdSession} showEmloyeeMessager={handleMessage}></SideBar>
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">

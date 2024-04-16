@@ -25,12 +25,12 @@ interface MyEvents {
   changeSession: () => void;
   showEmloyeeMessager: () => void;
 }
-function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
+function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userL, setUserL] = useState<IUser>();
+  const [userL, setUserL] = useState<IUser>(props.user);
 
   const dispatch = useAppDispatch();
   // const user1 = useAppSelector((state) => state.user.user);
@@ -48,8 +48,15 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   
     const fetchDataAndUpdateUser = async () => {
       try {
-        const user = await get_user_info();
-        setUserL(user);
+        let user;
+        if(!userL)
+          {
+            user = await get_user_info();
+            setUserL(user);
+          }
+        else{
+          user = userL;
+        }
         if (user && "user_id" in user) {
           const arrSession = await api.getAllSessionUser(user["user_id"] as number);
           console.log('2', arrSession);
@@ -72,8 +79,16 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
   }, []);
   async function get_user_info() {
     try {
-      const user = await api.get_user_info2();
-      setUserL(user);
+      let user;
+      if( !userL)
+        {
+          user = await api.get_user_info2();
+          setUserL(user);
+        }
+        else{
+          user = userL;
+        }
+   
       if (user) {
         // console.log("u", user);
         setIsMounted(true);
@@ -185,7 +200,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents) {
         style={{ width: "100%", height: "100%" }}
         className={"  p-0 position-relative bg-dark "}
       >
-        <div
+        <div  
           style={{
             width: "91%",
             marginLeft: "40px",

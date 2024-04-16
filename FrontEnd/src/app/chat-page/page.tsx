@@ -83,7 +83,7 @@ function ChatPage() {
     //   get_user_info(token)
     // }
 
-    get_user_info();
+    // get_user_info();
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
@@ -151,14 +151,14 @@ function ChatPage() {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          {!user ? (
+          {/* {!user ? (
             <SideBar
               showEmloyeeMessager={handleMessage}
               changeSession={chageIdSession}
             ></SideBar>
           ) : (
             ""
-          )}
+          )} */}
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
