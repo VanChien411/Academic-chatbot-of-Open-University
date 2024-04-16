@@ -431,7 +431,7 @@ function ChartsScore() {
                     className="d-flex justify-content-center"
                     style={{ height: "200px", textAlign: "center" }}
                   >
-                    {gpaScore.length > 0 && year ? (
+                    { gpaScore && gpaScore.length > 0 &&  year && year.length > 0 ? (
                       <ChartGPA data={gpaScore} labels={year}></ChartGPA>
                     ) : (
                       <div>

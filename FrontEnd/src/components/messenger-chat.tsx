@@ -90,14 +90,14 @@ interface messenger {
                 user_id: message.user_id,
                 emloyee: false,
                 messenger: message.message,
-                status: true,
+                status: false,
                 datetime: getDate(),
               }
             : {
                 user_id: user_id,
                 emloyee: true,
                 messenger: message.message,
-                status: true,
+                status: false,
                 datetime: getDate(),
               };
               // prop.user_id != 0 ?
@@ -143,7 +143,7 @@ interface messenger {
           user_id: prop.user_id,
           emloyee: emloyee,
           messenger: message,
-          status: true,
+          status: false,
           datetime: getDate(),
         };
         
@@ -173,7 +173,7 @@ interface messenger {
           user_id: prop.user_id,
           emloyee: emloyee,
           messenger: message,
-          status: true,
+          status: false,
           datetime: getDate(),
         };
   

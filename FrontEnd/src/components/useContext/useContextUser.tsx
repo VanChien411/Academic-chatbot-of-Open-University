@@ -3,7 +3,7 @@ import IUser from '@/models/user';
 import { useRouter } from 'next/navigation';
 import * as model1 from "@/models/all";
 import * as api from "@/utils/api";
-
+import ChatPage from '@/app/chat-page/page';
 interface UserContextProps {
   user: IUser | null;
   setUser: (user: IUser | null) => void;
@@ -76,7 +76,8 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   };
  
   if (!user) {
-    return <div>Loading1...</div>; // Hiển thị trạng thái loading
+    // return <div>Loading1...</div>; // Hiển thị trạng thái loading
+    return <ChatPage></ChatPage>
   }
 
   return (
