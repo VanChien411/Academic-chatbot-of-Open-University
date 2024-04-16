@@ -209,12 +209,12 @@ function ChatPage(prop: any) {
       // Gửi yêu cầu đến API và đợi kết quả trả về
       const response = await api.postModelChatbot(tamModel);
 
-      console.log('history', history)
-      console.log('length', messages.length)
+      // console.log('history', history)
+      // console.log('length', messages.length)
       
       // Kiểm tra kiểu dữ liệu của giá trị trả về
       if ( response ) {
-        console.log("response model", response);
+        // console.log("response model", response);
         const answer = convertNewlinesToBreaks(response[1]); // Sử dụng const để khai báo biến answer
         // Nếu giá trị là kiểu string, gán cho thuộc tính answer của đối tượng message
         const message: model1.Message = {
@@ -235,7 +235,7 @@ function ChatPage(prop: any) {
 
          // Lấy session và đổi tên theo nội dung tóm tắt
          console.log("updateNameSession", messages.length)
-         if(messages.length == 0)
+         if(messages.length == 0 && response[0])
           {
          
            const sessionTam:model1.Session = await api.getSession(prop.params.session_id);
