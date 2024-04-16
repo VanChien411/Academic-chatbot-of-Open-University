@@ -20,14 +20,16 @@ interface Props {
 export const UserProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const router = useRouter();
-
+  const [isLoaded, setIsLoaded] = useState(false); // Biến trạng thái để kiểm soát việc gọi useEffect
   const [loading, setLoading] = useState(true); // Thêm trạng thái loading
 
   useEffect(() => {
-    get_user_info();
-      
-    console.log("userIN COntext", user);
-  }, [])
+  
+      get_user_info();
+      setIsLoaded(true);
+      console.log("isloaded", isLoaded);
+    
+  }, []);
 
   const get_user_info = async () => {
     try {
@@ -72,10 +74,10 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     return formattedDate;
   };
-
-  // if (loading) {
-  //   return <div>Loading...</div>; // Hiển thị trạng thái loading
-  // }
+ 
+  if (!user) {
+    return <div>Loading1...</div>; // Hiển thị trạng thái loading
+  }
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -303,6 +303,46 @@ export const getAllSession = async () => {
   }
 };
 
+export const getSession = async (session_id: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/sessions/${session_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+
+export const deleteSession = async (session_id: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/sessions/${session_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete session");
+    }
+
+    // mutate(`${API_BASE_URL}/sessions`);
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
 export const getAllSessionUser = async (user_id: number) => {
   try {
     const response = await fetch(`${API_BASE_URL}/sessions/user/${user_id}`, {
@@ -951,3 +991,4 @@ export const updateNewPage = async (NewPage: model1.NewPage) => {
     console.error("Error:", error as Error);
   }
 };
+

@@ -24,8 +24,9 @@ interface MyEvents {
   [key: string]: any; // Index signature cho kiểu string
   changeSession: () => void;
   showEmloyeeMessager: () => void;
+  renderSideBar:boolean;
 }
-function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
+function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,props: any) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
@@ -41,7 +42,20 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
   const router = useRouter();
 
 
+  useEffect(() => {
+    const getAllS = async() => {
+      const arrSession = await api.getAllSessionUser(userL["user_id"] as number);
+      // console.log('2', arrSession);
+      setSessions(arrSession);
+    };
+    if(userL)
+      {
+   
+    getAllS();
 
+      }
+
+  },[renderSideBar])
   
   useEffect(() => {
     console.log(1);
@@ -59,7 +73,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
         }
         if (user && "user_id" in user) {
           const arrSession = await api.getAllSessionUser(user["user_id"] as number);
-          console.log('2', arrSession);
+          // console.log('2', arrSession);
           setSessions(arrSession);
           if (arrSession.length !== 0) {
             const currentPath = window.location.pathname;
@@ -137,10 +151,9 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
         }
         else{
           user = await get_user_info(); // Corrected to call the function
-
+          console.log('chay log sau khi tai')
         }
 
-      console.log("userwerw33253526", user);
       if (user) {
         setUserL(user);
         console.log("user1", user);
@@ -181,6 +194,16 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
     }
   };
 
+  const deleteSession = async (session: model1.Session) => {
+    try {
+      await api.deleteSession(session.session_id as number);
+      setSessions(prevSessions => prevSessions.filter(s => s.session_id !== session.session_id))
+    } catch (error) {
+      
+    }
+   
+
+  }
   const handleSelectSession = async (session: model1.Session) => {
     setIsLoading(true);
     session.end_time = getDate();
@@ -245,6 +268,7 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
                       name={session.name}
                       session={session}
                       getSession={handleSelectSession}
+                      deleteSession={deleteSession}
                     />
                   );
                 } else {
@@ -255,6 +279,8 @@ function SideBar({ changeSession, showEmloyeeMessager }: MyEvents,props: any) {
                       name={session.name}
                       session={session}
                       getSession={handleSelectSession}
+                      deleteSession={deleteSession}
+
                     />
                   );
                 }

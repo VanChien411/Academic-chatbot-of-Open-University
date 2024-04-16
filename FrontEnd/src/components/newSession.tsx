@@ -1,19 +1,39 @@
-import { Button } from "react-bootstrap"
-import * as model1 from "@/models/all";
-import { Session } from "inspector";
-interface NewSession {
+import React, { memo, useCallback } from 'react'; // Import React and required hooks
+import { Row, Col } from 'react-bootstrap'; // Import any other dependencies
+
+interface NewSessionProps {
     status: boolean;
     name: string;
-    getSession: (session: model1.Session) => void;
-    session: model1.Session;
+    getSession: (session: any) => void;
+    session: any;
+    deleteSession: (session: any) => void;
 }
 
-function NewSession({ status, name, getSession, session }: NewSession) {
+const NewSession: React.FC<NewSessionProps> = memo(({ status, name, getSession, session, deleteSession }: NewSessionProps) => {
+    const handleSessionClick = useCallback(() => {
+        getSession(session);
+    }, [getSession, session]);
+
+    const handleDeleteClick = useCallback(() => {
+        deleteSession(session);
+    }, [deleteSession, session]);
+
     return (
         <>
-            <div onClick={() => getSession(session)} style={{ width: "100%", textAlign:"left" }} className={`${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>{name}</div>
+            <div  style={{ width: "100%", textAlign: "left" }} className={`position-relative  ${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>
+                <div className="position-absolute end-0 top-0 btn btn-outline-light border-0 " onClick={handleDeleteClick} style={{}}>x</div>
+                <Row >
+                    <Col onClick={handleSessionClick}>
+                        {name}
+                    </Col>
+                    <Col xs={1}></Col>
+                </Row>
+            </div>
         </>
     );
-}
+});
+
+// Add a display name to the component
+NewSession.displayName = 'NewSession';
 
 export default NewSession;

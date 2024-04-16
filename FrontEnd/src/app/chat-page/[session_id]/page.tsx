@@ -35,8 +35,7 @@ function ChatPage(prop: any) {
   const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
   const dispatch = useAppDispatch();
   const userLocal = useAppSelector((state) => state.user.user);
-  console.log("wwwwwwwwwwwwww",user); // In ra để kiểm tra dữ liệu user
-      console.log("eeeeeeeee,", userToLayout)
+  const [renderSideBar, setRenderSideBar] = useState(true);
   // console.log("user lay từ layout",user1);
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
@@ -59,6 +58,7 @@ function ChatPage(prop: any) {
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
       if(!user){
         const user1 = await api.get_user_info2(); // Chờ Promise được giải quyết
+        console.log('chay log sau khi tai')
         if(!user1)
           router.push('/login')
       }else
@@ -205,10 +205,13 @@ function ChatPage(prop: any) {
         quote: `${value}`,
         history: history.length > 0?history:""
       };
-      console.log('history', history)
+      
       // Gửi yêu cầu đến API và đợi kết quả trả về
       const response = await api.postModelChatbot(tamModel);
 
+      console.log('history', history)
+      console.log('length', messages.length)
+      
       // Kiểm tra kiểu dữ liệu của giá trị trả về
       if ( response ) {
         console.log("response model", response);
@@ -229,6 +232,18 @@ function ChatPage(prop: any) {
         const data = await api.createMessage(message);
         message.qa_id = data.qa_id
          // Thêm message mới vào danh sách messages
+
+         // Lấy session và đổi tên theo nội dung tóm tắt
+         console.log("updateNameSession", messages.length)
+         if(messages.length == 0)
+          {
+         
+           const sessionTam:model1.Session = await api.getSession(prop.params.session_id);
+            sessionTam.name = response[0];
+            sessionTam.end_time = getDate();
+            await api.updateSession(sessionTam);
+            setRenderSideBar(!renderSideBar);
+          }
          setMessages([...messages, message]);
         // console.log("search", value);
       } else {
@@ -257,7 +272,7 @@ function ChatPage(prop: any) {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          <SideBar user={user} changeSession={chageIdSession} showEmloyeeMessager={handleMessage}></SideBar>
+          <SideBar user={user} renderSideBar={renderSideBar} changeSession={chageIdSession} showEmloyeeMessager={handleMessage}></SideBar>
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
