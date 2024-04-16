@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'; // Import React and required hooks
+import React, { memo, useCallback, useState } from 'react'; // Import React and required hooks
 import { Row, Col } from 'react-bootstrap'; // Import any other dependencies
 
 interface NewSessionProps {
@@ -10,6 +10,8 @@ interface NewSessionProps {
 }
 
 const NewSession: React.FC<NewSessionProps> = memo(({ status, name, getSession, session, deleteSession }: NewSessionProps) => {
+    const [isHovered, setIsHovered] = useState(false);
+  
     const handleSessionClick = useCallback(() => {
         getSession(session);
     }, [getSession, session]);
@@ -20,8 +22,12 @@ const NewSession: React.FC<NewSessionProps> = memo(({ status, name, getSession, 
 
     return (
         <>
-            <div  style={{ width: "100%", textAlign: "left" }} className={`position-relative  ${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>
-                <div className="position-absolute end-0 top-0 btn btn-outline-light border-0 " onClick={handleDeleteClick} style={{}}>x</div>
+            <div  onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}  
+      style={{ width: "100%", textAlign: "left" }} className={`position-relative  ${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>
+                
+                {isHovered && <div className="position-absolute end-0 top-0 btn  border-0 " onClick={handleDeleteClick} style={{}}>x</div>}
+             
                 <Row >
                     <Col onClick={handleSessionClick}>
                         {name}

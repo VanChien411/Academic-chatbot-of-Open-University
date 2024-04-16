@@ -197,7 +197,22 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
   const deleteSession = async (session: model1.Session) => {
     try {
       await api.deleteSession(session.session_id as number);
+      if(session.session_id == sessions[0].session_id )
+        {
+
+          if(sessions[1])
+            {
+            console.log(session.session_id, '|', sessions[0].session_id)
+
+              router.push(`/chat-page/${sessions[1].session_id}`);
+            }
+          
+          else
+          createSession();
+
+        }
       setSessions(prevSessions => prevSessions.filter(s => s.session_id !== session.session_id))
+
     } catch (error) {
       
     }
