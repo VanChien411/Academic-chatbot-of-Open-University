@@ -25,9 +25,9 @@ function ChartGPA(props:any) {
       const ctx: any = document.getElementById("chartGPA");
       const existingChart = Chart.getChart(ctx); // Kiểm tra xem có biểu đồ nào đang được vẽ trên canvas không
   
-      if (existingChart) {
-        existingChart.destroy(); // Hủy bỏ biểu đồ cũ nếu có
-      }
+      // if (existingChart) {
+      //   existingChart.destroy(); // Hủy bỏ biểu đồ cũ nếu có
+      // }
   
       new Chart(ctx, {
         type: "bar",
@@ -61,7 +61,7 @@ function ChartGPA(props:any) {
     }, [ props.data]);
   return (
     <>
-      <canvas style={{ display: "block"  }} className="" id="chartGPA"></canvas>
+      <canvas  className="" id="chartGPA"></canvas>
     </>
   );
 }

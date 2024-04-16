@@ -21,10 +21,10 @@ import * as style1 from '@/styles/main.module.css';
 import { fetchUserStart } from '@/reducer/userSlice'; // Import action từ userSlice.ts
 import { fetchUser } from '@/reducer/userSlice';
 import { setLazyProp } from "next/dist/server/api-utils";
-import { UserContext } from '@/app/chat-page/layout';
-
+// import { useAppContext } from '@/app/chat-page/layout';
+import { UserContext } from "@/components/useContext/useContextUser";
 function ChatPage(prop: any) {
-  const userToLayout = useContext(UserContext);
+  const userToLayout = useContext(UserContext).user;
   const [open, setOpen] = useState(true);
   const [messages, setMessages] = useState<model1.Message[]>([]);
   const [refresh, setRefresh] = useState(true);
@@ -35,7 +35,8 @@ function ChatPage(prop: any) {
   const [isShowChatEmloyee, setIsShowChatEmloyee] = useState(false)
   const dispatch = useAppDispatch();
   const userLocal = useAppSelector((state) => state.user.user);
- 
+  console.log("wwwwwwwwwwwwww",user); // In ra để kiểm tra dữ liệu user
+      console.log("eeeeeeeee,", userToLayout)
   // console.log("user lay từ layout",user1);
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
@@ -53,8 +54,8 @@ function ChatPage(prop: any) {
   const get_user_info = async () => {
     try {
    
-    
-      // console.log(user); // In ra để kiểm tra dữ liệu user
+      
+     
       // Tiếp tục xử lý dữ liệu user sau khi Promise đã được giải quyết
       if(!user){
         const user1 = await api.get_user_info2(); // Chờ Promise được giải quyết
@@ -72,7 +73,7 @@ function ChatPage(prop: any) {
 
   useEffect(() => {
     // console.log("shareside", sharedData)
-
+    console.log("user lay này layout",userToLayout);
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
