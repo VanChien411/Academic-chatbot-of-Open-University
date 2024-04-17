@@ -566,7 +566,32 @@ export const getChatEmloyeesUser = async (user_id: number) => {
   } catch (error) {
     console.error("Error:", error as Error);
   }
+  return ;
 };
+
+export const updateChatWithEmloyee = async (chat_employee: model1.ChatWithEmloyee) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/chatEmloyees/${chat_employee.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(chat_employee),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    //  mutate(`${API_BASE_URL}/sessions/${session.session_id}`)
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
 
 export const getAllUser =async () => {
   try {
@@ -992,3 +1017,20 @@ export const updateNewPage = async (NewPage: model1.NewPage) => {
   }
 };
 
+
+export const get_number_chat = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/numberChat`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};

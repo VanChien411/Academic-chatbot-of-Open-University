@@ -1,11 +1,14 @@
 import model1 from "@/models/all";
 import { Row, Col, Button } from "react-bootstrap";
-import { useState, useCallback, useEffect, memo, useMemo } from "react";
+import { useState, useCallback, useEffect, memo, useMemo, useContext, useTransition } from "react";
 import Search from "@/components/search";
 import * as api from "@/utils/api";
 import { Trykker } from "next/font/google";
 import * as url from "@/env/env"
 import Spinner from 'react-bootstrap/Spinner';
+import { ChatContext } from "./useContext/useContextChat";
+import { mutate } from "swr";
+import { API_BASE_URL,SERVER_HEROKU } from "@/env/env";
 interface messenger {
   username: string;
   chat_employee?: model1.ChatWithEmloyee[]; // Corrected spelling here
@@ -17,11 +20,14 @@ interface messenger {
 
  
   function MessengerChat(prop: messenger) {
+    const socketToLayout = useContext(ChatContext).socket;
+    const {userAndChat,setUserAndChat} = useContext(ChatContext);
     const [statusSearch, setStatusSearch] = useState(true);
     const [listMessage, setListMessage] = useState<model1.ChatWithEmloyee[]>(
       prop.chat_employee || []
     );
     const [emloyee, setEmloyee] = useState(false);
+    const [websocket, setWebsocket] = useState<WebSocket | null>(null);
     const handleSearch = async (value: string) => {
   
       scrollToBottom()
@@ -34,17 +40,40 @@ interface messenger {
   
     const [receivedMessages, setReceivedMessages] = useState<any[]>([]);
   
-    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [socket, setSocket] = useState<WebSocket | null>(socketToLayout);
   
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoadValue, setIsLoadValue] = useState(false)
     const getChatEmloyeesUser = async(user_id:number)=>{
       try {
         const c = await api.getChatEmloyeesUser(user_id)
         .then(data => {
           // Data is the resolved value of the Promise, which is an array of objects
-          console.log(data); // This will log the array of objects
+       
           setListMessage(prevM => [...data]);
+          setIsLoadValue(true)
+
+           data.map((item:model1.ChatWithEmloyee) => {
+            if(prop.user_id == 0){
+              if( !item.emloyee && item.status == false  ){
+                // khoong chow
+                item.status = true
+                api.updateChatWithEmloyee(item)
+              }
+            }else{
+              if( item.emloyee && item.status == false  ){
+                // khoong chow
+                item.status = true
+                api.updateChatWithEmloyee(item)
+              }
+            }
+           
+          })
         })
+        
+        
+        
+       // update cacs message setstatus = true
        
       } catch (error) {
         console.error("error",error)
@@ -69,14 +98,32 @@ interface messenger {
       else{
         getChatEmloyeesUser(user_id);
       }
-  
-      const newSocket = new WebSocket(`${url.SERVER_WEBSOCKET}`);
-      newSocket.onopen = () => {
+      
+      let newSocket: WebSocket | null = null;
+      if(socket){
+        newSocket = socket;
+        console.log ("socket đã  tồn tại",newSocket);
+    
+      }
+      else{
+         newSocket = new WebSocket(`${url.SERVER_WEBSOCKET}`);
+        if (newSocket && newSocket.readyState == WebSocket.OPEN) {
+          console.log("dùng lại kết nối cũ");
+         
+        }
+        else{
+          newSocket.onopen = () => {
+          
+            console.log("Connected to WebSocket server");
         
-        console.log("Connected to WebSocket server");
-        sendMessageSocket(newSocket)
-       setIsLoading(false)
-      };
+          };
+  
+    
+        }
+      }
+    
+      
+
      
       newSocket.onmessage = (event) => {
         console.log(event);
@@ -105,11 +152,20 @@ interface messenger {
               // :''
         // setReceivedMessages(prevMessages => [...prevMessages, message]);
         setListMessage((prevMessages) => [...prevMessages, item]);
+        
+        const tam = [...userAndChat]
+        const user1  = tam.find((item) => item.user_id == prop.friend_id )
+        if (user1) {
+          const updatedUser = { ...user1, announcement: (user1.announcement || 0) + 1 };
+          const updatedUsers = userAndChat.map(u => u.user_id === user1.user_id ? updatedUser : u);
+          setUserAndChat(updatedUsers);
+        }
       };
       
         }
         
-  
+        sendMessageSocket(newSocket)
+        setIsLoading(false)
       setSocket(newSocket);
       
       // Không cần return một hàm từ useEffect
@@ -258,66 +314,95 @@ interface messenger {
             className={` px-3`}
           >
             <br></br>
-            {listMessage?.map((item: model1.ChatWithEmloyee, index: number) => {
-              return (
-                <>
-                  {emloyee ? (
-                    item.emloyee ? (
-                      
-                      <div
-                        style={{
-    
-                          width: "200px",
-                          maxWidth: "230px",
-                          wordWrap: "break-word",
-                          backgroundColor: "#99CCFF",
-                          float:"right"
-                           
-                        }}
-                        className="  rounded-2 px-2 py-1 "
-                      >
-                        {item.messenger}
+            {listMessage  ?  (
+              
+              listMessage?.map((item: model1.ChatWithEmloyee, index: number) => {
+                return (
+                  <>
+                    {emloyee ? (
+                      item.emloyee ? (
                         
-                      </div>
-                    
+                        <div
+                          style={{
+      
+                            width: "200px",
+                            maxWidth: "230px",
+                            wordWrap: "break-word",
+                            backgroundColor: "#99CCFF",
+                            float:"right"
+                             
+                          }}
+                          className="  rounded-2 px-2 py-1 "
+                        >
+                          {item.messenger}
+                          
+                        </div>
+                      
+                      ) : (
+                        <div
+                        style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
+                          className="bg-white d-inline-block rounded-2 px-2 my-2 py-1"
+                        >
+                          {item.messenger}
+                        </div>
+                      )
+                    ) : !item.emloyee ? (
+                      <div
+                          style={{
+      
+                            width: "200px",
+                            maxWidth: "230px",
+    
+                            wordWrap: "break-word",
+                            backgroundColor: "#99CCFF",
+                            float:"right"
+                             
+                          }}
+                          className="  rounded-2 px-2 py-1"
+                        >
+                          {item.messenger}
+                          
+                        </div>
                     ) : (
                       <div
-                      style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
-                        className="bg-white d-inline-block rounded-2 px-2 my-2 py-1"
-                      >
-                        {item.messenger}
-                      </div>
-                    )
-                  ) : !item.emloyee ? (
-                    <div
-                        style={{
+                        style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
     
-                          width: "200px",
-                          maxWidth: "230px",
-  
-                          wordWrap: "break-word",
-                          backgroundColor: "#99CCFF",
-                          float:"right"
-                           
-                        }}
-                        className="  rounded-2 px-2 py-1"
+                        className="bg-white d-inline-block rounded-2 py-1 px-2 my-2"
                       >
                         {item.messenger}
-                        
                       </div>
-                  ) : (
-                    <div
-                      style={{width: "200px",maxWidth: "230px", wordWrap: "break-word" }}
-  
-                      className="bg-white d-inline-block rounded-2 py-1 px-2 my-2"
-                    >
-                      {item.messenger}
-                    </div>
-                  )}
-               
-                </>
-              );
-            })}
+                    )}
+                 
+                  </>
+                );
+              })
+            ):(''
+            //   <Button variant="primary" disabled className="float-end">
+            //   <Spinner
+            //     as="span"
+            //     animation="grow"
+            //     size="sm"
+            //     role="status"
+            //     aria-hidden="true"
+            //   />
+            //   Tải dữ liệu...
+            // </Button> 
+            )}
+            
+            {!isLoadValue? (
+                  <Button variant="primary" disabled className="float-end">
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  Tải dữ liệu...
+                </Button> 
+            ):''}
+
+            
             
             <div id='endMessageEmployee'  className="w-100 float-end"></div>
             {isLoading?( <Button variant="primary" disabled className="float-end">
