@@ -25,7 +25,7 @@ function Messenger(props: any) {
   };
 
   let newSocket: WebSocket | null = null;
-    if(socket){
+    if(socket?.readyState){
       newSocket = socket;
       console.log ("socket đã  tồn tại",newSocket);
   

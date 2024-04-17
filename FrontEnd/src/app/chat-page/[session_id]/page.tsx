@@ -186,7 +186,7 @@ function ChatPage(prop: any) {
       // Thêm message mới vào danh sách messages
       let  history:any =[]
       // console.log('messages', messages)
-      const last3Messages = [...messages.slice(-3)]; // Lấy 3 gía trị cuối cùng của messages
+      const last3Messages = [...messages.slice(-2)]; // Lấy 3 gía trị cuối cùng của messages
       // console.log('last3Messages', last3Messages)
       last3Messages.forEach((message) => {
         if(message.message_summary && message.answer)

@@ -77,7 +77,7 @@ function Chatbox(prop: messenger, props: any) {
 
   const popoverComment = (
     <Popover id="popover-comment" className="w-100">
-      <Popover.Header as="h3">Đánh giá câu trả lời</Popover.Header>
+      <Popover.Header className="bg-primary text-white" as="h3">Đánh giá câu trả lời</Popover.Header>
       <Popover.Body>
       <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -122,14 +122,15 @@ function Chatbox(prop: messenger, props: any) {
     <>
       <Row className="my-2">
         {/* img */}
-        <div style={{ width: "70px" }}>
+        <div style={{ width: "70px" }} className="rounded-4">
           <img
-            width="50px"
-            height="50px"
+          className="rounded-5"
+            width="40px"
+            height="40px"
             src={
               prop.owner.img
                 ? prop.owner.img
-                : "https://th.bing.com/th/id/OIP.MxwWv4AAMqOlkqjNzjPk3QHaEo?w=301&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                : '/images/dragon.jpg'
             }
           ></img>
         </div>
@@ -160,17 +161,21 @@ function Chatbox(prop: messenger, props: any) {
                     overlay={popover}
                   >
                     
-                        <button onClick={()=>setOnStart(!isOnStart)} className={`btn ${stateStar != null && stateStar != 0 ? 'btn-warning':'btn-outline-warning'} border-0 p-0  `}  >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
-                            fill="currentColor"
-                            className="bi bi-star"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
-                          </svg>
+                        <button onClick={()=>setOnStart(!isOnStart)} className={`btn ${stateStar != null && stateStar != 0 ? '':'btn-outline-warning'} border-0 p-0  `}  >
+                          
+                          {stateStar != null && stateStar != 0 ?(<Image width="25px" src="/images/star.png" alt="Star" />   ):(
+                             <svg
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="25"
+                             height="25"
+                             fill="currentColor"
+                             className="bi bi-star"
+                             viewBox="0 0 16 16"
+                           >
+                             <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
+                           </svg>
+                          )}
+                         
                         </button>
                       
                   </OverlayTrigger>
@@ -185,25 +190,30 @@ function Chatbox(prop: messenger, props: any) {
                   //  onHide={handleOnHide}// Sử dụng rootClose để ẩn overlay khi người dùng nhấp chuột ra ngoài
                   >
                    
-                        <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? 'btn btn-primary':'btn btn-outline-primary'} border-0 p-0 mx-3 `}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
-                            fill="currentColor"
-                            className="bi bi-chat-dots"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
-                          </svg>
+                        <button onClick={()=>setOnComment(!isOnComment)} className={`${comment ? '':'btn btn-outline-primary'} border-0 p-0 mx-3 `}>
+                         
+                        {comment ? (<Image width="25px" className="bg-white" src="/images/chat-blue.png" alt="Comment" /> ):(
+                           <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="25"
+                           height="25"
+                           fill="currentColor"
+                           className="bi bi-chat-dots"
+                           viewBox="0 0 16 16"
+                         >
+                           <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                           <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
+                         </svg>
+                        )}
+                         
+                         
                         </button>
                      
                   </OverlayTrigger>
                 
-                  <button onClick={()=>setOnComment(!isOnComment)} className={`btn ${comment?'btn-primary':'btn-white'} `} style={{overflowY:'scroll', width:'50%', height:'100%', borderColor:'blue'}} title={comment}>{comment}</button>
+                  <button onClick={()=>setOnComment(!isOnComment)} className={`p-0 justify-content-center align-items-center btn ${comment?'btn-primary':'btn-white'} `} style={{overflowY:'scroll', width:'50%', height:'100%', borderColor:'blue'}} title={comment}>{comment}</button>
 
-                
+                        <div className=""></div>
                 </div>
               );
             })()}

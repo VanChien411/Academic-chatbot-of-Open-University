@@ -59,7 +59,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
   
   useEffect(() => {
     console.log(1);
-  
+    setIsLoading(true);
     const fetchDataAndUpdateUser = async () => {
       try {
         let user;
@@ -90,6 +90,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
     };
   
     fetchDataAndUpdateUser();
+    setIsLoading(false);
   }, []);
   async function get_user_info() {
     try {
@@ -246,10 +247,10 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
             margin: "auto",
             paddingLeft: "20px",
           }}
-          className="position-absolute btn btn-outline-light top-2 m-3 "
+          className="position-absolute btn btn-outline-light top-2 m-3 text-center"
           onClick={createSession}
         >
-          <b>New chat</b>
+          <b>Tạo mới</b>
         </div>
 
         <div
