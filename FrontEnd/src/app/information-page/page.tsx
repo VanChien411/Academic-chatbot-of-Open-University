@@ -72,7 +72,7 @@ function PageInformation() {
                     className="d-flex justify-content-center align-items-center  position-relative"
                     style={{ height: "70px", fontSize: "30px" }}
                   >
-                    Trang chu
+                    Trang chủ
                     {isSidebarInSmall && (
                       <div
                         className="position-absolute btn btn-outline-primary"
@@ -214,9 +214,9 @@ function PageInformation() {
                         </svg>
                       </div>
                     </Navbar.Brand>
-                    <Navbar.Brand onClick={() => router.push("/chat-page")}>
+                    <Navbar.Brand className="btn " onClick={() => router.push("/chat-page")}>
                       {" "}
-                      Chatbot OU
+                       <strong>Chatbot OU</strong>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
@@ -246,11 +246,11 @@ function PageInformation() {
                       <Form className="d-flex">
                         <Form.Control
                           type="search"
-                          placeholder="Search"
+                          placeholder="Tìm kiếm"
                           className="me-2"
                           aria-label="Search"
                         />
-                        <Button variant="outline-success">Search</Button>
+                        <Button variant="outline-success">Tìm</Button>
                       </Form>
                     </Navbar.Collapse>
                   </Container>

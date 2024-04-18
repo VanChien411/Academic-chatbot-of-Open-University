@@ -262,13 +262,11 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
           className={`${(style1 as any).scrollbarHidden}`}
         >
           <div style={{ height: "70px" }} className="space"></div>
-          <div style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
+          <div className="position-relative" style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
             {isLoading ? (
-              <div>
-                <Spinner animation="grow" variant="primary" />
-                <Spinner animation="grow" variant="danger" />
-                <Spinner animation="grow" variant="warning" />
-                <Spinner animation="grow" variant="info" />
+              <div className="position-absolute" style={{top:'-23px', right:'-23px'}}>
+               <Spinner animation="border" variant="secondary" />
+               
               </div>
             ) : (
               ""

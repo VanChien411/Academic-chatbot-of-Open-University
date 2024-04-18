@@ -24,15 +24,26 @@ const NewSession: React.FC<NewSessionProps> = memo(({ status, name, getSession, 
         <>
             <div  onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}  
-      style={{ width: "100%", textAlign: "left" }} className={`position-relative  ${status ? " btn btn-primary" : "  btn btn-outline-light"} my-1`}>
+      style={{ width: "100%", textAlign: "left", backgroundColor:isHovered || status?'#696969':'' , color:isHovered || status?'white':'#C0C0C0'}}  className={` ${isHovered?'':''} position-relative  btn  my-1`}>
+       
+                {isHovered &&(
+                    <>
                 
-                {isHovered && <div className="position-absolute end-0 top-0 btn  border-0 " onClick={handleDeleteClick} style={{}}>x</div>}
+                    <div className="position-absolute end-0 top-0 btn text-white z-1  border-0 " onClick={handleDeleteClick} style={{backgroundColor:'#696969', opacity:'80%'}}>
+                   
+                        <div className='text-white' style={{opacity:'100%'}} >
+                                x
+                        </div>
+                        
+                        </div>
+                    </>
+                ) }
              
                 <Row >
-                    <Col onClick={handleSessionClick}>
+                    <Col onClick={handleSessionClick} className='' style={{height:'25px', overflow:'hidden',textOverflow:'ellipsis', whiteSpace:'nowrap'}}>
                         {name}
                     </Col>
-                    <Col xs={1}></Col>
+                    {/* <Col xs={1}></Col> */}
                 </Row>
             </div>
         </>

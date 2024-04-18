@@ -145,21 +145,21 @@ function ChatPage() {
   return (
     <>
       <Row style={{ height: "100%" }} className=" ">
-        <span
+        {/* <span
           style={{ width: "335px", height: "100%" }}
           className={` ${
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          {/* {!user ? (
+          {!user ? (
             <SideBar
               showEmloyeeMessager={handleMessage}
               changeSession={chageIdSession}
             ></SideBar>
           ) : (
             ""
-          )} */}
-        </span>
+          )}
+        </span> */}
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
           <div
