@@ -16,9 +16,10 @@ interface MainChatProp {
 }
 interface messages {
   messages: model1.Message[];
+  getValueS?: (value: string) => void;
 }
 // Function MainChat
-function MainChat({ messages }: messages) {
+function MainChat({ messages, getValueS }: messages) {
   const [message, setMessage] = useState<model1.Message[]>([]);
   const [userL, setUserL] = useState<IUser>();
   const [isLoading, setIsLoading] = useState(false);
@@ -112,12 +113,14 @@ function MainChat({ messages }: messages) {
                   owner={dataMainChat.user!}
                   messenger={message.question}
                   mesengerProp={message}
+                  getValueS={getValueS}
                 />
                 <Chatbox
                   owner={dataMainChat.bot}
                   bot={true}
                   messenger={message.answer}
                   mesengerProp={message}
+                  getValueS={getValueS}
                 />
 
               </>

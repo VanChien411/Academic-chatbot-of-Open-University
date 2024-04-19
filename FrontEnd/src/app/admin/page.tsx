@@ -121,6 +121,7 @@ const PageAdmin = () =>{
                 <>
                   {user.user_id ? (
                     <MessengerChat
+                      fullname={user.full_name}
                       friend_id={user.user_id}
                       user_id={0}
                       handleClose={handleCloseMessage}

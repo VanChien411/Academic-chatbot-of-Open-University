@@ -24,3 +24,11 @@
 Màu xám trung bình: #999999 hoặc #CCCCCC
 Màu xám nhạt: #E0E0E0 hoặc #F2F2F2 */
 
+.changeBg:hover{
+  background-color: rgb(221, 218, 218);
+
+}
+
+.sfe{
+  background-color: #383838e8;
+}

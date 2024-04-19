@@ -344,7 +344,7 @@ function ChatPage(prop: any) {
               className={`${(style1 as any).scrollbarHidden} position-absolute bottom-10 `}
               >
 
-                <MainChat messages={messages}></MainChat>
+                <MainChat     getValueS={handleSearch}  messages={messages}></MainChat>
 
               </div>
               <div className="btn btn-primary position-absolute  bottom-5 end-0" onClick={()=>scrollToBottom()}>
