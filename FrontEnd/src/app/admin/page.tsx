@@ -15,6 +15,7 @@ import Tab from 'react-bootstrap/Tab';
 
 import Container from 'react-bootstrap/Container';
 import * as style1 from '@/styles/main.module.css';
+import AddSubject from "@/components/add-subject";
 const PageAdmin = () =>{
     const [listMessageUser, setListMessageUser] = useState<IUser[]>([]);
     const handleCloseMessage = () => {};
@@ -99,6 +100,11 @@ const PageAdmin = () =>{
             </Tab.Pane>
             <Tab.Pane eventKey="data-statistics">
                   <DataStatistics></DataStatistics>
+              
+            </Tab.Pane>
+
+            <Tab.Pane eventKey="add-subject">
+                   <AddSubject></AddSubject>
               
             </Tab.Pane>
           </Tab.Content>

@@ -26,13 +26,19 @@ interface MyEvents {
   showEmloyeeMessager: () => void;
   renderSideBar:boolean;
 }
+
+interface chat_employee extends model1.ChatWithEmloyee {
+  announcement?: number;
+  announcement_user?:number;
+}
 function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,props: any) {
   const [sessions, setSessions] = useState<model1.Session[]>([]);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userL, setUserL] = useState<IUser>(props.user);
-
+  const [userAndChat, setUserAndChat] = useState<chat_employee | undefined>(undefined);
+ 
   const dispatch = useAppDispatch();
   // const user1 = useAppSelector((state) => state.user.user);
   const loading = useAppSelector((state) => state.user.loading);
@@ -41,7 +47,13 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
   // trong một file khác, ví dụ main-chat.tsx
   const router = useRouter();
 
-
+  const get_number_chat_user = async (user_id:number) => {
+    try {
+      const data:chat_employee = await api.get_number_chat_user(user_id as number);
+      setUserAndChat(data)
+      console.log(data);
+    } catch (error) {}
+  }
   useEffect(() => {
     const getAllS = async() => {
       const arrSession = await api.getAllSessionUser(userL["user_id"] as number);
@@ -66,11 +78,14 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
         if(!userL)
           {
             user = await get_user_info();
+          
             setUserL(user);
           }
         else{
           user = userL;
         }
+        
+        get_number_chat_user(user.user_id as number)
         if (user && "user_id" in user) {
           const arrSession = await api.getAllSessionUser(user["user_id"] as number);
           // console.log('2', arrSession);
@@ -328,14 +343,18 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
           </div>
           <div
             style={{ color: "white" }}
-            className="w-100 btn btn-outline-dark  border-0 text-start px-5 "
+            className="w-100 btn btn-outline-dark position-relative  border-0 text-start px-5 "
             // variant="light"
             onClick={showEmloyeeMessager}
           >
             <img width="40px" src="../images\support.png"></img>
 
             <b className="mx-1"> &nbsp;Hỗ trợ SV</b>
+            {userAndChat  && (
+              <div className="position-absolute top-0 text-danger border border-danger rounded-4 px-2" style={{right:'120px'}}><small> {Number(userAndChat.announcement_user) }</small></div>
+            )}
           </div>
+
           <br></br>
 
           <div

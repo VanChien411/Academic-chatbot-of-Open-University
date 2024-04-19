@@ -1034,3 +1034,20 @@ export const get_number_chat = async () => {
     return [];
   }
 };
+
+export const get_number_chat_user = async (user_id:number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/numberChat/${user_id}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};

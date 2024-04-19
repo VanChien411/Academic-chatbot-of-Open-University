@@ -373,7 +373,7 @@ function ChatPage(prop: any) {
         </Col>
       </Row>
       <div className={`position-absolute bottom-0 end-0 z-3 ${isShowChatEmloyee?"":"d-none"} ` } >
-        {user?(
+        {user && isShowChatEmloyee ?(
       <MessengerChat friend_id={0} user_id={user.user_id} handleClose={handleCloseMessage} username={user.username} key={user.user_id}></MessengerChat>
 
         ):''}

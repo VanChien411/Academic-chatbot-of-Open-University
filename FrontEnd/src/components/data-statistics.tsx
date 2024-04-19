@@ -26,7 +26,7 @@ function DataStatistics(props: any) {
     }
     setData(newData); // Cập nhật state với dữ liệu mới
   };
-  
+
   const handleChartBar = (item: model1.Message, data: any, setData: any) => {
     const newData = [...data]; // Tạo bản sao của dữ liệu hiện tại
     if (item.star && item.comment) {
@@ -34,7 +34,7 @@ function DataStatistics(props: any) {
     }
     setData(newData); // Cập nhật state với dữ liệu mới
   };
-  
+
   const handleChartPolar = (item: model1.Message, data: any, setData: any) => {
     const newData = [...data]; // Tạo bản sao của dữ liệu hiện tại
     if (item.star) {
@@ -45,7 +45,7 @@ function DataStatistics(props: any) {
   useEffect(() => {
     console.log("Data updated:", data1, data2, data3);
   }, [data1, data2, data3]);
-  
+
   useEffect(() => {
     console.log("ol");
     const getAllMessage = async () => {
@@ -55,7 +55,7 @@ function DataStatistics(props: any) {
         const newData1 = [...data1];
         const newData2 = [...data2];
         const newData3 = [...data3];
-        
+
         allMessage.forEach((item: model1.Message) => {
           // Xử lý thay đổi cho newData1
           if (item.star && item.star > 0) {
@@ -67,24 +67,24 @@ function DataStatistics(props: any) {
               newData1[2] += 1;
             }
           }
-        
+
           // Xử lý thay đổi cho newData2
           if (item.star && item.comment) {
             newData2[item.star - 1] += 1;
           }
-        
+
           // Xử lý thay đổi cho newData3
           if (item.star) {
             newData3[item.star - 1] += 1;
           }
         });
-        
+
         // Cập nhật state một lần duy nhất
         setData1(newData1);
         setData2(newData2);
         setData3(newData3);
 
-        console.log(newData1)
+        console.log(newData1);
         setAllMessage(allMessage);
       } catch (error) {}
     };
@@ -98,7 +98,6 @@ function DataStatistics(props: any) {
         `}
       </style>
       <div className="d-flex flex-nowrap">
-      
         <div
           className="order-1  "
           style={{
@@ -121,7 +120,7 @@ function DataStatistics(props: any) {
           >
             <div className="row justify-content-center ">
               <div style={{ width: "80%", height: "80%" }} className="">
-                <ChartPie data = {data1}></ChartPie>
+                <ChartPie data={data1}></ChartPie>
               </div>
 
               <div className="text-center mt-3">Độ hài lòng</div>
@@ -140,7 +139,7 @@ function DataStatistics(props: any) {
           >
             <div className="row justify-content-center ">
               <div style={{ width: "100%", height: "100%" }} className="">
-                <ChartPolar data = {data2}></ChartPolar>
+                <ChartPolar data={data2}></ChartPolar>
               </div>
 
               {/* <div className="text-center mt-3" >Độ hài lòng</div> */}
@@ -157,26 +156,26 @@ function DataStatistics(props: any) {
           }}
         >
           <div
-            className=" rounded-4 p-2 "
+            className=" rounded-4 p-2 5 shadow"
             style={{
               marginTop: "5px",
               marginBottom: "5px",
               width: "100%",
               height: "100%",
-              backgroundColor: "rgb(17,202,240)",
-              
+              backgroundColor: "#CFF2FB",
+
               boxShadow: " 2px 2px 4px rgb(159,229,248))",
             }}
           >
             <div className="row justify-content-center ">
               <div style={{ width: "80%", height: "80%" }} className="pt-2">
-                <ChartBar data = {data3}></ChartBar>
+                <ChartBar data={data3}></ChartBar>
               </div>
 
               <div className="text-center mt-3">Thống kê đánh giá</div>
               <div
                 style={{ width: "100%", height: "100%" }}
-                className="bg-warning mt-5 text-center"
+                className="bg-warning mt-3 text-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +188,7 @@ function DataStatistics(props: any) {
                   <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z" />
                   <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                 </svg>
-                &nbsp; /\-----/\ &nbsp;
+                &nbsp; ----- &nbsp;
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -211,8 +210,8 @@ function DataStatistics(props: any) {
                 }}
               >
                 <div
-                  style={{ width: "100%", height: "100%" }}
-                  className=" text-bg-info container mt-3"
+                  style={{ width: "100%", height: "100%",backgroundColor:"#cff2fb" }}
+                  className="  container mt-3"
                 >
                   Chú thích: <br></br>
                   <svg
@@ -225,8 +224,8 @@ function DataStatistics(props: any) {
                   >
                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
                   </svg>
-                  : Độ hài lòng do người dùng đánh giá
-                  <br></br>
+                  : Độ hài lòng do người dùng đánh giá xếp hạng từ 1 -&gt; 5 (
+                  sao )<br></br>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -240,6 +239,13 @@ function DataStatistics(props: any) {
                   </svg>
                   : Bình luận của người dùng
                   <></>
+                  <br></br>
+                  <small>
+                  &nbsp;  &nbsp; Tốt : 4 -&gt; 5 ( sao )<br></br>
+                  &nbsp;  &nbsp; Ổn : 3 ( sao )<br></br>
+                  &nbsp;  &nbsp; Chưa tốt : 1 -&gt; 2 ( sao )
+                  </small>
+              
                 </div>
               </div>
             </div>

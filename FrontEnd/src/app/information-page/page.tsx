@@ -146,7 +146,7 @@ function PageInformation() {
                     >
                       Thêm dữ liệu
                     </div>
-                    <Nav.Item className=" py-1 btn btn-outline-primary border-0 text-start p-0">
+                    {/* <Nav.Item className=" py-1 btn btn-outline-primary border-0 text-start p-0">
                       <Nav.Link eventKey="add-subject">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +161,7 @@ function PageInformation() {
                         </svg>
                         &nbsp; Thêm môn và tổ hợp
                       </Nav.Link>
-                    </Nav.Item>
+                    </Nav.Item> */}
 
                     <Nav.Item className=" py-1 btn btn-outline-primary border-0 text-start p-0">
                       <Nav.Link eventKey="create-page">

@@ -13,7 +13,7 @@ function ChartPolar(props:any){
         }
     
         new Chart(ctx, {
-          type:  'polarArea',
+          type:  'pie',
           data: {
             labels: ['1 sao',
             '2 sao',
@@ -22,7 +22,7 @@ function ChartPolar(props:any){
             '5 sao'],
             datasets: [
               {
-                label: "Comment / độ hài lòng",
+                label: "Bình luận / độ hài lòng",
                 data: data,
                 backgroundColor: [
                     'rgb(255, 99, 132)',
