@@ -136,7 +136,7 @@ function Chatbox(prop: messenger, props: any) {
         </div>
         <Col className="bg-body ">
           <div style={{ fontSize: "20px" }} className="d-flex  ">
-            <b> {prop.owner.username}</b>
+            <b> {prop.owner.full_name? prop.owner.full_name:prop.owner.username}</b>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: prop.messenger }}

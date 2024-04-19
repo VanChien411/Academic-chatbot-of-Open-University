@@ -4,14 +4,17 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useRouter } from 'next/navigation';
 
 function Head() {
+  const router = useRouter()
+
   return (
     <Navbar bg="white" data-bs-theme="light" className='shadow'>
       <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Navbar.Brand onClick={()=> router.push("/chat-page")}>Trang chủ</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
+        {/* <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
             style={{ maxHeight: '100px' }}
@@ -42,7 +45,7 @@ function Head() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-        </Navbar.Collapse>
+        </Navbar.Collapse> */}
       </Container>
     </Navbar>
   );

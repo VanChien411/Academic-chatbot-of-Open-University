@@ -152,27 +152,27 @@ const Profile = () => {
                   <Card.Body className=" opacity-75">
                     <small className="m-1">Tên tài khoản</small>
                     <br></br>
-                    <input disabled = {isEdit}
+                    <input disabled = {true}
                       className="rounded-2 p-2 m-1 border-1 w-100"
                       placeholder="Tên người dùng" value={uName} onChange={(e)=>setUName(e.target.value)}
                     ></input>
                     <Row>
                       <Col sx={5}>
-                        <small className="m-1">Tên</small>
+                        <small className="m-1">Tên đầy đủ</small>
                         <br></br>
                         <input disabled = {isEdit}
                           className="rounded-2 p-2 m-1 border-1 w-100"
                           placeholder="Tên người dùng" value={uFirst}  onChange={(e)=>setUFirst(e.target.value)}
                         ></input>
                       </Col>
-                      <Col sx={5}>
+                      {/* <Col sx={5}>
                         <small className="m-1">Họ</small>
                         <br></br>
                         <input disabled = {isEdit}
                           className="rounded-2 p-2 m-1 border-1 w-100"
                           placeholder="Tên người dùng" value={uLast}  onChange={(e)=>setULast(e.target.value)}
                         ></input>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row>
                       <Col sx={5}>
@@ -199,7 +199,7 @@ const Profile = () => {
                       placeholder="Tên người dùng" value={uEmail}  onChange={(e)=>setUEmail(e.target.value)}
                     ></input>
 
-                    <Row>
+                    {/* <Row>
                       <Col sx={5}>
                         <small className="m-1">Tên người dùng</small>
                         <br></br>
@@ -216,7 +216,7 @@ const Profile = () => {
                           placeholder="Tên người dùng"
                         ></input>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </Card.Body>
                   <Card.Footer className="d-flex justify-content-center">
                     {isEdit?(

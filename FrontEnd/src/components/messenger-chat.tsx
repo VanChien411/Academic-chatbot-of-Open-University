@@ -19,6 +19,7 @@ import { mutate } from "swr";
 import { API_BASE_URL, SERVER_HEROKU } from "@/env/env";
 interface messenger {
   username: string;
+  fullname?: string;
   chat_employee?: model1.ChatWithEmloyee[]; // Corrected spelling here
   handleClose: () => void;
   onSendData?: (user_id: number) => void;
@@ -277,7 +278,7 @@ function MessengerChat(prop: messenger) {
             style={{ paddingLeft: "15px" }}
             className="d-flex justify-items-center text-white"
           >
-            {prop.username}
+            {prop.fullname? prop.fullname:prop.username}
           </Col>
           <div
             onClick={() => {
