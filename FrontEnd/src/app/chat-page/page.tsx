@@ -161,12 +161,12 @@ function ChatPage() {
           )}
         </span> */}
 
-        <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">
+        <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0 container">
           <div
             style={{ fontSize: "25px", width: "100%", overflow: "hidden" }}
-            className=" text-center center bg-warning "
+            className=" text-center center bg-warning  container"
           >
-            {isColHidden ? (
+            {/* {isColHidden ? (
               <span
                 style={{
                   textAlign: "left",
@@ -193,7 +193,7 @@ function ChatPage() {
               </span>
             ) : (
               ""
-            )}
+            )} */}
             <b className={`${showSideBar && isColHidden ? "d-none" : ""}`}>
               Chào mừng bạn đến với chatbot OU
             </b>

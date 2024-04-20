@@ -180,7 +180,7 @@ const Profile = () => {
                         <br></br>
                         <input disabled = {isEdit}
                           className="rounded-2 p-2 m-1 border-1 w-100"
-                          placeholder="Tên người dùng"
+                          placeholder="dd/mm/yyyy"
                         ></input>
                       </Col>
                       <Col sx={5}>
@@ -188,7 +188,7 @@ const Profile = () => {
                         <br></br>
                         <input disabled = {isEdit}
                           className="rounded-2 p-2 m-1 border-1 w-100"
-                          placeholder="Tên người dùng"
+                          placeholder="dd/mm/yyyy"
                         ></input>
                       </Col>
                     </Row>

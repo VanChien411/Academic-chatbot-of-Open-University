@@ -175,10 +175,11 @@ function Chatbox(prop: messenger, props: any) {
                       className={`btn ${
                         stateStar != null && stateStar != 0
                           ? ""
-                          : "btn-outline-warning"
+                          : " text-warning"
                       } border-0 p-0  `}
                     >
-                      {stateStar != null && stateStar != 0 ? (
+                      {(stateStar != null && stateStar != 0 ) ||
+                       isOnStart? (
                         <Image width="25px" src="/images/star.png" alt="Star" />
                       ) : (
                         <svg
@@ -214,10 +215,10 @@ function Chatbox(prop: messenger, props: any) {
                       setOnComment(!isOnComment);
                     }}
                     className={`${
-                      comment ? "" : "btn btn-outline-primary"
+                      comment ? "" : "btn  text-primary"
                     } border-0 p-0 mx-3 `}
                   >
-                    {comment ? (
+                    {comment || isOnComment ? (
                       <Image
                         width="25px"
                         className="bg-white"
@@ -255,6 +256,7 @@ function Chatbox(prop: messenger, props: any) {
                     {comment}
                   </button>
                   <img
+                    
                     src={
                       isDislike
                         ? "/images/dislike-blue.png"

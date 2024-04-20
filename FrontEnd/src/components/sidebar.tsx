@@ -262,7 +262,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
             margin: "auto",
             paddingLeft: "20px",
           }}
-          className="position-absolute btn btn-outline-light top-2 m-3 text-center"
+          className="position-absolute btn btn-outline-light top-2 m-3 text-center z-1"
           onClick={createSession}
         >
           <b>Tạo mới</b>
