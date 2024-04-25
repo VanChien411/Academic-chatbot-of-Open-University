@@ -20,7 +20,7 @@ function TradeProgram(){
     };
     
     return (<>
-    <div className='p-3 shadow bg-white'>
+    <div className='p-3 shadow bg-white' style={{overflow:'auto',height:'91vh'}}>
         <div className='m-3' style={{height:'30px'}}><strong>Chương trình đào tạo của trường</strong></div>
         <Tab.Container id="left-tabs-example"  defaultActiveKey="chart">
         <Nav className='shadow bg-info text-white' justify variant="tabs" defaultActiveKey="chart" onSelect={handleTabChange}>

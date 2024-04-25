@@ -16,7 +16,7 @@ function StatisticsStudent(){
     };
     
     return (<>
-    <div className='p-3 shadow bg-white ' >
+    <div className='p-3 shadow bg-white ' style={{overflow:'auto',height:'91vh'}}>
         <div className='m-3' style={{height:'30px'}}><strong>Tuyển sinh qua các năm </strong></div>
         <Tab.Container id="left-tabs-example"  defaultActiveKey="chart">
         <Nav className='shadow bg-info text-white' justify variant="tabs" defaultActiveKey="chart" onSelect={handleTabChange}>

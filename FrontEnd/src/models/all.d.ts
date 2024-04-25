@@ -98,4 +98,24 @@ export interface Role {
     history:string[][] | ''
   }
 
+  export interface BugQuestion {
+    id?: number;
+    title: string;
+    content: string;
+    view?: number;
+    user_id?: number;
+    create_time?: string;
+    user_name?: string;
+  }
+
+  export interface BugComment{
+    id?: number;
+    bug_question_id: number;
+    content: string;
+    user_id: number;
+    user_id_last_comment: number;
+    user_name?: string;
+    user_name_last_comment?: string;
+    create_time?: string;
+  }
   declare module 'websocket';

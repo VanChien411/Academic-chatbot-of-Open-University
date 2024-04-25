@@ -333,7 +333,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
           <hr></hr>
           <div
             // variant="dark"
-            onClick={() => router.push("/information-page")}
+            onClick={() => router.push("/data-statistics")}
             className="w-100 border-0 btn btn-outline-dark  text-start px-5"
             style={{ color: "white" }}
           >

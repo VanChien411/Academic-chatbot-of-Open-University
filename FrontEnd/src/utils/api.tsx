@@ -1051,3 +1051,132 @@ export const get_number_chat_user = async (user_id:number) => {
     return [];
   }
 };
+
+export const createBugQuestion = async (data: model1.BugQuestion) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_questions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create bug_questions");
+    }
+    mutate(`${API_BASE_URL}/bug_questions`);
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllBugQuestion = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_questions`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};
+
+export const getBugQuestion = async (id: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_questions/${id}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};
+
+
+export const updateBugQuestion = async (bugQuestion: model1.BugQuestion) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_questions/${bugQuestion.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bugQuestion),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update bugQuestion");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const createBugComment = async (data: model1.BugComment) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create bug_questions");
+    }
+    
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+  }
+};
+
+export const getAllBugComment = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_comments`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};
+
+export const getAllBugCommentByBugId = async (id:number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bug_comments/question/${id}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get new pages");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error:", error as Error);
+    return [];
+  }
+};

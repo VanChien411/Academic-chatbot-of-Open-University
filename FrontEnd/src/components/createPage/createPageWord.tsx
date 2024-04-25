@@ -112,7 +112,7 @@ const WordPage: React.FC = () => {
   }
 
   return (
-    <div className="p-3 bg-white  ">
+    <div className="p-3 bg-white  " style={{overflow:'auto',height:'91vh'}}>
        <Tab.Container
             id="left-tabs-example"
             defaultActiveKey="data-statistics"
@@ -175,7 +175,7 @@ const WordPage: React.FC = () => {
           </Col>
         </Row>
       </div>
-      <div className="shadow overflow-auto" style={{ height: "540px" }}>
+      <div className="shadow overflow-auto" style={{ height: "600px" }}>
         <CKEditor
           editor={ClassicEditor}
           data={content}

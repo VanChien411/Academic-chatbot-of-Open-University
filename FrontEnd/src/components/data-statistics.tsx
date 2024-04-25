@@ -97,7 +97,7 @@ function DataStatistics(props: any) {
       
         `}
       </style>
-      <div className="d-flex flex-nowrap">
+      <div className="d-flex flex-nowrap " >
         <div
           className="order-1  "
           style={{
