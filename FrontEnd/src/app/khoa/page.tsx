@@ -12,7 +12,7 @@ import Form from "react-bootstrap/Form";
 import { useRouter } from "next/navigation";
 import NavDropdown from "react-bootstrap/NavDropdown";
 // import StatisticsStudent from "@/components/statistics-student";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import TradeProgram from "@/components/tradingProgram/page-trade-program";
 import AddSubject from "@/components/add-subject";
 // import CreatePageWord from "@/components/createPage/createPageWord";
@@ -20,6 +20,8 @@ import AddSubject from "@/components/add-subject";
 
 import dynamic from "next/dynamic";
 import SidebarInformation from "@/components/sidebar-information";
+import Club from "@/components/club";
+import Khoa from "@/components/khoa";
 const CreatePageWord = dynamic(() => import("@/components/createPage/createPageWord"), { ssr: false })
 
 const TradeProgram = dynamic(() => import('@/components/tradingProgram/page-trade-program'));
@@ -30,15 +32,38 @@ function DataStatistics() {
   const [isHiddenSidebar, setIsHiddenSidebar] = useState(false);
   const [isSidebarInSmall, setIsInSmall] = useState(false);
   const router = useRouter();
+    const [search, setSearch] = useState('');
+    const [searchClub, setClubData] = useState('');
+    let timerId: NodeJS.Timeout | null = null;
 
+    const handleSearchChange = (data: string) => {
+        const value = data;
+        setSearch(value);
+    
+        // Clear previous timer
+        if (timerId !== null) {
+            clearTimeout(timerId);
+        }
+    
+        // Set a new timer to execute search after 2 seconds
+        const tam = setTimeout(() => {
+            setClubData(value);
+        }, 1000);
+    
+        // Lưu trữ ID của hàm setTimeout để có thể xóa bỏ nó nếu cần
+        timerId = tam;
+    };
+    const handleResize =() => {
+        if (typeof window !== 'undefined') {
+            const win = window.innerWidth < 1200;
+            setIsHiddenSidebar(win);
+            setIsInSmall(win);
+        }
+    };
   useEffect(() => {
     // console.log("shareside", sharedData)
 
-    const handleResize = () => {
-      const win = window.innerWidth < 1200;
-      setIsHiddenSidebar(win); // 992 là kích thước màn hình tương ứng với LG breakpoint
-      setIsInSmall(win);
-    };
+ 
 
     window.addEventListener("resize", handleResize);
     handleResize(); // Xác định trạng thái ban đầu
@@ -48,12 +73,24 @@ function DataStatistics() {
     };
   }, []);
 
-  const handleSideBar = () => {
-    if (window.innerWidth < 1200) {
-      setIsInSmall(true);
-    }
-    setIsHiddenSidebar(!isHiddenSidebar);
-  };
+  const handleSideBar = useCallback(
+    () => {
+        console.log("show");
+        if (window.innerWidth < 1200) {
+          setIsInSmall(true);
+        }
+        setIsHiddenSidebar(!isHiddenSidebar);
+      },[])
+
+      const handleSideBar_by_button =
+        () => {
+            console.log("show");
+            if (window.innerWidth < 1200) {
+              setIsInSmall(true);
+            }
+            setIsHiddenSidebar(!isHiddenSidebar);
+          }
+    
 
   return (
     <>
@@ -61,18 +98,18 @@ function DataStatistics() {
         <div className="container-fluid position-relative ">
           <Tab.Container
             id="left-tabs-example"
-            defaultActiveKey="trade-program"
+            defaultActiveKey="khoa"
           >
             <Row className="" >
               {!isHiddenSidebar && (
-                             <SidebarInformation isSidebarInSmall = {isSidebarInSmall} eventKey="trade-program" handleSideBar = {handleSideBar}></SidebarInformation>
+                             <SidebarInformation isSidebarInSmall = {isSidebarInSmall} eventKey="khoa" handleSideBar = {handleSideBar}></SidebarInformation>
 
               )}
 
               <Col className="p-0 ">
                 <Navbar expand="lg" className="bg-body-tertiary">
                   <Container fluid>
-                    <Navbar.Brand onClick={() => handleSideBar()}>
+                    <Navbar.Brand onClick={() => handleSideBar_by_button()}>
                       <div className="btn btn-outline-primary ">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -121,6 +158,8 @@ function DataStatistics() {
                           placeholder="Tìm kiếm"
                           className="me-2"
                           aria-label="Search"
+                          value={search}
+                          onChange={(e) => handleSearchChange(e.target.value)}
                         />
                         <Button variant="outline-success">Tìm</Button>
                       </Form>
@@ -130,11 +169,12 @@ function DataStatistics() {
 
                 <Tab.Content>
                 
-                  <Tab.Pane eventKey="trade-program">
-                    <TradeProgram></TradeProgram>
+                  <Tab.Pane eventKey="khoa">
+                 
+                    <Khoa search = {search}></Khoa>
+                    {/* <AddSubject></AddSubject> */}
                   </Tab.Pane>
-                
-                
+                 
                 </Tab.Content>
               </Col>
             </Row>

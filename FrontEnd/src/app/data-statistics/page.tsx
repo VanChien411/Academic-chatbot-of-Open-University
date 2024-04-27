@@ -35,7 +35,7 @@ function DataStatistics() {
     // console.log("shareside", sharedData)
 
     const handleResize = () => {
-      const win = window.innerWidth < 768;
+      const win = window.innerWidth < 1200;
       setIsHiddenSidebar(win); // 992 là kích thước màn hình tương ứng với LG breakpoint
       setIsInSmall(win);
     };
@@ -49,7 +49,7 @@ function DataStatistics() {
   }, []);
 
   const handleSideBar = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1200) {
       setIsInSmall(true);
     }
     setIsHiddenSidebar(!isHiddenSidebar);
@@ -58,7 +58,7 @@ function DataStatistics() {
   return (
     <>
       <div style={{ backgroundColor: "rgb(207,242,251)" ,height:'100vh'}}>
-        <div className="container position-relative ">
+        <div className="container-fluid position-relative ">
           <Tab.Container
             id="left-tabs-example"
             defaultActiveKey="data-statistics"

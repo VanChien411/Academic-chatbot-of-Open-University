@@ -1,7 +1,8 @@
 import { Nav, Tab } from "react-bootstrap";
-
+import React, { useMemo } from 'react';
 import { useRouter } from "next/navigation";
-function SidebarInformation(props: any) {
+const SidebarInformation = React.memo(React.forwardRef(function SidebarInformation(props: any, ref: React.Ref<any>) {
+  const memoizedProps = useMemo(() => props, [props]);
   const { isSidebarInSmall, handleSideBar, eventKey } = props;
   const router = useRouter();
   const handleClickRoute = (e: any) => {
@@ -12,7 +13,7 @@ function SidebarInformation(props: any) {
   console.log("key", eventKey);
   return (
     <div
-      style={{ width: "250px", zIndex: "1" }}
+      style={{ width: "300px", zIndex: "1" }}
       className={`bg-light p-0 ${
         isSidebarInSmall ? "position-absolute" : ""
       }  float-start `}
@@ -62,6 +63,14 @@ function SidebarInformation(props: any) {
           }}
           className="flex-column d-inline-flex w-100 p-0 "
         >
+             
+             <hr className="p-0"></hr>
+          <div
+            className="text-white"
+            style={{ marginLeft: "10px", color: "blue" }}
+          >
+            <strong>Tiện ích</strong>
+          </div>
           {/* <Nav.Item className=" py-1 btn btn-outline-primary border-0 text-start p-0">
           <Nav.Link eventKey="list-user">
             <svg
@@ -96,6 +105,7 @@ function SidebarInformation(props: any) {
               &nbsp; <strong>Điểm tuyển sinh</strong>
             </Nav.Link>
           </Nav.Item>
+
           <Nav.Item className=" py-1 btn btn-outline-dark border-0 text-start p-0 m-0">
             <Nav.Link
               eventKey="trade-program"
@@ -113,6 +123,32 @@ function SidebarInformation(props: any) {
                 <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
               </svg>
               &nbsp; <strong>Chương trình đào tạo</strong>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item className=" py-1 btn btn-outline-dark border-0 text-start p-0 m-0">
+            <Nav.Link
+              eventKey="club"
+              onClick={(e) => handleClickRoute(e)}
+              className="m-0 "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-suit-club" viewBox="0 0 16 16">
+  <path d="M8 1a3.25 3.25 0 0 0-3.25 3.25c0 .186 0 .29.016.41.014.12.045.27.12.527l.19.665-.692-.028a3.25 3.25 0 1 0 2.357 5.334.5.5 0 0 1 .844.518l-.003.005-.006.015-.024.055a22 22 0 0 1-.438.92 22 22 0 0 1-1.266 2.197c-.013.018-.02.05.001.09q.016.029.03.036A.04.04 0 0 0 5.9 15h4.2q.014 0 .022-.006a.1.1 0 0 0 .029-.035c.02-.04.014-.073.001-.091a23 23 0 0 1-1.704-3.117l-.024-.054-.006-.015-.002-.004a.5.5 0 0 1 .838-.524c.601.7 1.516 1.168 2.496 1.168a3.25 3.25 0 1 0-.139-6.498l-.699.03.199-.671c.14-.47.14-.745.139-.927V4.25A3.25 3.25 0 0 0 8 1m2.207 12.024c.225.405.487.848.78 1.294C11.437 15 10.975 16 10.1 16H5.9c-.876 0-1.338-1-.887-1.683.291-.442.552-.88.776-1.283a4.25 4.25 0 1 1-2.007-8.187l-.009-.064c-.023-.187-.023-.348-.023-.52V4.25a4.25 4.25 0 0 1 8.5 0c0 .14 0 .333-.04.596a4.25 4.25 0 0 1-.46 8.476 4.2 4.2 0 0 1-1.543-.298"/>
+</svg>
+              &nbsp; <strong>Câu lạc bộ</strong>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item className=" py-1 btn btn-outline-dark border-0 text-start p-0 m-0">
+            <Nav.Link
+              eventKey="khoa"
+              onClick={(e) => handleClickRoute(e)}
+              className="m-0 "
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-backpack2" viewBox="0 0 16 16">
+  <path d="M4.04 7.43a4 4 0 0 1 7.92 0 .5.5 0 1 1-.99.14 3 3 0 0 0-5.94 0 .5.5 0 1 1-.99-.14"/>
+  <path fill-rule="evenodd" d="M4 9.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm1 .5v3h6v-3h-1v.5a.5.5 0 0 1-1 0V10z"/>
+  <path d="M6 2.341V2a2 2 0 1 1 4 0v.341c2.33.824 4 3.047 4 5.659v1.191l1.17.585a1.5 1.5 0 0 1 .83 1.342V13.5a1.5 1.5 0 0 1-1.5 1.5h-1c-.456.607-1.182 1-2 1h-7a2.5 2.5 0 0 1-2-1h-1A1.5 1.5 0 0 1 0 13.5v-2.382a1.5 1.5 0 0 1 .83-1.342L2 9.191V8a6 6 0 0 1 4-5.659M7 2v.083a6 6 0 0 1 2 0V2a1 1 0 0 0-2 0M3 13.5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5V8A5 5 0 0 0 3 8zm-1-3.19-.724.362a.5.5 0 0 0-.276.447V13.5a.5.5 0 0 0 .5.5H2zm12 0V14h.5a.5.5 0 0 0 .5-.5v-2.382a.5.5 0 0 0-.276-.447L14 10.309Z"/>
+</svg>
+              &nbsp; <strong>Khoa</strong>
             </Nav.Link>
           </Nav.Item>
           <hr className="text-white"></hr>
@@ -226,5 +262,5 @@ function SidebarInformation(props: any) {
       </Tab.Container>
     </div>
   );
-}
+}))
 export default SidebarInformation;

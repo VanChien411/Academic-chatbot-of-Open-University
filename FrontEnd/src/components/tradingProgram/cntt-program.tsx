@@ -15,7 +15,7 @@ function CNTTProgram() {
       </style>
       <div
         className={`${(style1 as any).scrollbarHidden} overflow-auto `}
-        style={{ height: "520px" }}
+        style={{ height: "590px" }}
       >
         <h4 className="text-success">
           I. Chương trình đào tạo hệ Đại học 4 năm

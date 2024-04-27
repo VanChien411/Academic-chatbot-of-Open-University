@@ -15,7 +15,7 @@ function QLCProgram() {
       </style>
       <div
         className={`${(style1 as any).scrollbarHidden} overflow-auto `}
-        style={{ height: "520px" }}
+        style={{ height: "590px" }}
       >
         <div className="container">
       <div style={{textAlign: 'right'}} >
