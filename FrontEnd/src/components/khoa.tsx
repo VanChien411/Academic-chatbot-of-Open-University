@@ -25,14 +25,15 @@ function Khoa(props: any) {
   return (
     <>
       <div
-        className="p-3 shadow bg-white container "
+        className="p-3 shadow bg-white container-fluid "
         style={{ overflow: "auto", height: "91vh" }}
       >
-        <div className="m-3 d-flex align-items-center" style={{ height: "30px" }}>
+        <div className="p-4 d-flex align-items-center shadow bg-primary text-white" style={{ height: "30px" }}>
           <strong>Danh sách các khoa</strong>
        
          
         </div>
+        <br></br>
         <Row>
           {khoaData.map((item, index) => {
             return (

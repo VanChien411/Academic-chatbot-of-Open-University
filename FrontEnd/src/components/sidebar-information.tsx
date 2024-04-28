@@ -30,6 +30,7 @@ const SidebarInformation = React.memo(React.forwardRef(function SidebarInformati
         <div className="text-white" onClick={() => router.push("/chat-page")}>
           {" "}
           Trang chủ
+          
         </div>
         {isSidebarInSmall && (
           <div
@@ -149,6 +150,19 @@ const SidebarInformation = React.memo(React.forwardRef(function SidebarInformati
   <path d="M6 2.341V2a2 2 0 1 1 4 0v.341c2.33.824 4 3.047 4 5.659v1.191l1.17.585a1.5 1.5 0 0 1 .83 1.342V13.5a1.5 1.5 0 0 1-1.5 1.5h-1c-.456.607-1.182 1-2 1h-7a2.5 2.5 0 0 1-2-1h-1A1.5 1.5 0 0 1 0 13.5v-2.382a1.5 1.5 0 0 1 .83-1.342L2 9.191V8a6 6 0 0 1 4-5.659M7 2v.083a6 6 0 0 1 2 0V2a1 1 0 0 0-2 0M3 13.5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5V8A5 5 0 0 0 3 8zm-1-3.19-.724.362a.5.5 0 0 0-.276.447V13.5a.5.5 0 0 0 .5.5H2zm12 0V14h.5a.5.5 0 0 0 .5-.5v-2.382a.5.5 0 0 0-.276-.447L14 10.309Z"/>
 </svg>
               &nbsp; <strong>Khoa</strong>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item className=" py-1 btn btn-outline-dark border-0 text-start p-0 m-0">
+            <Nav.Link
+              eventKey="room"
+              onClick={(e) => handleClickRoute(e)}
+              className="m-0 "
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-cast" viewBox="0 0 16 16">
+  <path d="m7.646 9.354-3.792 3.792a.5.5 0 0 0 .353.854h7.586a.5.5 0 0 0 .354-.854L8.354 9.354a.5.5 0 0 0-.708 0"/>
+  <path d="M11.414 11H14.5a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h3.086l-1 1H1.5A1.5 1.5 0 0 1 0 10.5v-7A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v7a1.5 1.5 0 0 1-1.5 1.5h-2.086z"/>
+</svg>
+              &nbsp; <strong>Các phòng và đoàn đội</strong>
             </Nav.Link>
           </Nav.Item>
           <hr className="text-white"></hr>
