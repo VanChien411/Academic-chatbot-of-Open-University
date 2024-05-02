@@ -21,6 +21,9 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [isEmail, setIsEmail] = useState(false);
+  const [isInitUserName, setIsInitUserName] = useState(false);
+  const [isInitPassword, setIsInitPassword] = useState(false);
+  const [isInitRePassword, setIsInitRePassword] = useState(false);
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
@@ -29,7 +32,9 @@ function Login() {
     emailRegex.test(userName) ? setIsEmail(true) : setIsEmail(false)
   }
   const handleRegister = async () => {
-    
+    setIsInitUserName(true)
+    setIsInitPassword(true)
+    setIsInitRePassword(true)
     if (userName == "" || password == "" || rePassword == "") {
       setDataAlert("Cần nhập đầy đủ thông tin"), setShowAlert(true);
       // console.log('u',userName,'p',password,'re',rePassword)
@@ -84,7 +89,7 @@ function Login() {
                   }}
                   required
                 />
-                {userName && !isEmail ? (
+                {userName  && !isEmail ? (
                    <FormText
                    style={{ fontSize: "10px" }}
                    className="position-absolute text-danger"
@@ -92,7 +97,7 @@ function Login() {
                    *Tên tài khoản phải có dạng ten@gmail.com
                  </FormText>
                 ):''}
-                {userName ? (
+                {userName && isInitUserName === true ? (
                   ""
                 ) : (
                   <FormText
@@ -113,7 +118,7 @@ function Login() {
                     setPassword(e.target.value);
                   }}
                 />
-                {password ? (
+                {password && isInitPassword === true ? (
                   ""
                 ) : (
                   <FormText
@@ -127,13 +132,13 @@ function Login() {
               <Form.Group className="mb-3">
                 <Form.Label>Nhập lại mật khẩu</Form.Label>
                 <Form.Control
-                  type=""
+                  type="password"
                   placeholder="Password"
                   onChange={(e) => {
                     setRePassword(e.target.value);
                   }}
                 />
-                {rePassword ? (
+                {rePassword && isInitRePassword === true ? (
                   ""
                 ) : (
                   <FormText
