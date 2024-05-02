@@ -336,7 +336,7 @@ function ChatPage(prop: any) {
             >
               <div
                 style={{
-                  height: "70%",
+                  height: "80%",
                   width: "93%",
                   overflowX: "hidden",
                   textAlign: "left",
@@ -355,8 +355,8 @@ function ChatPage(prop: any) {
               </div>
 
               <div
-                style={{ width: "100%" }}
-                className=" position-absolute bottom-0 mb-5 px-5 d-flex justify-content-center"
+                style={{ width: "97%" }}
+                className=" position-absolute bottom-0 mb-2 px-5 d-flex justify-content-center"
               >
                 
                 <div
@@ -368,6 +368,7 @@ function ChatPage(prop: any) {
                     status={statusSearch}
                     getValueS={handleSearch}
                   ></Search>
+                  <small className="text-muted">Hỗ trợ trả lời các câu hỏi liên quan đến học vụ, sổ tay sinh viên.</small>
                   {/* <div>sfef</div> */}
                 </div>
               </div>

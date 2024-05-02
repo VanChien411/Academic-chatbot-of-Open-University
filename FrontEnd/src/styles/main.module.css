@@ -32,3 +32,13 @@ Màu xám nhạt: #E0E0E0 hoặc #F2F2F2 */
 .sfe{
   background-color: #383838e8;
 }
+
+.card {
+  width: 400px;
+}
+
+@media (max-width: 500px) {
+  .card {
+    width: 350px;
+  }
+}

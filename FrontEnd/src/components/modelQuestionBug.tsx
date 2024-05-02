@@ -34,7 +34,7 @@ function ModelQuestionBug(props: any) {
       await api.createBugQuestion(data);
       handleClose();
       if (save) save();
-      router.push("/bug-infomation");
+      router.push("/bug-information");
     } else {
       setError("Vui lòng nhập đầy đủ thông tin");
     }

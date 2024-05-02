@@ -12,6 +12,7 @@
     "@ckeditor/ckeditor5-build-classic": "^41.3.0",
     "@ckeditor/ckeditor5-react": "^6.2.0",
     "@reduxjs/toolkit": "^2.2.3",
+    
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
@@ -26,9 +27,12 @@
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
     "react-redux": "^9.1.0",
+   
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
+    "sass": "^1.76.0",
     "swr": "^2.2.5",
+ 
     "webpack-node-externals": "^3.0.0",
     "websocket": "^1.0.34"
   },

@@ -1,6 +1,7 @@
 'use client'
 import React, { ChangeEvent, useState } from 'react';
-
+import  CogLoading  from '@/components/loading/cogLoading';
+import BackgroundMain from '@/components/loading/backgroundMain';
 const ImageUploader: React.FC = () => {
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -18,19 +19,9 @@ const ImageUploader: React.FC = () => {
   };
 
   return (
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-      />
-      {image && (
-        <img
-          src={image as string}
-          alt="Preview Image"
-          style={{ maxWidth: '300px', maxHeight: '300px' }}
-        />
-      )}
+    <div style={{height:'100vh', fontFamily:'times news roman', textAlign:'center',overflow:'hidden'}}>
+     {/* <CogLoading></CogLoading> */}
+     <BackgroundMain></BackgroundMain>
     </div>
   );
 };

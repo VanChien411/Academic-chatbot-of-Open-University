@@ -10,6 +10,7 @@ import * as api from "@/utils/api";
 import { useRouter } from "next/navigation";
 import CustomAlert from "@/components/alert";
 import Spinner from "react-bootstrap/Spinner";
+import style1 from "@/styles/main.module.css";
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -18,20 +19,27 @@ function Login() {
   const [showAlert, setShowAlert] = useState(true);
   const [dataAlert, setDataAlert] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [isEmail, setIsEmail] = useState(false);
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
 
+  const handleUserName = ()=>{
+    emailRegex.test(userName) ? setIsEmail(true) : setIsEmail(false)
+  }
   const handleRegister = async () => {
-   
+    
     if (userName == "" || password == "" || rePassword == "") {
       setDataAlert("Cần nhập đầy đủ thông tin"), setShowAlert(true);
       // console.log('u',userName,'p',password,'re',rePassword)
-    } else {
+    } 
+   
+    else {
       setIsLoading(true)
       const userData = { username: userName, password: password };
-
+    // Kiểm tra xem tên tài khoản có dạng email hay không
+   
       if (password === rePassword) {
         // Nếu mật khẩu và mật khẩu nhập lại khớp nhau
         const r = await api.createUser(userData);
@@ -39,7 +47,7 @@ function Login() {
           ? (setDataAlert(r.error.message), setShowAlert(true))
           : (await r) && router.push("/login");
         // console.log("r", r);
-      } else {
+      } else if(password !== rePassword && password !== "" && rePassword !== "") {
         setDataAlert("Mật khẩu cần trùng khớp"), setShowAlert(true);
         // Nếu mật khẩu và mật khẩu nhập lại không khớp nhau
         // Thực hiện các hành động khác nếu cần
@@ -55,8 +63,9 @@ function Login() {
         className=""
       >
         <div
-          className=" bg-white rounded-3 shadow p-5"
-          style={{ width: "400px", height: "500px" }}
+          className={`${style1.card} bg-white rounded-3 shadow p-5`}
+     
+          style={{  height: "500px" }}
         >
           <Card.Body>
             <Card.Title style={{ fontSize: "30px" }} className="mb-3">
@@ -71,9 +80,18 @@ function Login() {
                   placeholder="name@example.com"
                   onChange={(e) => {
                     setUserName(e.target.value);
+                    handleUserName()
                   }}
                   required
                 />
+                {userName && !isEmail ? (
+                   <FormText
+                   style={{ fontSize: "10px" }}
+                   className="position-absolute text-danger"
+                 >
+                   *Tên tài khoản phải có dạng ten@gmail.com
+                 </FormText>
+                ):''}
                 {userName ? (
                   ""
                 ) : (

@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store"; // Import hooks 
 
 import { fetchUserStart } from "@/reducer/userSlice"; // Import action từ userSlice.ts
 import { fetchUser } from "@/reducer/userSlice";
-
+import style1 from "@/styles/main.module.css";
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -115,8 +115,8 @@ function Login() {
             className=""
           >
             <div
-              className=" bg-white rounded-3 shadow p-5"
-              style={{ width: "400px", height: "500px" }}
+             className={`${style1.card} bg-white rounded-3 shadow p-5`}
+              style={{ height: "500px" }}
             >
               <Card.Body>
                 <Card.Title style={{ fontSize: "30px" }} className="mb-3">
