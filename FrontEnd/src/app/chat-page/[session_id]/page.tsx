@@ -288,14 +288,14 @@ function ChatPage(prop: any) {
                   marginLeft: "0",
                   marginRight: "10px",
                   
-                  position:showSideBar?'inherit':'absolute',
+                  position:showSideBar?'initial':'absolute',
                   left:"19px",
                   top:'5px'
                 }}
-                className=""
+                className="z-2"
               >
                 <button
-                  className="btn text-white "
+                  className="btn text-white z-2"
                   onClick={() => setShowSideBar(!showSideBar)}
                 >
                   <svg
@@ -316,7 +316,7 @@ function ChatPage(prop: any) {
             <div className={`${showSideBar && isColHidden ? "d-none" : ""} py-2`}>
               Chatbot OU
             </div>
-            <div onClick={()=>router.push("/profile")} className="position-absolute btn text-white" style={{top:'5px', right:'0px'}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-gear" viewBox="0 0 16 16">
+            <div onClick={()=>router.push("/profile")} hidden={showSideBar && isColHidden} className="position-absolute btn text-white z-1" style={{top:'5px', right:'0px'}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-gear" viewBox="0 0 16 16">
   <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
 </svg></div>
           </div>
@@ -347,7 +347,7 @@ function ChatPage(prop: any) {
                 <MainChat     getValueS={handleSearch}  messages={messages}></MainChat>
 
               </div>
-              <div className="btn btn-primary position-absolute  bottom-5 end-0" onClick={()=>scrollToBottom()}>
+              <div  className="btn btn-primary position-absolute  bottom-5 end-0" onClick={()=>scrollToBottom()}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-square" viewBox="0 0 16 16">
   <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0z"/>
   <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>

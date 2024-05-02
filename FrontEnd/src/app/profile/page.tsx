@@ -112,7 +112,7 @@ const Profile = () => {
         <Head></Head>
         <div className="w-100 p-3 bg-light shadow">Thông tin tài khoản</div>
         <div className="container">
-          <div className="p-3 border">Thông tin</div>
+      
           <Row>
             <Col  md={5}   className="">
               <div className="p-3 " style={{ height: "350px" }}>

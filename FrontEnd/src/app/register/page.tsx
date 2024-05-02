@@ -166,7 +166,7 @@ function Login() {
                 <div className="">
                   Bạn đã có tài khoản?{" "}
                   <Link style={{ textDecoration: "none" }} href={"/login"}>
-                    Đăng nhập ngay
+                    Đăng nhập
                   </Link>
                 </div>
               </Row>
