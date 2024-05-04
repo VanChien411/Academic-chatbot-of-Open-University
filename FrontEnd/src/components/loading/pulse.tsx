@@ -39,7 +39,7 @@ function Pulse() {
   </div> 
 </div> */}
 
-<div className={(style1 as any)['spinner-box']}>
+<div className={(style1 as any)['']}>
   <div className={(style1 as any)['pulse-container']}>  
     <div className={(style1 as any)['pulse-bubble']+' '+ (style1 as any)['pulse-bubble-1']}></div>
     <div className={(style1 as any)['pulse-bubble']+' '+ (style1 as any)['pulse-bubble-2']}></div>

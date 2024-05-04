@@ -19,6 +19,7 @@ import IUser from "@/models/user";
 import Spinner from "react-bootstrap/Spinner";
 
 import Placeholder from "react-bootstrap/Placeholder";
+import BackgroundMain from "@/components/loading/backgroundMain";
 
 function ChatPage() {
   const [open, setOpen] = useState(true);
@@ -144,114 +145,7 @@ function ChatPage() {
   const handleMessage = () => {};
   return (
     <>
-      <Row style={{ height: "100%" }} className=" ">
-        {/* <span
-          style={{ width: "335px", height: "100%" }}
-          className={` ${
-            showSideBar ? "" : "d-none "
-          } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
-        >
-          {!user ? (
-            <SideBar
-              showEmloyeeMessager={handleMessage}
-              changeSession={chageIdSession}
-            ></SideBar>
-          ) : (
-            ""
-          )}
-        </span> */}
-
-        <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0 container">
-          <div
-            style={{ fontSize: "25px", width: "100%", overflow: "hidden" }}
-            className=" text-center center bg-warning  container"
-          >
-            {/* {isColHidden ? (
-              <span
-                style={{
-                  textAlign: "left",
-                  marginLeft: "0",
-                  marginRight: "10px",
-                }}
-                className=""
-              >
-                <button
-                  className="btn btn-primary"
-                  onClick={() => setShowSideBar(!showSideBar)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-bricks"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M0 .5A.5.5 0 0 1 .5 0h15a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H14v2h1.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H14v2h1.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5H2v-2H.5a.5.5 0 0 1-.5-.5v-3A.5.5 0 0 1 .5 6H2V4H.5a.5.5 0 0 1-.5-.5zM3 4v2h4.5V4zm5.5 0v2H13V4zM3 10v2h4.5v-2zm5.5 0v2H13v-2zM1 1v2h3.5V1zm4.5 0v2h5V1zm6 0v2H15V1zM1 7v2h3.5V7zm4.5 0v2h5V7zm6 0v2H15V7zM1 13v2h3.5v-2zm4.5 0v2h5v-2zm6 0v2H15v-2z" />
-                  </svg>
-                </button>
-              </span>
-            ) : (
-              ""
-            )} */}
-            <b className={`${showSideBar && isColHidden ? "d-none" : ""}`}>
-              Chào mừng bạn đến với chatbot OU
-            </b>
-          </div>
-          <Row style={{ height: "93%" }}>
-            <Col
-              xs={0}
-              sm={0}
-              md={0}
-              lg={0}
-              xl={9}
-              xxl={9}
-              className={`${
-                showSideBar && isColHidden ? "d-none" : ""
-              } position-relative container-fluid text-center center  `}
-            >
-              <Button variant="primary" disabled className="mt-5">
-                <Spinner
-                  as="span"
-                  animation="grow"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-                Đăng nhập ...
-              </Button>
-              <Placeholder xs={12} size="lg" />
-              <Placeholder xs={12} />
-              <Placeholder xs={12} size="sm" />
-              <Placeholder xs={12} size="xs" />
-              {/* <div
-                style={{
-                  height: "70%",
-                  width: "93%",
-                  overflowX: "hidden",
-                  textAlign: "left",
-                }}
-                className="position-absolute bottom-10 "
-              >
-                <MainChat messages={messages}></MainChat> 
-              </div>
-
-              <div
-                style={{ width: "100%" }}
-                className=" position-absolute bottom-0 mb-5 px-5 d-flex justify-content-center"
-              >
-                <div
-                  style={{ width: "100%" }}
-                  className="  text-center center "
-                >
-                  <div style={{ width: "50px" }}></div>
-                 
-                </div>
-              </div> */}
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+         <BackgroundMain></BackgroundMain>
     </>
   );
 }

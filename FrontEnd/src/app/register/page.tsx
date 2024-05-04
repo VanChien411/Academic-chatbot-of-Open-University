@@ -97,7 +97,7 @@ function Login() {
                    *Tên tài khoản phải có dạng ten@gmail.com
                  </FormText>
                 ):''}
-                {userName && isInitUserName === true ? (
+                {userName || !isInitUserName === true ? (
                   ""
                 ) : (
                   <FormText
@@ -118,7 +118,7 @@ function Login() {
                     setPassword(e.target.value);
                   }}
                 />
-                {password && isInitPassword === true ? (
+                {password || !isInitPassword === true ? (
                   ""
                 ) : (
                   <FormText
@@ -138,7 +138,7 @@ function Login() {
                     setRePassword(e.target.value);
                   }}
                 />
-                {rePassword && isInitRePassword === true ? (
+                {rePassword || !isInitRePassword === true ? (
                   ""
                 ) : (
                   <FormText
