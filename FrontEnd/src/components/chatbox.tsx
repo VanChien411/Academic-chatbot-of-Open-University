@@ -15,7 +15,7 @@ import * as model1 from "@/models/all";
 import Spinner from "react-bootstrap/Spinner";
 import style1 from "@/styles/main.module.css";
 import InputGroup from "react-bootstrap/InputGroup";
-
+import * as dataClub from "@/components/dataScore/dataClub";
 interface messenger {
   owner: IUser;
   messenger: string;
@@ -149,9 +149,9 @@ function Chatbox(prop: messenger, props: any) {
             </b>
           </div>
           <div
-            dangerouslySetInnerHTML={{ __html: prop.messenger }}
+            dangerouslySetInnerHTML={{ __html: dataClub.handleAutoLinkText(prop.messenger)  }}
             style={{ fontSize: "18px" }}
-            className="d-flex"
+            className=""
           >
             {/* {prop.messenger} */}
           </div>

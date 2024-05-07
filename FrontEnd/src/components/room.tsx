@@ -50,7 +50,8 @@ function Room(props: any) {
                     <Accordion.Body>
                       {item.describe?.map((desc:string, i:number) => (
                         <div key={i}>
-                          {desc}
+                       
+                          <div dangerouslySetInnerHTML={{ __html: desc }}></div>
                           <hr className="p-0 my-1"></hr>
                         </div>
                        

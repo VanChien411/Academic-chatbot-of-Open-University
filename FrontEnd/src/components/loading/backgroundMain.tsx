@@ -57,12 +57,12 @@ function BackgroundMain() {
           backgroundPosition: "center", // Căn giữa hình nền
         }}
       >
-        <h1
+        {/* <h1
           className="position-absolute text-center  z-1"
           style={{ top: "60px", background: 'linear-gradient(to right, #FEBAFE, #681CFE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}
         >
           Chào mừng đến với chatbot OU
-        </h1>
+        </h1> */}
         <div>
           <Row className=" z-2">
             <Col
@@ -142,10 +142,10 @@ function BackgroundMain() {
             className="text-white text-center position-absolute d-flex-column  justify-content-center start-0 end-0"
             style={{ bottom: "10px" }}
           >
-            <h3>Hệ thống đang tải vui lòng chờ</h3>
+            <h3>Hệ thống đang tải vui lòng chờ...</h3>
             <br></br>
             <h3 className="d-flex justify-content-center z-0">
-              <Pulse></Pulse>
+              {/* <Pulse></Pulse> */}
             </h3>
           </div>
         </div>

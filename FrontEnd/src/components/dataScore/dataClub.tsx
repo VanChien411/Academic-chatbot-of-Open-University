@@ -295,6 +295,52 @@ Phòng Công tác Sinh viên và Truyền Thông tổ chức xét học bổng T
 Phòng Công tác Sinh viên và Truyền Thông tổ chức các hoạt động ngoại khóa như văn hóa, văn nghệ, thể dục thể thao, và ngày hội nghề nghiệp.
 Phòng Công tác Sinh viên và Truyền Thông tổ chức hoạt động hỗ trợ và dịch vụ sinh viên như tổ chức lễ khai giảng và lễ tốt nghiệp.
 `
+
+interface AutoLinkTextProps {
+    text: string;
+  }
+
+  const AutoLinkText = (text: string) => {
+    // Regex patterns để nhận diện URLs, emails và số điện thoại
+    const urlPattern = /(?:\b(?:https?|ftp|file):\/\/|www\.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig;
+
+    const emailPattern = /(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b)/ig;
+    const phonePattern = /(\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4})/g;
+
+
+
+  
+    // Hàm để thay thế các chuỗi nhận diện được bằng thẻ <a>
+     function replacePattern  (linkedText: string,pattern: RegExp, type: 'url' | 'email' | 'phone')  {
+      return linkedText.replace(pattern, (match: string) => {
+        let href: string;
+        switch (type) {
+          case 'url':
+            href = /^http/.test(match) ? match : `http://${match}`;
+            // console.log('href', href)
+            return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+          case 'email':
+            href = `mailto:${match}`;
+            return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+          case 'phone':
+            href = `tel:${match.replace(/[^\d+]/g, '')}`;
+            return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+          default:
+            return match;
+        }
+      });
+    };
+  
+    // Thay thế URLs, emails và số điện thoại trong văn bản
+    let linkedText = replacePattern(text,urlPattern, 'url');
+    linkedText = replacePattern(linkedText,phonePattern, 'phone');
+    linkedText = replacePattern(linkedText,emailPattern, 'email');
+  
+    // Sử dụng dangerouslySetInnerHTML để chèn HTML
+    return linkedText;
+  };
+
+
 const getClubData = (dataString: string): RowClub[] => {
     const rows = dataString.trim().split("\n");
     const data: RowClub[] = [];
@@ -433,9 +479,16 @@ export function handleClubData() {
   }
 
 export function handleKhoaData() {
-return getKhoaData(dataKhoa);
+    const tam =  AutoLinkText(dataKhoa);
+    // console.log('tam',tam)
+return getKhoaData(tam);
 }
 
 export function handleRoomData() {
-    return getRoomData(dataRoom);
+    const tam =  AutoLinkText(dataRoom);
+    return getRoomData(tam);
     }
+
+export function handleAutoLinkText(data:string) {
+    return AutoLinkText(data);
+}

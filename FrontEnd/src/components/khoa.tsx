@@ -50,9 +50,10 @@ function Khoa(props: any) {
                     <Accordion.Body className="mx-auto">
                         <div className="mx-auto">{item.describe}</div>
                         <hr className="p-0 m-0"></hr>
-                        <div>{item.website}</div>
+                        <div dangerouslySetInnerHTML={{__html: item.website as string}}></div>
                         <hr className="p-0 m-0"></hr>
-                        <div>{item.phone}</div>
+                        <div dangerouslySetInnerHTML={{__html: item.phone as string}}></div>
+  
                         <hr className="p-0 m-0"></hr>
                         <div>{item.adress}</div>
                         <hr className="p-0 m-0"></hr>
