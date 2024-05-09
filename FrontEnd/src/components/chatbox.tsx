@@ -16,12 +16,14 @@ import Spinner from "react-bootstrap/Spinner";
 import style1 from "@/styles/main.module.css";
 import InputGroup from "react-bootstrap/InputGroup";
 import * as dataClub from "@/components/dataScore/dataClub";
+import moment from "moment";
 interface messenger {
   owner: IUser;
   messenger: string;
   bot?: boolean;
   mesengerProp: model1.Message;
   getValueS?: (value: string) => void;
+  time?: string;
 } //bot để nhận biết đây là bot
 function Chatbox(prop: messenger, props: any) {
   const [stateStar, setStateStar] = useState(0);
@@ -134,12 +136,12 @@ function Chatbox(prop: messenger, props: any) {
         <div style={{ width: "70px" }} className="rounded-4">
           <img
             className="rounded-5"
-            width="40px"
-            height="40px"
+            width="35px"
+            height="35px"
             src={prop.owner.img ? prop.owner.img : "/images/dragon.jpg"}
           ></img>
         </div>
-        <Col className="bg-body ">
+        <Col className="bg-body px-0 ">
           <div style={{ fontSize: "20px" }} className="d-flex  ">
             <b>
               {" "}
@@ -147,10 +149,11 @@ function Chatbox(prop: messenger, props: any) {
                 ? prop.owner.full_name
                 : prop.owner.username}
             </b>
+            <div><small> &nbsp; {moment(prop.time).format('HH:mm')}</small></div>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: dataClub.handleAutoLinkText(prop.messenger)  }}
-            style={{ fontSize: "18px" }}
+            style={{ fontSize: "19px" }}
             className=""
           >
             {/* {prop.messenger} */}

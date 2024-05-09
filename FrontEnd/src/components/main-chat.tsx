@@ -82,7 +82,7 @@ function MainChat({ messages, getValueS }: messages) {
     user: userL,
     bot: {
       user_id: 0,
-      username: "Bot",
+      username: "Chatbot OU",
       password: "134",
       status: true,
       img: "/images/bot.jpg",
@@ -114,15 +114,18 @@ function MainChat({ messages, getValueS }: messages) {
                   messenger={message.question}
                   mesengerProp={message}
                   getValueS={getValueS}
+                  time={message.question_time}
                 />
+                <br></br>
                 <Chatbox
                   owner={dataMainChat.bot}
                   bot={true}
                   messenger={message.answer}
                   mesengerProp={message}
                   getValueS={getValueS}
+                  time={message.answer_time}
                 />
-
+                <br></br>
               </>
             );
           })}
