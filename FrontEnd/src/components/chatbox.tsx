@@ -149,7 +149,7 @@ function Chatbox(prop: messenger, props: any) {
                 ? prop.owner.full_name
                 : prop.owner.username}
             </b>
-            <div><small> &nbsp; {moment(prop.time).format('HH:mm')}</small></div>
+            <div><small> &nbsp; {prop.time && moment(prop.time).format('HH:mm')}</small></div>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: dataClub.handleAutoLinkText(prop.messenger)  }}

@@ -42,3 +42,9 @@ Màu xám nhạt: #E0E0E0 hoặc #F2F2F2 */
     width: 350px;
   }
 }
+
+.disabled-div {
+  pointer-events: none; /* Làm cho div không phản hồi đối với các sự kiện chuột */
+  user-select: none; /* Ngăn chặn việc chọn nội dung trong div */
+  opacity: 0.5;
+}

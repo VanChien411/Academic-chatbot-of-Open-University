@@ -252,9 +252,11 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
     <>
       <div
         style={{ width: "100%", height: "100%" }}
-        className={"  p-0 position-relative bg-dark "}
+        className={  `p-0 position-relative bg-dark`}
       >
+        <div className={`  ${isLoading && (style1 as any)['disabled-div']} `}>
         <div  
+          
           style={{
             width: "91%",
             marginLeft: "40px",
@@ -262,7 +264,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
             margin: "auto",
             paddingLeft: "20px",
           }}
-          className="position-absolute btn btn-outline-light top-2 m-3 text-center z-3"
+          className={`position-absolute btn btn-outline-light top-2 m-3 text-center z-3 ` }
           onClick={createSession}
         >
           <b>Tạo mới</b>
@@ -279,8 +281,8 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
           <div style={{ height: "70px" }} className="space"></div>
           <div className="position-relative" style={{ width: "85%", textAlign: "left", marginLeft: "25px" }}>
             {isLoading ? (
-              <div className="position-absolute" style={{top:'-23px', right:'-23px'}}>
-               <Spinner animation="border" variant="secondary" />
+              <div className="position-absolute" style={{top:'50%', right:'50%', transform:' translate(-50%, -50%);', opacity:'1', zIndex:'2'}}>
+               <Spinner animation="border" variant="white" />
                
               </div>
             ) : (
@@ -325,7 +327,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
           <NewSession status={true} name="sefef"></NewSession> */}
           </div>
         </div>
-
+        </div>
         <div
           style={{ height: "250px", width: "100%" }}
           className=" position-absolute bottom-0 bg-black"

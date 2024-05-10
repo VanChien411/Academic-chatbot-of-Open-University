@@ -123,7 +123,7 @@ function MainChat({ messages, getValueS }: messages) {
                   messenger={message.answer}
                   mesengerProp={message}
                   getValueS={getValueS}
-                  time={message.answer_time}
+                  
                 />
                 <br></br>
               </>
