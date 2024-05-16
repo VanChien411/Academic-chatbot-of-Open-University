@@ -23,6 +23,7 @@ import { fetchUser } from '@/reducer/userSlice';
 import { setLazyProp } from "next/dist/server/api-utils";
 // import { useAppContext } from '@/app/chat-page/layout';
 import { UserContext } from "@/components/useContext/useContextUser";
+import { SessionContext } from "@/hook/sessionContext";
 function ChatPage(prop: any) {
   const userToLayout = useContext(UserContext).user;
   const [open, setOpen] = useState(true);
@@ -36,6 +37,8 @@ function ChatPage(prop: any) {
   const dispatch = useAppDispatch();
   const userLocal = useAppSelector((state) => state.user.user);
   const [renderSideBar, setRenderSideBar] = useState(true);
+
+  const { saveOldSessions, oldSessions } = useContext(SessionContext);
   // console.log("user lay từ layout",user1);
   const chageIdSession = async () => {
     // // Chờ cho cập nhật local storage hoàn tất trước khi tiếp tục
@@ -45,6 +48,7 @@ function ChatPage(prop: any) {
     // setRefresh((prevRefresh) => !prevRefresh);
     // console.log(refresh);
   };
+
   const [isColHidden, setIsColHidden] = useState(false);
 
 
@@ -73,7 +77,7 @@ function ChatPage(prop: any) {
 
   useEffect(() => {
     // console.log("shareside", sharedData)
-    console.log("user lay này layout",userToLayout);
+
     const handleResize = () => {
       setIsColHidden(window.innerWidth < 768); // 992 là kích thước màn hình tương ứng với LG breakpoint
     };
@@ -98,7 +102,7 @@ function ChatPage(prop: any) {
         get_user_info()
         const sessions = await api.getAllMessageSession(session_id);
         setMessages(sessions);
-        console.log("messages ", sessions);
+
       } catch (error) {
         console.error("Error:", error);
 
@@ -272,7 +276,8 @@ function ChatPage(prop: any) {
             showSideBar ? "" : "d-none "
           } p-0 d-block   d-md-block d-lg-block d-xl-block d-xxl-block`}
         >
-          <SideBar user={user} renderSideBar={renderSideBar} changeSession={chageIdSession} showEmloyeeMessager={handleMessage}></SideBar>
+        
+          <SideBar user={user} renderSideBar={renderSideBar} saveOldSessions={saveOldSessions} changeSession={chageIdSession} oldSessions={oldSessions} showEmloyeeMessager={handleMessage}></SideBar>
         </span>
 
         <Col style={{ width: showSideBar ? "10%" : "100%" }} className="p-0">

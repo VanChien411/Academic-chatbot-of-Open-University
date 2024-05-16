@@ -158,7 +158,7 @@ function Chatbox(prop: messenger, props: any) {
           >
             {/* {prop.messenger} */}
           </div>
-
+          <div className="mb-3"></div>
           {prop.bot &&
             (() => {
               // Đoạn mã JSX bạn muốn render

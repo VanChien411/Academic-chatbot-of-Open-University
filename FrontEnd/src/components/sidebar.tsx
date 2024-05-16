@@ -31,14 +31,17 @@ interface chat_employee extends model1.ChatWithEmloyee {
   announcement?: number;
   announcement_user?:number;
 }
-function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,props: any) {
-  const [sessions, setSessions] = useState<model1.Session[]>([]);
+function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSessions, oldSessions}: MyEvents,props: any) {
+  // console.log('saveOldSessions', saveOldSessions);
+  const [sessions, setSessions] = useState<model1.Session[]>(saveOldSessions);
   const [refresh, setRefresh] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userL, setUserL] = useState<IUser>(props.user);
   const [userAndChat, setUserAndChat] = useState<chat_employee | undefined>(undefined);
- 
+  useEffect(() => {
+    setSessions(saveOldSessions);
+  }, [saveOldSessions]);
   const dispatch = useAppDispatch();
   // const user1 = useAppSelector((state) => state.user.user);
   const loading = useAppSelector((state) => state.user.loading);
@@ -55,11 +58,15 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
     } catch (error) {}
   }
   useEffect(() => {
+    console.log("23432")
     const getAllS = async() => {
       const arrSession = await api.getAllSessionUser(userL["user_id"] as number);
       // console.log('2', arrSession);
       setSessions(arrSession);
+      
     };
+ 
+
     if(userL)
       {
    
@@ -68,7 +75,9 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
       }
 
   },[renderSideBar])
-  
+  useEffect(() => {
+    ()=>oldSessions(sessions);
+  },[sessions])
   useEffect(() => {
     console.log(1);
     setIsLoading(true);
@@ -254,6 +263,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar }: MyEvents,
         style={{ width: "100%", height: "100%" }}
         className={  `p-0 position-relative bg-dark`}
       >
+          {/* <Button onClick={()=>oldSessions(sessions)}>sefsegs</Button> */}
         <div className={`  ${isLoading && (style1 as any)['disabled-div']} `}>
         <div  
           
