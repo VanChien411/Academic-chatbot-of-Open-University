@@ -9,33 +9,39 @@ Project này giữ vai trò là frontend, được xây dựng với Next.js đ�
 ### Cài đặt Node.js và npm
 1. Tải và cài đặt Node.js từ trang chủ Node.js.
 2. Sau khi cài đặt, kiểm tra phiên bản của Node.js và npm bằng cách chạy lệnh sau trong terminal hoặc command prompt:
+
    ```bash
    node -v
    npm -v
     ```
 ### Cài đặt các phụ thuộc
 1. Clone project từ repository
+
     ```bash
    git clone https://github.com/VanChien411/Academic-chatbot-of-Open-University.git
     ```
 2. Di chuyển vào thư mục của project
+
      ```bash
      cd Academic-chatbot-of-Open-University
      cd FrontEnd
     ```
 3. Cài đặt các phụ thuộc bằng npm
+
      ```bash
      npm install
     ```
 
 ### Chạy Project
 1. Để khởi chạy server phát triển, sử dụng lệnh sau
+
      ```bash
      npm run dev
     ```
 2. Mở trình duyệt và truy cập http://localhost:3000 để xem project.
 
 3. Chạy dự án với các local api.  
+
     Bạn vào Academic-chatbot-of-Open-University\FrontEnd\src\env\env.tsx
 
     ```bash
