@@ -7,10 +7,10 @@ const SidebarInformation = React.memo(React.forwardRef(function SidebarInformati
   const router = useRouter();
   const handleClickRoute = (e: any) => {
     const eventKeyValue = e.currentTarget.getAttribute("data-rr-ui-event-key"); // hoặc e.currentTarget.getAttribute('data-rr-ui-event-key')
-    console.log(eventKeyValue);
+    // console.log(eventKeyValue);
     router.push(`/${eventKeyValue}`);
   };
-  console.log("key", eventKey);
+  // console.log("key", eventKey);
   return (
     <div
       style={{ width: "300px", zIndex: "1" }}

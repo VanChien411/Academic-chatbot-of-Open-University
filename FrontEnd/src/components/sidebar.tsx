@@ -54,11 +54,11 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
     try {
       const data:chat_employee = await api.get_number_chat_user(user_id as number);
       setUserAndChat(data)
-      console.log(data);
+      // console.log(data);
     } catch (error) {}
   }
   useEffect(() => {
-    console.log("23432")
+    // console.log("23432")
     const getAllS = async() => {
       const arrSession = await api.getAllSessionUser(userL["user_id"] as number);
       // console.log('2', arrSession);
@@ -79,7 +79,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
     ()=>oldSessions(sessions);
   },[sessions])
   useEffect(() => {
-    console.log(1);
+    // console.log(1);
     setIsLoading(true);
     const fetchDataAndUpdateUser = async () => {
       try {
@@ -167,7 +167,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
   };
   const createSession = async () => {
     try {
-      console.log(22324)
+      // console.log(22324)
       setIsLoading(true);
       let user
       if(userL)
@@ -176,15 +176,15 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
         }
         else{
           user = await get_user_info(); // Corrected to call the function
-          console.log('chay log sau khi tai')
+          // console.log('chay log sau khi tai')
         }
 
       if (user) {
         setUserL(user);
-        console.log("user1", user);
+        // console.log("user1", user);
         // Sử dụng TypeScript assertion để khẳng định rằng user không phải là null hoặc undefined
         if ("user_id" in user) {
-          console.log("user_id", user["user_id"]);
+          // console.log("user_id", user["user_id"]);
           const newDate = getDate();
           const session: model1.Session = {
             name: `session ${newDate}`,
@@ -227,7 +227,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
 
           if(sessions[1])
             {
-            console.log(session.session_id, '|', sessions[0].session_id)
+            // console.log(session.session_id, '|', sessions[0].session_id)
 
               router.push(`/chat-page/${sessions[1].session_id}`);
             }
