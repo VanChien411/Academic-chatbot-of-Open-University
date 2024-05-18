@@ -1,62 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Chatbot 2024 Project
 
-First, run the development server:
+## Giới thiệu
+Project này giữ vai trò là frontend, được xây dựng với Next.js để cung cấp giao diện người dùng cho chatbot.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Cài đặt
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Cài đặt Node.js và npm
+1. Tải và cài đặt Node.js từ trang chủ Node.js.
+2. Sau khi cài đặt, kiểm tra phiên bản của Node.js và npm bằng cách chạy lệnh sau trong terminal hoặc command prompt:
+   ```bash
+   node -v
+   npm -v
+    ```
+### Cài đặt các phụ thuộc
+1. Clone project từ repository
+    ```bash
+   git clone https://github.com/VanChien411/Academic-chatbot-of-Open-University.git
+    ```
+2. Di chuyển vào thư mục của project
+     ```bash
+     cd Academic-chatbot-of-Open-University
+     cd FrontEnd
+    ```
+3. Cài đặt các phụ thuộc bằng npm
+     ```bash
+     npm install
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Chạy Project
+1. Để khởi chạy server phát triển, sử dụng lệnh sau
+     ```bash
+     npm run dev
+    ```
+2. Mở trình duyệt và truy cập http://localhost:3000 để xem project.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Chạy dự án với các local api.  
+    Bạn vào Academic-chatbot-of-Open-University\FrontEnd\src\env\env.tsx
 
-## Learn More
+    ```bash
+    export const API_BASE_URL = 'https://phuthienchien3.pythonanywhere.com/';
 
-To learn more about Next.js, take a look at the following resources:
+    // export const SERVER_HEROKU = 'https://dbchatbot2024-f0e00c0b161a.herokuapp.com/';
+    // export const SERVER_WEBSOCKET = 'wss://server-websocket-b808bc5aef93.herokuapp.com'
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    // host free
+    export const SERVER_HEROKU = 'https://server-connect-apimodel.onrender.com/';
+    export const SERVER_WEBSOCKET = 'wss://server-websocket-n051.onrender.com/'
+    ```
 
-## Deploy on Vercel
+    Thay đổi địa chỉ tương ứng với các địa chỉ chạy của local api
+    ```bash
+    API_BASE_URL = "backendchatbot"
+    SERVER_HEROKU = "server-connect-apiModel"
+    SERVER_WEBSOCKET = "server-websocket"
+    ```
+## Lưu ý
+Để chạy đầy đủ dự án bạn cần cài đặt các phần sau.
+1. [FrontEnd (Next.js)](https://github.com/VanChien411/Academic-chatbot-of-Open-University.git) - [x]
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. BackEnd (Python)
+    - [backendchatbot](https://github.com/VanChien411/backendchatbot.git)   
+    - [server-connect-apiModel](https://github.com/VanChien411/server-connect-apiModel.git)
+    - [server-websocket](https://github.com/VanChien411/server-websocket.git)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. Bạn có thể trải nghiệm trực tiếp qua
+    - [Chatbot OU website](https://academic-chatbot-of-open-university.vercel.app/)
+ 
+## Hỗ trợ
+Nếu bạn gặp vấn đề trong quá trình cài đặt hoặc chạy project, hãy liên hệ với chúng tôi qua email phuthienchien3@gmail.com
+hoặc zalo
+0328089720
 
-node version >18
-my-react-app/
-├── src/
-│   ├── index.js
-│   ├── components/
-│   │   ├── Header.js
-│   │   ├── Footer.js
-│   │   └── ...
-│   ├── assets/
-│   │   ├── images/
-│   │   │   ├── logo.png
-│   │   │   └── ...
-│   │   ├── fonts/
-│   │   │   ├── ...
-│   │   └── ...
-│   ├── styles/
-│   │   ├── main.css
-│   │   └── ...
-│   ├── utils/
-│   │   ├── api.js
-│   │   └── helpers.js
-│   └── ...
-├── .gitignore
-├── package.json
-└── ...
+Chúc bạn thành công!
