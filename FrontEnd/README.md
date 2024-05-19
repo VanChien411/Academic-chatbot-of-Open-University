@@ -51,7 +51,7 @@ Project này giữ vai trò là frontend, được xây dựng với Next.js đ�
     // export const SERVER_WEBSOCKET = 'wss://server-websocket-b808bc5aef93.herokuapp.com'
 
 
-    // host free
+    // new host 
     export const SERVER_HEROKU = 'https://server-connect-apimodel.onrender.com/';
     export const SERVER_WEBSOCKET = 'wss://server-websocket-n051.onrender.com/'
     ```
