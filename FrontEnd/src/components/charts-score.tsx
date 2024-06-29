@@ -8,10 +8,11 @@ import * as api from "@/utils/api";
 import ChartGPA from "./chart-GPA";
 import Form from "react-bootstrap/Form";
 import Placeholder from "react-bootstrap/Placeholder";
-
+import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
 import React from "react";
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 interface RowData {
   id_career: string;
   name: string;
@@ -64,6 +65,12 @@ function ChartsScore() {
   const [dataScoreCombination, setDataScoreCombination] = useState<
     dataScoreCombination[]
   >([]);
+  const [selectLanguage, setSelectLanguage] = useState<string>("Chứng chỉ Ngoại ngữ");
+  const [isShowSelectLanguage, setIsShowSelectLanguage] = useState<boolean>(false);
+
+  const [selectShare, setSelectShare] = useState<string>("Ưu tiên khu vực");
+  const [isShowSelectShare, setIsShowSelectShare] = useState<boolean>(false);
+
   const [yearAdmission, setYearAdmission] = useState<string>("0");
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
@@ -103,7 +110,67 @@ function ChartsScore() {
   //       createDataScore(tam)
   //   })
   // }
+  const setValueSelectLanguage = (event: any) => {
+    setSelectLanguage(event.target.innerText);
+    setIsShowSelectLanguage(false);
+  }
+  const popover = (
+    <Popover id="popover-basic"  className="overflow-auto" style={{maxHeight: "300px"}}>
+      <Popover.Header as="h2"  onClick={(e)=>{setSelectLanguage("Chứng chỉ Ngoại ngữ");setIsShowSelectLanguage(false);}} className="bg-primary text-white btn w-100">Bỏ qua</Popover.Header>
+      <Popover.Header as="h3" >Tiếng Anh</Popover.Header>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>IELTS &gt;= 6.5</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>IELTS = 6.0</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>IELTS = 5.5</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>IELTS = 5.0</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL iBT &gt;= 100</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL iBT = 90-99</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL iBT = 80-89</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL iBT = 55-79</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL ITP &gt;= 550</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL ITP = 520-549</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL ITP = 500-519</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOEFL ITP = 475-499</div>
+      
+      <Popover.Header as="h3">Tiếng Trung Quốc</Popover.Header>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>HSK cấp độ 3 = 261-300</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>HSK cấp độ 3 = 221-260</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>HSK cấp độ 3 = 180-220</div>
+     
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>HSK cấp độ 4 &gt;= 180</div>
 
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOCFL cấp độ 3 = 114-124</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOCFL cấp độ 3 = 104-113</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOCFL cấp độ 3 = 94-103</div>
+
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>TOCFL cấp độ 4 &gt;= 125</div>
+
+
+      <Popover.Header as="h3" className="">Tiếng Nhật</Popover.Header>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>JLPT cấp độ N3 &gt;= 161</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>JLPT cấp độ N3 = 141-160</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>JLPT cấp độ N3 = 121-140</div>
+      <div onClick={(e)=>setValueSelectLanguage(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}>JLPT cấp độ N3 = 95-120</div>
+    
+    
+    </Popover>
+  );
+
+  const setValueSelectShare = (event: any) => {
+    setSelectShare(event.target.innerText);
+    setIsShowSelectShare(false);
+  }
+  const popoverShare = (
+    <Popover id="popover-basic"  className="overflow-auto" style={{maxHeight: "300px"}}>
+      <Popover.Header as="h2"  onClick={(e)=>{setSelectShare("Ưu tiên khu vực");setIsShowSelectShare(false);}} className="bg-primary text-white btn w-100">Bỏ qua</Popover.Header>
+    
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 1 (KV1) = 0,75 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 2 nông thôn (KV2-NT) = 0,5 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> khu vực 2 (KV2) là 0,25 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 3 (KV3) không được tính điểm ưu tiên</div>
+      
+      <Popover.Header as="h3"><div className="text-primary">| 22,5 trở lên giảm điểm ưu tiên |</div> <br></br>Điểm ưu tiên = [(30 - Tổng điểm đạt được)/7,5] x Mức điểm ưu tiên (theo khu vực hoặc theo đối tượng chính sách)</Popover.Header>
+    </Popover>
+  );
   const [checkboxState, setCheckboxState] = useState<checkYear[]>(); // State để lưu trạng thái của checkbox
   // Hàm xử lý sự kiện khi checkbox thay đổi
   const handleCheckboxChange = (event: any) => {
@@ -181,7 +248,7 @@ function ChartsScore() {
 
   useEffect(() => {
     // const year = ["2023", "2022", "2021"];
-
+   
     // setYear(year);
     getAllSubjectCombinationVsAdmissionSubjectGroup();
     getAllAdmissionSubject();
@@ -526,13 +593,36 @@ function ChartsScore() {
             </Card.Body>
           </Card>
         </Row>
+        <Row>
+      <Col>
+      <div className="m-3 d-flex justify-content-between">
+       <OverlayTrigger show= {isShowSelectShare} trigger="focus"  placement="bottom" overlay={popoverShare}>
+    <Button style={{maxWidth:'45%', whiteSpace:'nowrap'}}  variant="primary"  onClick={() => setIsShowSelectShare(!isShowSelectShare)} title={selectShare}>{selectShare}</Button>
+  </OverlayTrigger>
+  <div style={{width:'10px'}}></div>
+       <OverlayTrigger show= {isShowSelectLanguage} trigger="focus"  placement="bottom" overlay={popover}>
+    <Button style={{maxWidth:'45%', whiteSpace:'nowrap'}} variant="primary"  onClick={() => setIsShowSelectLanguage(!isShowSelectLanguage)} title={selectLanguage}>{selectLanguage}</Button>
+  </OverlayTrigger>
+        
+        </div>
+      </Col>
 
-        <div
-          className="btn btn-primary m-3"
+      <Col className="d-flex justify-content-end">
+          <div
+          className="btn btn-primary m-3 "
           onClick={() => getAllSubjectCombinationVsAdmissionSubjectGroup()}
         >
           Kiểm tra
         </div>
+          </Col>
+       
+        </Row>
+                
+                
+        
+              
+       
+
 
         <div className="bg-primary text-white p-3">
           <strong className="m-3">Điểm của mỗi tổ hợp</strong>

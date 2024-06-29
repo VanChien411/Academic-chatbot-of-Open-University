@@ -30,31 +30,27 @@ function DataStatistics() {
   const [isHiddenSidebar, setIsHiddenSidebar] = useState(false);
   const [isSidebarInSmall, setIsInSmall] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    // console.log("shareside", sharedData)
-
-    const handleResize = () => {
-      const win = window.innerWidth < 1200;
-      setIsHiddenSidebar(win); // 992 là kích thước màn hình tương ứng với LG breakpoint
-      setIsInSmall(win);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Xác định trạng thái ban đầu
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handleSideBar = () => {
-    if (window.innerWidth < 1200) {
-      setIsInSmall(true);
-    }
-    setIsHiddenSidebar(!isHiddenSidebar);
+  const handleResize = () => {
+    const isSmallScreen = window.innerWidth < 1200;
+    setIsHiddenSidebar(isSmallScreen);
+    setIsInSmall(isSmallScreen);
   };
-
+ 
+    useEffect(() => {
+      window.addEventListener('resize', handleResize);
+      handleResize(); // Xác định trạng thái ban đầu
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+  
+    const handleSideBar = () => {
+      if (window.innerWidth < 1200) {
+        setIsInSmall(true);
+      }
+      setIsHiddenSidebar(!isHiddenSidebar);
+    };
   return (
     <>
       <div style={{ backgroundColor: "rgb(207,242,251)" ,height:'100vh'}}>
@@ -69,7 +65,7 @@ function DataStatistics() {
 
               )}
 
-              <Col className="p-0 ">
+              <div className="p-0 col" style={isHiddenSidebar ? { width: "100%" } : { width: "calc(100% - 300px)" }}>
                 <Navbar expand="lg" className="bg-body-tertiary">
                   <Container fluid>
                     <Navbar.Brand onClick={() => handleSideBar()}>
@@ -135,7 +131,7 @@ function DataStatistics() {
                   </Tab.Pane>
                
                 </Tab.Content>
-              </Col>
+              </div>
             </Row>
           </Tab.Container>
         </div>

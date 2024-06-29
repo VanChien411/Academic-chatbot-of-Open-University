@@ -377,7 +377,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
           >
             <img width="40px" src="../images\chatgpticon.png"></img>
 
-            <b className="mx-2">&nbsp;Chat Gpt</b>
+            <b className="mx-2">&nbsp;ChatGPT</b>
           </div>
 
           <div className="position-absolute bottom-0 w-100">
