@@ -284,7 +284,7 @@ function SideBar({ changeSession, showEmloyeeMessager,renderSideBar ,saveOldSess
           style={{
             overflow: "auto",
             textAlign: "left",
-            height: "calc(100% - 200px)",
+           height: "70vh",
           }}
           className={`${(style1 as any).scrollbarHidden}`}
         >
