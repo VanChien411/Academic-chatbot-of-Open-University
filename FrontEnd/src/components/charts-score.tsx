@@ -70,6 +70,7 @@ function ChartsScore() {
 
   const [selectShare, setSelectShare] = useState<string>("Ưu tiên khu vực");
   const [isShowSelectShare, setIsShowSelectShare] = useState<boolean>(false);
+  const [selectShareScore, setSelectShareScore] = useState<number>(0.0);
 
   const [yearAdmission, setYearAdmission] = useState<string>("0");
   const handleChange = (event: any) => {
@@ -156,6 +157,7 @@ function ChartsScore() {
   );
 
   const setValueSelectShare = (event: any) => {
+    setSelectShareScore(event.target.dataset.defaultValue);
     setSelectShare(event.target.innerText);
     setIsShowSelectShare(false);
   }
@@ -163,10 +165,10 @@ function ChartsScore() {
     <Popover id="popover-basic"  className="overflow-auto" style={{maxHeight: "300px"}}>
       <Popover.Header as="h2"  onClick={(e)=>{setSelectShare("Ưu tiên khu vực");setIsShowSelectShare(false);}} className="bg-primary text-white btn w-100">Bỏ qua</Popover.Header>
     
-      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 1 (KV1) = 0,75 điểm</div>
-      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 2 nông thôn (KV2-NT) = 0,5 điểm</div>
-      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> khu vực 2 (KV2) là 0,25 điểm</div>
-      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}> Khu vực 3 (KV3) không được tính điểm ưu tiên</div>
+      <div onClick={(e)=>setValueSelectShare(e)}  className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}  data-default-value={0.75}> Khu vực 1 (KV1) = 0,75 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}  data-default-value={0.5}> Khu vực 2 nông thôn (KV2-NT) = 0,5 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}  data-default-value={0.25}> khu vực 2 (KV2) là 0,25 điểm</div>
+      <div onClick={(e)=>setValueSelectShare(e)} className="btn btn-outline-secondary w-100 text-start text-black rounded-0" style={{borderTop:"0", borderLeft: "0", borderRight: "0",borderBottom: "1px solid black"}}  data-default-value={0}> Khu vực 3 (KV3) không được tính điểm ưu tiên</div>
       
       <Popover.Header as="h3"><div className="text-primary">| 22,5 trở lên giảm điểm ưu tiên |</div> <br></br>Điểm ưu tiên = [(30 - Tổng điểm đạt được)/7,5] x Mức điểm ưu tiên (theo khu vực hoặc theo đối tượng chính sách)</Popover.Header>
     </Popover>
@@ -806,7 +808,9 @@ function ChartsScore() {
                     }
                   });
                 }
-                const avg = count !== 0 ? (totalScore * (count-1)) / count : 0;
+                const avg = count !== 0 ? ((totalScore * (count - 1)) + selectShareScore) / count : 0;
+
+                console.log("avg",avg)
                 //  const averageScore = count !== 0 ? totalScore / count : 0;
                 arrCombination.push({ combination: item2, score: avg });
               });

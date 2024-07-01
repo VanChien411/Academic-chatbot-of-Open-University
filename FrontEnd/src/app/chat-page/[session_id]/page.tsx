@@ -190,20 +190,24 @@ function ChatPage(prop: any) {
       // Thêm message mới vào danh sách messages
       let  history:any =[]
       // console.log('messages', messages)
-      const last3Messages = [...messages.slice(-1)]; // Lấy 3 gía trị cuối cùng của messages
+      let last3Messages;
+
+      // if (messages[-1] && messages[-1].question.toLowerCase().indexOf("xóa lịch sử") === -1) {
+          last3Messages = [...messages.slice(-1)]; // Lấy 1 giá trị cuối cùng của messages
+      // }
+      
       // console.log('last3Messages', last3Messages)
-      last3Messages.forEach((message) => {
-        if(message.message_summary && message.answer)
-          history.push([
-            `
-            ${message.message_summary}
-            `,
-            `
-            ${message.answer}
-            `
-        ]);
-      })
-     
+      if (last3Messages) {
+        last3Messages.forEach((message) => {
+            if (message.message_summary && message.answer) {
+                history.push([
+                    `${message.message_summary}`,
+                    `${message.answer}`
+                ]);
+            }
+        });
+    }
+    
       setMessages([...messages, message1]);
       const tamModel: model1.setValueModel = {
         quote: `${value}`,
@@ -211,7 +215,13 @@ function ChatPage(prop: any) {
       };
       
       // Gửi yêu cầu đến API và đợi kết quả trả về
-      const response = await api.postModelChatbot(tamModel);
+      let response;
+      if (value.toLowerCase().indexOf("xóa lịch sử") === -1) {
+        response = await api.postModelChatbot(tamModel);
+      }
+     else {
+      response = ["", "Đã xóa lịch sử"];
+     }
 
       // console.log('history', history)
       // console.log('length', messages.length)
@@ -238,7 +248,7 @@ function ChatPage(prop: any) {
          // Thêm message mới vào danh sách messages
 
          // Lấy session và đổi tên theo nội dung tóm tắt
-         console.log("updateNameSession", messages.length)
+        //  console.log("updateNameSession", messages.length)
          if(messages.length == 0 && response[0])
           {
          
