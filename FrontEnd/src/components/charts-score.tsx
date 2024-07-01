@@ -808,9 +808,8 @@ function ChartsScore() {
                     }
                   });
                 }
-                const avg = count !== 0 ? ((totalScore * (count - 1)) + selectShareScore) / count : 0;
-
-                console.log("avg",avg)
+                const avg = count !== 0 ? ((totalScore * (count - 1)) + parseFloat(selectShareScore.toString())) / count : 0;
+        
                 //  const averageScore = count !== 0 ? totalScore / count : 0;
                 arrCombination.push({ combination: item2, score: avg });
               });
