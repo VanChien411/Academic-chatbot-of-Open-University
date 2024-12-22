@@ -85,7 +85,9 @@ function Login() {
                   placeholder="name@example.com"
                   onChange={(e) => {
                     setUserName(e.target.value);
-                    handleUserName()
+                    handleUserName();
+                    console.log(isEmail)
+
                   }}
                   required
                 />

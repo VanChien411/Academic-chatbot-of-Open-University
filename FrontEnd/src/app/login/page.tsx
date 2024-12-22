@@ -18,8 +18,8 @@ import { fetchUserStart } from "@/reducer/userSlice"; // Import action từ user
 import { fetchUser } from "@/reducer/userSlice";
 import style1 from "@/styles/main.module.css";
 function Login() {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("u123");
+  const [password, setPassword] = useState("1");
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(true);
   const [dataAlert, setDataAlert] = useState<string>("");
@@ -129,6 +129,7 @@ function Login() {
                     <Form.Control
                       type="email"
                       placeholder="name@example.com"
+                      value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                     />
                   </Form.Group>
@@ -137,6 +138,7 @@ function Login() {
                     <Form.Control
                       type="password"
                       placeholder="Password"
+                      value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Form.Group>
